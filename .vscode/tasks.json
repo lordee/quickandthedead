@@ -1,0 +1,52 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "make",
+            "type": "shell",
+            "command": "make",
+            "group": "build"
+        },
+        /*{
+            "label": "cp csprogs",
+            "type": "shell",
+            "command": "cp ./csprogs.dat /home/danni/Games/quake-team-fortress-server/quickandthedead/",
+            "dependsOn": [
+                "make"
+            ]
+        },
+        {
+            "label": "cp menu",
+            "type": "shell",
+            "command": "cp ./menu.dat /home/danni/Games/quake-team-fortress-server/quickandthedead/",
+            "dependsOn": [
+                "cp csprogs"
+            ]
+        },*/
+        {
+            "label": "cp qwprogs",
+            "type": "shell",
+            "command": "cp ./qwprogs.dat /home/danni/Games/quake-team-fortress-server/quickandthedead/",
+            "dependsOn": [
+                "make"
+            ]
+        },
+        {
+            "label": "Build",
+            "dependsOn": [
+                "cp qwprogs"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "Run FTESV",
+            "type": "shell",
+            "command": "/home/danni/Games/quake-team-fortress-server/fteqw-sv64"
+        },
+    ]
+}

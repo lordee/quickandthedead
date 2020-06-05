@@ -1,8 +1,10 @@
 ./qwprogs.dat
+#define QWSSQC 
 
-defs.qc
 fteextensions.qc
-lfqdefs.qc
+defs.qc
+
+qatddefs.qc
 subs.qc
 fight.qc
 ai.qc

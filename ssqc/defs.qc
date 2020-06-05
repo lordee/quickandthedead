@@ -100,7 +100,7 @@ void()          PlayerPreThink;
 void()          PlayerPostThink;
 
 void()          ClientKill;
-void()          ClientConnect;
+//void()          ClientConnect;
 void()          PutClientInServer;              // call after setting the parm1... parms
 void()          ClientDisconnect;
 
@@ -429,7 +429,7 @@ float   MSG_MULTICAST   = 4;            // for multicast() call
 // message levels
 float   PRINT_LOW               = 0;            // pickup messages
 float   PRINT_MEDIUM    	= 1;            // death messages
-float   PRINT_HIGH              = 2;            // critical messages
+//float   PRINT_HIGH              = 2;            // critical messages
 float   PRINT_CHAT              = 3;            // also goes to chat console
 
 // multicast sets
@@ -451,7 +451,7 @@ float   MULTICAST_PVS_R = 5;            // within sight, reliable
 float   movedist;
 
 string  string_null;    // null string, nothing should be held here
-float   empty_float;
+//float   empty_float;
 
 entity  activator;              // the entity that activated a trigger or brush
 
@@ -632,12 +632,12 @@ void(entity e, vector min, vector max) setsize = #4;
 // #5 was removed
 void() break                                            = #6;
 float() random                                          = #7;           // returns 0 - 1
-void(entity e, float chan, string samp, float vol, float atten) sound = #8;
+//void(entity e, float chan, string samp, float vol, float atten) sound = #8;
 vector(vector v) normalize                      = #9;
 void(string e) error                            = #10;
 void(string e) objerror                         = #11;
 float(vector v) vlen                            = #12;
-float(vector v) vectoyaw                        = #13;
+//float(vector v) vectoyaw                        = #13;
 entity() spawn                                          = #14;
 void(entity e) remove                           = #15;
 
@@ -653,20 +653,20 @@ entity(entity start, .string fld, string match) find = #18;
 string(string s) precache_sound         = #19;
 string(string s) precache_model         = #20;
 void(entity client, string s)stuffcmd = #21;
-entity(vector org, float rad) findradius = #22;
-void(float level, string s) bprint                              = #23;
-void(entity client, float level, string s) sprint = #24;
-void(string s) dprint                           = #25;
+//entity(vector org, float rad) findradius = #22;
+//void(float level, string s) bprint                              = #23;
+//void(entity client, float level, string s) sprint = #24;
+//void(string s) dprint                           = #25;
 string(float f) ftos                            = #26;
 string(vector v) vtos                           = #27;
 void() coredump                                         = #28;          // prints all edicts
 void() traceon                                          = #29;          // turns statment trace on
 void() traceoff                                         = #30;
 void(entity e) eprint                           = #31;          // prints an entire edict
-float(float yaw, float dist) walkmove   = #32;  // returns TRUE or FALSE
+//float(float yaw, float dist) walkmove   = #32;  // returns TRUE or FALSE
 // #33 was removed
 //float(float yaw, float dist) droptofloor= #34;  // TRUE if landed on floor
-void(float style, string value) lightstyle = #35;
+//void(float style, string value) lightstyle = #35;
 float(float v) rint                                     = #36;          // round to nearest int
 float(float v) floor                            = #37;          // largest integer <= v
 float(float v) ceil                                     = #38;          // smallest integer >= v
@@ -677,13 +677,13 @@ float(vector v) pointcontents           = #41;          // returns a CONTENT_*
 float(float f) fabs = #43;
 vector(entity e, float speed) aim = #44;                // returns the shooting vector
 float(string s) cvar = #45;                                             // return cvar.value
-void(string s) localcmd = #46;                                  // put string into local que
+//void(string s) localcmd = #46;                                  // put string into local que
 entity(entity e) nextent = #47;                                 // for looping through all ents
 // #48 was removed
 void() ChangeYaw = #49;                                         // turn towards self.ideal_yaw
 											// at self.yaw_speed
 // #50 was removed
-vector(vector v) vectoangles                    = #51;
+//vector(vector v) vectoangles                    = #51;
 
 //
 // direct client message generation
@@ -703,13 +703,13 @@ void(float step) movetogoal                             = #67;
 
 string(string s) precache_file          = #68;  // no effect except for -copy
 void(entity e) makestatic               = #69;
-void(string s) changelevel = #70;
+//void(string s) changelevel = #70;
 
 //#71 was removed
 
 void(string var, string val) cvar_set = #72;    // sets cvar.value
 
-void(entity client, string s) centerprint = #73;        // sprint, but in middle
+//void(entity client, string s) centerprint = #73;        // sprint, but in middle
 
 void(vector pos, string samp, float vol, float atten) ambientsound = #74;
 

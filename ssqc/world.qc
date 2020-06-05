@@ -378,7 +378,8 @@ void() StartFrame =
 	timelimit = cvar("timelimit") * 60;
 	fraglimit = cvar("fraglimit");
 	teamplay = cvar("teamplay");
-	deathmatch = cvar("deathmatch");
+	//deathmatch = cvar("deathmatch");
+	deathmatch = 0;
 	
 	framecount = framecount + 1;
 };
