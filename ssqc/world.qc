@@ -181,6 +181,12 @@ void() main =
 };
 
 
+void QATD_Setup()
+{
+	MenuManager.Constructor = MM_Constructor;
+	MenuManager.Constructor();
+}
+
 entity  lastspawn;
 
 //=======================
@@ -371,6 +377,9 @@ void() worldspawn =
 
 	// 63 testing
 	lightstyle(63, "a");
+
+	// setup structs etc
+	QATD_Setup();
 };
 
 void() StartFrame =
@@ -378,8 +387,7 @@ void() StartFrame =
 	timelimit = cvar("timelimit") * 60;
 	fraglimit = cvar("fraglimit");
 	teamplay = cvar("teamplay");
-	//deathmatch = cvar("deathmatch");
-	deathmatch = 0;
+	deathmatch = cvar("deathmatch");
 	
 	framecount = framecount + 1;
 };

@@ -5,6 +5,9 @@ fteextensions.qc
 defs.qc
 
 qatddefs.qc
+QATD.qc
+MenuManager.qc
+
 subs.qc
 fight.qc
 ai.qc

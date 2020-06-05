@@ -1078,8 +1078,9 @@ void() PlayerPostThink =
 
 	CheckPowerups ();
 
-	W_WeaponFrame ();
+	MenuManager.FrameThink(self);
 
+	W_WeaponFrame ();
 };
 
 
@@ -1090,6 +1091,7 @@ ClientConnect
 called when a player connects to a server
 ============
 */
+//do not rely on csqcactive - it may misbehave when using `join` from spectator
 void(optional float csqcactive) ClientConnect =
 {
 	bprint (PRINT_HIGH, self.netname);
