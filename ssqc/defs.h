@@ -1236,32 +1236,6 @@
 #define DMSG_GREN_FLASH			35
 #define DMSG_TRIGGER			36
 
-/*======================================================*/
-/* Menus						*/
-/*======================================================*/
-
-#define MENU_DEFAULT				1
-#define MENU_TEAM 				2
-#define MENU_CLASS 				3
-#define MENU_DROP  				4
-#define MENU_INTRO 				5
-#define MENU_DEMOMAN                6
-#define MENU_DEMOMAN_CANCEL         7
-#define MENU_REPEATHELP 			8
-#define MENU_SPY_SKIN_1             9
-#define MENU_SPY_SKIN_2             10
-#define MENU_SPY_SKIN_3             11
-#define MENU_SPY				12
-#define MENU_SPY_SKIN				13
-#define MENU_SPY_COLOR				14
-#define MENU_ENGINEER				15
-#define MENU_ENGINEER_FIX_DISPENSER		16
-#define MENU_ENGINEER_FIX_SENTRYGUN		17
-#define MENU_SCOUT                  18
-#define MENU_DISPENSER				19
-
-#define MENU_REFRESH_RATE 			25
-
 
 /*======================================================*/
 /* Misc defines						*/
