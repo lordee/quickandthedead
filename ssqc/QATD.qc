@@ -20,10 +20,10 @@ string GetTeamName(float team)
     string teamName = "";
     switch (team)
     {
-        case 1:
+        case TEAM_SURVIVOR:
             teamName = "survivors";
             break;
-        case 2:
+        case TEAM_MONSTER:
             teamName = "monsters";
             break;
         default:
@@ -38,10 +38,10 @@ void SetTeamName(entity player)
     string t = "";
     switch (player.team_no)
     {
-        case 1:
+        case TEAM_SURVIVOR:
             t = "surv";
             break;
-        case 2:
+        case TEAM_MONSTER:
             t = "mons";
             break;
     }

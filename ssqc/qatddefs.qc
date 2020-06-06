@@ -14,3 +14,4 @@ float coop;
 .float team_no;
 //.f_void_float menu_input;
 .float menu;
+.float class;

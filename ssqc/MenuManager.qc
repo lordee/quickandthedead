@@ -1,26 +1,27 @@
 enum {
     MENU_NONE,
     MENU_TEAM,
-    MENU_CLASS,
 };
 
 void MM_CheckMenu(entity player);
-void MM_TeamMenu(entity player);
 void MM_SetMenu(entity player, float menuType, string... count);
 void MM_RefreshScreen(entity player);
 void MM_MenuInput(entity player);
 void MM_ClearScreen(entity player);
 void MM_FrameThink(entity player);
+
+void MM_TeamMenu(entity player);
 void MM_TeamMenu_Input(entity player);
 
 typedef struct {
     void (entity player) CheckMenu;
-    void (entity player) TeamMenu;
     void (entity player, float menuType, string... count) SetMenu;
     void (entity player) RefreshScreen;
     void (entity player) ClearScreen;
     void (entity player) MenuInput;
     void (entity player) FrameThink;
+
+    void (entity player) TeamMenu;
     void (entity player) MenuTeamInput;
     void () Constructor;
 } QATD_MenuManager;
@@ -30,12 +31,13 @@ QATD_MenuManager MenuManager;
 void MM_Constructor()
 {
     MenuManager.CheckMenu = MM_CheckMenu;
-	MenuManager.TeamMenu = MM_TeamMenu;
 	MenuManager.SetMenu = MM_SetMenu;
 	MenuManager.RefreshScreen = MM_RefreshScreen;
 	MenuManager.MenuInput = MM_MenuInput;
 	MenuManager.ClearScreen = MM_ClearScreen;
 	MenuManager.FrameThink = MM_FrameThink;
+
+    MenuManager.TeamMenu = MM_TeamMenu;
     MenuManager.MenuTeamInput = MM_TeamMenu_Input;
 }
 
@@ -85,6 +87,7 @@ void MM_CheckMenu(entity player)
     if (player.team_no == 0)
     { 
         MenuManager.TeamMenu(player);
+        return;
     }
 }
 
@@ -131,9 +134,6 @@ void MM_MenuInput(entity player)
         case MENU_TEAM:
             MenuManager.MenuTeamInput(player);
             break;
-        case MENU_CLASS:
-
-            break;
     }
 
     player.impulse = 0;
@@ -162,11 +162,11 @@ void MM_TeamMenu_Input(entity player)
             float two = GetPlayersInTeam(2);
             if (one <= two)
             {
-                SetTeam(player, 1);
+                SetTeam(player, TEAM_SURVIVOR);
             }
             else
             {
-                SetTeam(player, 2);
+                SetTeam(player, TEAM_MONSTER);
             }
             player.menu = MENU_NONE;
             break;
