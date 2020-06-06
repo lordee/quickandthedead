@@ -388,8 +388,6 @@ called each time a player enters a new level
 */
 void() PutClientInServer =
 {
-	local entity spot;
-
 	self.air_finished = time + 12;
 	self.dmg = 2;                   // initial water damage
 	self.super_damage_finished = 0;
@@ -399,11 +397,9 @@ void() PutClientInServer =
 	self.effects = 0;
 	self.invincible_time = 0;
 	self.classname = "player";
-	self.takedamage = DAMAGE_AIM;
-	self.solid = SOLID_SLIDEBOX;
-	self.movetype = MOVETYPE_WALK;
+	
 	self.show_hostile = 0;
-	self.flags = FL_CLIENT;
+	
 	self.deadflag = DEAD_NO;
 	self.attack_finished = time;
 	// pausetime is set by teleporters to keep the player from moving a while
@@ -414,75 +410,136 @@ void() PutClientInServer =
 	self.th_die = PlayerDie;
 	DecodeLevelParms ();
 
-	switch (self.team_no)
-	{
-		case TEAM_NONE:
-			self.health = 1;
-			self.items = 0;
-			self.ammo_rockets = 0;
-			self.ammo_nails = 0;
-			self.ammo_shells = 0;
-			self.ammo_cells = 0;
-
-			self.armortype = 0;
-			self.armorvalue = 0;
-			self.weapon = 0;
-
-			self.flags = FL_CLIENT | FL_NOTARGET;
-			self.waterlevel = 3;
-			self.takedamage = DAMAGE_NO;
-			self.solid = SOLID_NOT;
-			self.movetype = MOVETYPE_NOCLIP;
-
-			self.model = "";
-			self.mdl = "";
-			self.modelindex = 0;
-			self.weaponmodel = "";
-			modelindex_player = 0;
-
-			setmodel(self, "");
-			break;
-		case TEAM_SURVIVOR:
-			self.health = 100;
-
-			break;
-		case TEAM_MONSTER:
-			self.class = GetRandomClass(self);
-
-			break;
-		default:
-			bprint(PRINT_HIGH, "team ", ftos(self.team_no));
-			break;
-	}
-	float h;
-	h = self.health; // i am not sure about qcvm and pointers to fields..
-	self.max_health = h;
-	
-	W_SetCurrentAmmo ();
-	
-	spot = SelectSpawnPoint ();
-
-	self.origin = spot.origin + '0 0 1';
-	self.angles = spot.angles;
-	self.fixangle = TRUE;           // turn this way immediately
-
-// oh, this is a hack!
+	// oh, this is a hack!
 	setmodel (self, "progs/eyes.mdl");
 	modelindex_eyes = self.modelindex;
 
 	setmodel (self, "progs/player.mdl");
 	modelindex_player = self.modelindex;
 
-	setsize (self, VEC_HULL_MIN, VEC_HULL_MAX);
-	
-	self.view_ofs = '0 0 22';
-
-// Mod - Xian (May.20.97)
-// Bug where player would have velocity from their last kill
-
+	// Mod - Xian (May.20.97)
+	// Bug where player would have velocity from their last kill
 	self.velocity = '0 0 0';
 
-	player_stand1 ();
+	float myhealth, myitems, myammo_rockets, myammo_nails, myammo_shells, myammo_cells, myarmortype, myarmorvalue
+	, myweapon, myflags, mywaterlevel, mytakedamage, mysolid, mymovetype, mymodelindex, mymodelindex_player
+	, myspeed;
+	string mymodel, mymdl, myweaponmodel;
+	vector mymodel_min, mymodel_max, myview_ofs;
+	f_void mystand;
+
+	switch (self.team_no)
+	{
+		case TEAM_NONE:
+			myhealth = 1;
+			myitems = 0;
+			myammo_rockets = 0;
+			myammo_nails = 0;
+			myammo_shells = 0;
+			myammo_cells = 0;
+
+			myarmortype = 0;
+			myarmorvalue = 0;
+			myweapon = 0;
+
+			myflags = FL_CLIENT | FL_NOTARGET;
+			mywaterlevel = 3;
+			mytakedamage = DAMAGE_NO;
+			mysolid = SOLID_NOT;
+			mymovetype = MOVETYPE_NOCLIP;
+
+			mymodel = "";
+			mymdl = "";
+			mymodelindex = 0;
+			myweaponmodel = "";
+			myview_ofs = '0 0 22';
+			myspeed = 320;
+			break;
+		case TEAM_SURVIVOR:
+			myhealth = 100;
+			mytakedamage = DAMAGE_AIM;
+			mysolid = SOLID_SLIDEBOX;
+			mymovetype = MOVETYPE_WALK;
+			myflags = FL_CLIENT;
+			myview_ofs = '0 0 22';
+			myspeed = 320;
+			mymodel_min = VEC_HULL_MIN;
+			mymodel_max = VEC_HULL_MAX;
+			myitems = IT_AXE | IT_SHOTGUN;
+			myammo_shells = 25;
+			mystand = player_stand1;
+
+			break;
+		case TEAM_MONSTER:
+			self.class = GetRandomClass(self);
+			// populate selfclass global - yuck
+			GetClass(self.class);
+
+			self.attackdamage = selfclass.basead;
+			
+			self.attackfinish = selfclass.baseattackfinish;
+			self.skill_one = selfclass.skill_one;
+			self.skill_one_cooldown = selfclass.skill_one_cooldown;
+			self.skill_one_cooldown_time = 0;
+			self.skill_one_damage = selfclass.skill_one_damage;
+			self.skill_one_range = selfclass.skill_one_range;
+			self.skill_one_value = selfclass.skill_one_value;
+			self.skill_two = selfclass.skill_two;
+			self.skill_two_cooldown = selfclass.skill_two_cooldown;
+			self.skill_two_cooldown_time = 0;
+			self.skill_two_damage = selfclass.skill_two_damage;
+			self.skill_two_range = selfclass.skill_two_range;
+			self.skill_two_value = selfclass.skill_two_value;
+
+			myhealth = selfclass.basehealth;
+			myspeed = selfclass.basespeed;
+			myview_ofs = selfclass.model_viewoffset;
+			mymodel_min = selfclass.model_min;
+			mymodel_max = selfclass.model_max;
+			mystand = selfclass.standfunc;
+			break;
+		default:
+			bprint(PRINT_HIGH, "team ", ftos(self.team_no));
+			break;
+	}
+
+	self.health = myhealth;
+	self.max_health = myhealth;
+	self.items = myitems;
+	self.ammo_rockets = myammo_rockets;
+	self.ammo_nails = myammo_nails;
+	self.ammo_shells = myammo_shells;
+	self.ammo_cells = myammo_cells;
+	self.armortype = myarmortype;
+	self.armorvalue = myarmorvalue;
+	self.weapon = myweapon;
+	self.flags = myflags;
+	self.waterlevel = mywaterlevel;
+	self.solid = mysolid;
+	self.movetype = mymovetype;
+	self.model = mymodel;
+	self.mdl = mymdl;
+	self.modelindex = mymodelindex;
+	self.weaponmodel = myweaponmodel;
+	self.speed = myspeed;
+	self.view_ofs = myview_ofs;
+	
+	W_SetCurrentAmmo ();
+	
+	entity spot;
+	spot = SelectSpawnPoint ();
+
+	self.origin = spot.origin + '0 0 1';
+	self.angles = spot.angles;
+	self.fixangle = TRUE;           // turn this way immediately
+
+	setmodel (self, mymodel);
+	setsize (self, mymodel_min, mymodel_max);
+	
+	if (mystand)
+	{
+		mystand();
+	}
 	
 	makevectors(self.angles);
 	spawn_tfog (self.origin + v_forward*20);

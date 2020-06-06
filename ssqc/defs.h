@@ -1260,6 +1260,133 @@
 					// turned on with temp1.  QuakeWorld servers can use
 					// serverinfo respawn_delay to set their own time.
 
+
+// QATD 
 #define TEAM_NONE 0
 #define TEAM_SURVIVOR 1
 #define TEAM_MONSTER 2
+
+// Classes
+// Fiend
+#define STRING_FIEND	"fiend"
+#define MODEL_FIEND     "progs/demon.mdl"
+#define MODEL_MIN_FIEND   '-32 -32 -24'
+#define MODEL_MAX_FIEND   '32 32 64'
+#define MODEL_VIEWOFFSET_FIEND    '0 0 50'
+#define MODEL_HEAD_FIEND "progs/h_demon.mdl"
+#define SOUND_PAIN_FIEND "demon/dpain1.wav"
+#define SOUND_DEATH_FIEND    "demon/ddeath.wav"
+#define SOUND_AASHOOT_FIEND    "knight/sword2.wav"
+#define SOUND_AAHIT_FIEND    "demon/dhit2.wav"
+#define SOUND_AAHITWALL_FIEND    "knight/sword1.wav"
+#define SOUND_SKILLONE_CAST_FIEND   "demon/djump.wav"
+#define SOUND_SKILLTWO_CAST_FIEND   "demon/sight2.wav"
+#define BASEAD_FIEND     30
+#define BASEHEALTH_FIEND 200
+#define BASESPEED_FIEND  450
+#define BASEATTACKFINISH_FIEND    .5
+
+#define SKILLONE_LIFETIME_FIEND   1
+#define SKILLONE_TICKRATE_FIEND   2
+#define SKILLONE_COOLDOWN_FIEND  10
+#define SKILLONE_DAMAGE_FIEND  0
+#define SKILLONE_RANGE_FIEND 1000
+
+#define SKILLTWO_LIFETIME_FIEND   1
+#define SKILLTWO_TICKRATE_FIEND   1
+#define SKILLTWO_COOLDOWN_FIEND  20
+#define SKILLTWO_DAMAGE_FIEND  50
+#define SKILLTWO_RANGE_FIEND    100
+
+// Shambler
+#define STRING_SHAMBLER	"shambler"
+#define MODEL_SHAMBLER     "progs/shambler.mdl"
+#define MODEL_MIN_SHAMBLER   '-32 -32 -24'
+#define MODEL_MAX_SHAMBLER   '32 32 64'
+#define MODEL_VIEWOFFSET_SHAMBLER    '0 0 50'
+#define MODEL_HEAD_SHAMBLER "progs/h_shams.mdl"
+#define SOUND_PAIN_SHAMBLER "shambler/shurt2.wav"
+#define SOUND_DEATH_SHAMBLER    "shambler/sdeath.wav"
+#define SOUND_AASHOOT_SHAMBLER    "shambler/melee1.wav"
+#define SOUND_AAHIT_SHAMBLER    "shambler/smack.wav"
+#define SOUND_AAHITWALL_SHAMBLER    "shambler/melee1.wav"
+#define SOUND_SKILLONE_CAST_SHAMBLER   "shambler/ssight.wav"
+#define SOUND_SKILLTWO_CAST_SHAMBLER   "shambler/ssight.wav"
+#define BASEAD_SHAMBLER     20
+#define BASEHEALTH_SHAMBLER 300
+#define BASESPEED_SHAMBLER  330
+#define BASEATTACKFINISH_SHAMBLER    1
+
+#define SKILLONE_LIFETIME_SHAMBLER   1
+#define SKILLONE_TICKRATE_SHAMBLER   2
+#define SKILLONE_COOLDOWN_SHAMBLER  20
+#define SKILLONE_DAMAGE_SHAMBLER  100
+#define SKILLONE_RANGE_SHAMBLER 200
+
+#define SKILLTWO_LIFETIME_SHAMBLER   1
+#define SKILLTWO_TICKRATE_SHAMBLER   1
+#define SKILLTWO_COOLDOWN_SHAMBLER  20
+#define SKILLTWO_DAMAGE_SHAMBLER  80
+#define SKILLTWO_RANGE_SHAMBLER    1000
+
+// Undead King
+#define STRING_UNDEADKING	"undead king"
+#define MODEL_UNDEADKING     "progs/zombie.mdl"
+#define MODEL_MIN_UNDEADKING   '-16 -16 -24'
+#define MODEL_MAX_UNDEADKING   '16 16 40'
+#define MODEL_VIEWOFFSET_UNDEADKING    '0 0 30'
+#define MODEL_HEAD_UNDEADKING "progs/h_zombie.mdl"
+#define SOUND_PAIN_UNDEADKING "zombie/z_pain.wav"
+#define SOUND_DEATH_UNDEADKING    "zombie/z_gib.wav"
+#define SOUND_AASHOOT_UNDEADKING    "zombie/z_shot1.wav"
+#define SOUND_AAHIT_UNDEADKING    "zombie/z_hit.wav"
+#define SOUND_AAHITWALL_UNDEADKING    "zombie/z_miss.wav"
+#define SOUND_SKILLONE_CAST_UNDEADKING   "shambler/ssight.wav"
+#define SOUND_SKILLTWO_CAST_UNDEADKING   "shambler/ssight.wav"
+#define BASEAD_UNDEADKING     10
+#define BASEHEALTH_UNDEADKING 300
+#define BASESPEED_UNDEADKING  330
+#define BASEATTACKFINISH_UNDEADKING    1
+
+#define SKILLONE_LIFETIME_UNDEADKING   1
+#define SKILLONE_TICKRATE_UNDEADKING   2
+#define SKILLONE_COOLDOWN_UNDEADKING  20
+#define SKILLONE_DAMAGE_UNDEADKING  100
+#define SKILLONE_RANGE_UNDEADKING 200
+
+#define SKILLTWO_LIFETIME_UNDEADKING   1
+#define SKILLTWO_TICKRATE_UNDEADKING   1
+#define SKILLTWO_COOLDOWN_UNDEADKING  20
+#define SKILLTWO_DAMAGE_UNDEADKING  80
+#define SKILLTWO_RANGE_UNDEADKING    1000
+
+// Leash
+#define STRING_LEASH	"leash"
+#define MODEL_LEASH     "progs/zombie.mdl"
+#define MODEL_MIN_LEASH   '-16 -16 -24'
+#define MODEL_MAX_LEASH   '16 16 40'
+#define MODEL_VIEWOFFSET_LEASH    '0 0 50'
+#define MODEL_HEAD_LEASH "progs/h_zombie.mdl"
+#define SOUND_PAIN_LEASH "zombie/z_pain.wav"
+#define SOUND_DEATH_LEASH    "zombie/z_gib.wav"
+#define SOUND_AASHOOT_LEASH    "zombie/z_shot1.wav"
+#define SOUND_AAHIT_LEASH    "zombie/z_hit.wav"
+#define SOUND_AAHITWALL_LEASH    "zombie/z_miss.wav"
+#define SOUND_SKILLONE_CAST_LEASH   "shambler/ssight.wav"
+#define SOUND_SKILLTWO_CAST_LEASH   "shambler/ssight.wav"
+#define BASEAD_LEASH     10
+#define BASEHEALTH_LEASH 300
+#define BASESPEED_LEASH  330
+#define BASEATTACKFINISH_LEASH    1
+
+#define SKILLONE_LIFETIME_LEASH   1
+#define SKILLONE_TICKRATE_LEASH   2
+#define SKILLONE_COOLDOWN_LEASH  20
+#define SKILLONE_DAMAGE_LEASH  100
+#define SKILLONE_RANGE_LEASH 200
+
+#define SKILLTWO_LIFETIME_LEASH   1
+#define SKILLTWO_TICKRATE_LEASH   1
+#define SKILLTWO_COOLDOWN_LEASH  20
+#define SKILLTWO_DAMAGE_LEASH  80
+#define SKILLTWO_RANGE_LEASH    1000

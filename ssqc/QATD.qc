@@ -86,7 +86,7 @@ float GetRandomClass(entity player)
         }
         else if (rand <= 0.75)
         {
-            newClass = CLASS_NECROMANCER;
+            newClass = CLASS_UNDEADKING;
         }
         else
         {

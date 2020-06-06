@@ -5,8 +5,10 @@ fteextensions.qc
 defs.qc
 
 qatddefs.qc
+Classes.qc
 QATD.qc
 MenuManager.qc
+
 
 subs.qc
 fight.qc
