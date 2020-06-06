@@ -3,7 +3,7 @@
 float skill;
 float coop;
 
-typedef void (float n) f_void_float;
+//typedef void (float n) f_void_float;
 
 // status bar stuff
 .string status_string;           // current centerprint text
@@ -12,4 +12,5 @@ typedef void (float n) f_void_float;
 .float status_string_refresh_time;       // when sbar is next printed
 
 .float team_no;
-.f_void_float menu_input;
+//.f_void_float menu_input;
+.float menu;
