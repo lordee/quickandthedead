@@ -997,7 +997,7 @@ float() W_BestWeapon =
 
 */
 
-	return IT_AXE;
+	return (self.team_no == TEAM_NONE) ? 0 : IT_AXE;
 };
 
 float() W_CheckNoAmmo =

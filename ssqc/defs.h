@@ -1260,6 +1260,6 @@
 					// turned on with temp1.  QuakeWorld servers can use
 					// serverinfo respawn_delay to set their own time.
 
-
+#define TEAM_NONE 0
 #define TEAM_SURVIVOR 1
 #define TEAM_MONSTER 2

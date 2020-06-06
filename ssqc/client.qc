@@ -390,14 +390,6 @@ void() PutClientInServer =
 {
 	local entity spot;
 
-	self.classname = "player";
-	self.health = 100;
-	self.takedamage = DAMAGE_AIM;
-	self.solid = SOLID_SLIDEBOX;
-	self.movetype = MOVETYPE_WALK;
-	self.show_hostile = 0;
-	self.max_health = 100;
-	self.flags = FL_CLIENT;
 	self.air_finished = time + 12;
 	self.dmg = 2;                   // initial water damage
 	self.super_damage_finished = 0;
@@ -406,18 +398,67 @@ void() PutClientInServer =
 	self.invincible_finished = 0;
 	self.effects = 0;
 	self.invincible_time = 0;
-
-	DecodeLevelParms ();
-	
-	W_SetCurrentAmmo ();
-
+	self.classname = "player";
+	self.takedamage = DAMAGE_AIM;
+	self.solid = SOLID_SLIDEBOX;
+	self.movetype = MOVETYPE_WALK;
+	self.show_hostile = 0;
+	self.flags = FL_CLIENT;
+	self.deadflag = DEAD_NO;
 	self.attack_finished = time;
+	// pausetime is set by teleporters to keep the player from moving a while
+	self.pausetime = 0;
+
+	// TODO - move to survivor
 	self.th_pain = player_pain;
 	self.th_die = PlayerDie;
+	DecodeLevelParms ();
+
+	switch (self.team_no)
+	{
+		case TEAM_NONE:
+			self.health = 1;
+			self.items = 0;
+			self.ammo_rockets = 0;
+			self.ammo_nails = 0;
+			self.ammo_shells = 0;
+			self.ammo_cells = 0;
+
+			self.armortype = 0;
+			self.armorvalue = 0;
+			self.weapon = 0;
+
+			self.flags = FL_CLIENT | FL_NOTARGET;
+			self.waterlevel = 3;
+			self.takedamage = DAMAGE_NO;
+			self.solid = SOLID_NOT;
+			self.movetype = MOVETYPE_NOCLIP;
+
+			self.model = "";
+			self.mdl = "";
+			self.modelindex = 0;
+			self.weaponmodel = "";
+			modelindex_player = 0;
+
+			setmodel(self, "");
+			break;
+		case TEAM_SURVIVOR:
+			self.health = 100;
+
+			break;
+		case TEAM_MONSTER:
+			self.class = GetRandomClass(self);
+
+			break;
+		default:
+			bprint(PRINT_HIGH, "team ", ftos(self.team_no));
+			break;
+	}
+	float h;
+	h = self.health; // i am not sure about qcvm and pointers to fields..
+	self.max_health = h;
 	
-	self.deadflag = DEAD_NO;
-// paustime is set by teleporters to keep the player from moving a while
-	self.pausetime = 0;
+	W_SetCurrentAmmo ();
 	
 	spot = SelectSpawnPoint ();
 
@@ -453,54 +494,6 @@ void() PutClientInServer =
 	{                
 		rj = stof(infokey(world, "rj"));
 	}
-
-	if (deathmatch == 4)
-	{
-		self.ammo_shells = 0;
-		if (stof(infokey(world, "axe")) == 0)
-		{
-			self.ammo_nails = 255;
-			self.ammo_shells = 255;
-			self.ammo_rockets = 255;
-			self.ammo_cells = 255;
-			self.items = self.items | IT_NAILGUN;
-			self.items = self.items | IT_SUPER_NAILGUN;
-			self.items = self.items | IT_SUPER_SHOTGUN;
-			self.items = self.items | IT_ROCKET_LAUNCHER;
-//		self.items = self.items | IT_GRENADE_LAUNCHER;
-			self.items = self.items | IT_LIGHTNING;
-		}
-		self.items = self.items - (self.items & (IT_ARMOR1 | IT_ARMOR2 | IT_ARMOR3)) + IT_ARMOR3;
-		self.armorvalue = 200;
-		self.armortype = 0.8;
-		self.health = 250;
-		self.items = self.items | IT_INVULNERABILITY;
-		self.invincible_time = 1;
-		self.invincible_finished = time + 3;
-	}
-
-	if (deathmatch == 5)
-	{
-		self.ammo_nails = 80;
-		self.ammo_shells = 30;
-		self.ammo_rockets = 10;
-		self.ammo_cells = 30;
-		self.items = self.items | IT_NAILGUN;
-		self.items = self.items | IT_SUPER_NAILGUN;
-		self.items = self.items | IT_SUPER_SHOTGUN;
-		self.items = self.items | IT_ROCKET_LAUNCHER;
-		self.items = self.items | IT_GRENADE_LAUNCHER;
-		self.items = self.items | IT_LIGHTNING;
-		self.items = self.items - (self.items & (IT_ARMOR1 | IT_ARMOR2 | IT_ARMOR3)) + IT_ARMOR3;
-		self.armorvalue = 200;
-		self.armortype = 0.8;
-		self.health = 200;
-		self.items = self.items | IT_INVULNERABILITY;
-		self.invincible_time = 1;
-		self.invincible_finished = time + 3;
-	}
-
-
 };
 
 

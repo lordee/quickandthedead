@@ -3,6 +3,13 @@
 float skill;
 float coop;
 
+enum {
+    CLASS_FIEND,
+    CLASS_SHAMBLER,
+    CLASS_NECROMANCER,
+    CLASS_LEASH,
+};
+
 //typedef void (float n) f_void_float;
 
 // status bar stuff
