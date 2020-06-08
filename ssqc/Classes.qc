@@ -12,6 +12,7 @@ Class_t Classes[6] = {
         player_run,
         player_pain,
         player_diea1,
+        player_attack,
         SOUND_PAIN_NONE,
         SOUND_DEATH_NONE,
         SOUND_AASHOOT_NONE,
@@ -61,6 +62,7 @@ Class_t Classes[6] = {
         player_run,
         player_pain,
         player_diea1,
+        player_attack,
         SOUND_PAIN_SURVIVOR,
         SOUND_DEATH_SURVIVOR,
         SOUND_AASHOOT_SURVIVOR,
@@ -110,6 +112,7 @@ Class_t Classes[6] = {
         classfiend_run,
         classfiend_pain,
         classfiend_die,
+        classfiend_attack,
         SOUND_PAIN_FIEND,
         SOUND_DEATH_FIEND,
         SOUND_AASHOOT_FIEND,
@@ -160,6 +163,7 @@ Class_t Classes[6] = {
         player_run,
         sham_pain1,
         sham_death1,
+        player_attack,
         SOUND_PAIN_SHAMBLER,
         SOUND_DEATH_SHAMBLER,
         SOUND_AASHOOT_SHAMBLER,
@@ -209,6 +213,7 @@ Class_t Classes[6] = {
         player_run,
         zombie_paina1,
         zombie_die,
+        player_attack,
         SOUND_PAIN_UNDEADKING,
         SOUND_DEATH_UNDEADKING,
         SOUND_AASHOOT_UNDEADKING,
@@ -258,6 +263,7 @@ Class_t Classes[6] = {
         player_run,
         zombie_paina1,
         zombie_die,
+        player_attack,
         SOUND_PAIN_LEASH,
         SOUND_DEATH_LEASH,
         SOUND_AASHOOT_LEASH,
@@ -327,13 +333,11 @@ void ClassStand(entity player)
 void ClassPain(entity attacker, float damage)
 {
     GetClass(self.class);
-    self = player;
     selfclass.painfunc(attacker, damage);
 }
 
 void ClassDie()
 {
-    self = player;
     GetClass(self.class);
     selfclass.diefunc();
 }

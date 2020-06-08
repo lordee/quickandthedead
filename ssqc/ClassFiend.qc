@@ -75,21 +75,66 @@ void()	classfiend_jump11	=[ 	$leap11,	classfiend_jump12	] {};
 void()	classfiend_jump12	=[ 	$leap12,	classfiend_run	] {};
 
 
+void classfiend_Melee(float side)
+{
+	GetClass(self.class);
+	vector  source;
+	vector  org;
+
+	makevectors (self.v_angle);
+	source = self.origin + '0 0 16';
+	traceline (source, source + v_forward*100, FALSE, self);
+	if (trace_fraction == 1.0)
+		return;
+	
+	org = trace_endpos - v_forward*4;
+
+	if (trace_ent.takedamage)
+	{
+		//trace_ent.axhitme = 1;
+		//SpawnBlood (org, 20);
+		sound (self, CHAN_WEAPON, selfclass.sound_aahit, 1, ATTN_NORM);
+		SpawnMeatSpray (self.origin + v_forward*16, side * v_right);
+		T_Damage (trace_ent, self, self, selfclass.basead);
+	}
+	else
+	{       // hit wall
+		sound (self, CHAN_WEAPON, selfclass.sound_aahitwall, 1, ATTN_NORM);
+
+		WriteByte (MSG_MULTICAST, SVC_TEMPENTITY);
+		WriteByte (MSG_MULTICAST, TE_GUNSHOT);
+		WriteByte (MSG_MULTICAST, 3);
+		WriteCoord (MSG_MULTICAST, org_x);
+		WriteCoord (MSG_MULTICAST, org_y);
+		WriteCoord (MSG_MULTICAST, org_z);
+		multicast (org, MULTICAST_PVS);
+	}
+}
+
 void()	classfiend_atta1	=[	$attacka1,		classfiend_atta2	] {};
 void()	classfiend_atta2	=[	$attacka2,		classfiend_atta3	] {};
 void()	classfiend_atta3	=[	$attacka3,		classfiend_atta4	] {};
 void()	classfiend_atta4	=[	$attacka4,		classfiend_atta5	] {};
-void()	classfiend_atta5	=[	$attacka5,		classfiend_atta6	] {Demon_Melee(200);};
+void()	classfiend_atta5	=[	$attacka5,		classfiend_atta6	] {classfiend_Melee(200);};
 void()	classfiend_atta6	=[	$attacka6,		classfiend_atta7	] {};
 void()	classfiend_atta7	=[	$attacka7,		classfiend_atta8	] {};
 void()	classfiend_atta8	=[	$attacka8,		classfiend_atta9	] {};
 void()	classfiend_atta9	=[	$attacka9,		classfiend_atta10] {};
 void()	classfiend_atta10	=[	$attacka10,		classfiend_atta11] {};
-void()	classfiend_atta11	=[	$attacka11,		classfiend_atta12] {Demon_Melee(-200);};
+void()	classfiend_atta11	=[	$attacka11,		classfiend_atta12] {classfiend_Melee(-200);};
 void()	classfiend_atta12	=[	$attacka12,		classfiend_atta13] {};
 void()	classfiend_atta13	=[	$attacka13,		classfiend_atta14] {};
 void()	classfiend_atta14	=[	$attacka14,		classfiend_atta15] {};
 void()	classfiend_atta15	=[	$attacka15,		classfiend_run] {};
+
+void classfiend_attack()
+{
+	GetClass(self.class);
+
+	self.attack_finished = time + selfclass.baseattackfinish;
+	sound(self, CHAN_WEAPON, selfclass.sound_aashoot, 1, ATTN_NORM);
+	classfiend_atta1();
+}
 
 void()	classfiend_pain1	=[	$pain1,		classfiend_pain2	] {};
 void()	classfiend_pain2	=[	$pain2,		classfiend_pain3	] {};
@@ -150,28 +195,6 @@ void() classfiend_MeleeAttack =
 {
 	classfiend_atta1 ();
 };
-
-void(float side) classfiend_Melee =
-{
-	local	float	ldmg;
-	local vector	delta;
-	
-	delta = self.enemy.origin - self.origin;
-
-	if (vlen(delta) > 100)
-		return;
-	if (!CanDamage (self.enemy, self))
-		return;
-		
-    sound (self, CHAN_WEAPON, "demon/dhit2.wav", 1, ATTN_NORM);
-	ldmg = 10 + 5*random();
-	T_Damage (self.enemy, self, self, ldmg);	
-
-	makevectors (self.angles);
-	SpawnMeatSpray (self.origin + v_forward*16, side * v_right);
-};
-
-
 
 void()	classfiend_JumpTouch =
 {

@@ -75,6 +75,7 @@ typedef struct {
     f_void runfunc;
     f_void_ef painfunc;
     f_void diefunc;
+    f_void attackfunc;
     string sound_pain;
     string sound_death;
     string sound_aashoot;
