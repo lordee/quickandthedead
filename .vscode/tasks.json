@@ -46,7 +46,7 @@
         {
             "label": "Run FTESV",
             "type": "shell",
-            "command": "/home/danni/Games/quake-team-fortress-server/fteqw-sv64"
+            "command": "/home/danni/Games/quake-team-fortress-server/fteqw-sv64 +gamedir quickandthedead +map e1m1"
         },
     ]
 }
