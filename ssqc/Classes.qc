@@ -313,24 +313,27 @@ void ClassRun(entity player)
 {
     GetClass(player.class);
 
+    self = player;
     selfclass.runfunc();
 }
 
 void ClassStand(entity player)
 {
     GetClass(player.class);
-
+    self = player;
     selfclass.standfunc();
 }
 
 void ClassPain(entity attacker, float damage)
 {
     GetClass(self.class);
+    self = player;
     selfclass.painfunc(attacker, damage);
 }
 
 void ClassDie()
 {
+    self = player;
     GetClass(self.class);
     selfclass.diefunc();
 }
