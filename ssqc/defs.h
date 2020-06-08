@@ -610,47 +610,6 @@
 #define DARKBLUE   	14
 
 /*======================================================*/
-/* Defines for the ENGINEER's Building ability		*/
-/*======================================================*/
-// Ammo costs
-#define AMMO_COST_SHELLS		3	// Metal needed to make 1 shell
-#define AMMO_COST_NAILS			2
-#define AMMO_COST_ROCKETS		5
-#define AMMO_COST_CELLS			5
-
-// Building types
-#define BUILD_DISPENSER			1
-#define BUILD_SENTRYGUN			2
-
-// Building metal costs
-#define BUILD_COST_DISPENSER	100
-#define BUILD_COST_SENTRYGUN	130
-
-// Building times
-#define BUILD_TIME_DISPENSER	2		// 2 seconds to build
-#define BUILD_TIME_SENTRYGUN	5		// 5 seconds to build
-
-// Building health levels
-#define BUILD_HEALTH_DISPENSER	150
-#define BUILD_HEALTH_SENTRYGUN	150
-
-// Dispenser's maximum carrying capability
-#define BUILD_DISPENSER_MAX_SHELLS  400
-#define BUILD_DISPENSER_MAX_NAILS   600
-#define BUILD_DISPENSER_MAX_ROCKETS 300
-#define BUILD_DISPENSER_MAX_CELLS   400
-#define BUILD_DISPENSER_MAX_ARMOR   500
-
-/*======================================================*/
-/* Ammo quantities for dropping				*/
-/*======================================================*/
-#define DROP_SHELLS	20
-#define DROP_NAILS	20
-#define DROP_ROCKETS	10
-#define DROP_CELLS	10
-#define DROP_ARMOR	40
-
-/*======================================================*/
 /* Team Defines						*/
 /*======================================================*/
 #define TM_MAX_NO	4	// Max number of teams. Simply changing this value isn't enough.
@@ -685,515 +644,6 @@
 // still room for 12 more weapons
 // but we can remove some by giving the weapons
 // a weapon mode (like the rifle)
-
-/*======================================================*/
-/* New Weapon Related Defines				*/
-/*======================================================*/
-// shots per reload
-#define RE_SHOTGUN		8
-#define RE_SUPER_SHOTGUN	16 // 8 shots
-#define RE_GRENADE_LAUNCHER	6
-#define RE_ROCKET_LAUNCHER	4
-
-// reload times
-#define RE_SHOTGUN_TIME			2
-#define RE_SUPER_SHOTGUN_TIME		3
-#define RE_GRENADE_LAUNCHER_TIME	4
-#define RE_ROCKET_LAUNCHER_TIME		5
-
-// Maximum velocity you can move and fire the Sniper Rifle
-#define WEAP_SNIPER_RIFLE_MAX_MOVE	50
-
-// Medikit
-#define WEAP_MEDIKIT_HEAL	200	// Amount medikit heals per hit
-#define WEAP_MEDIKIT_OVERHEAL	50	// Amount of superhealth over max_health the medikit will dispense
-
-// Spanner
-#define WEAP_SPANNER_REPAIR	10
-
-// Detpack
-#define WEAP_DETPACK_DISARMTIME	3   	// Time it takes to disarm a Detpack
-#define WEAP_DETPACK_SETTIME	4   	// Time it takes to set a Detpack
-#define WEAP_DETPACK_SIZE	1500
-#define WEAP_DETPACK_BITS_NO	12  	// Bits that detpack explodes into
-
-// Tranquiliser Gun
-#define TRANQ_TIME		15
-
-// Grenades
-#define GR_PRIMETIME		3
-#define GR_TYPE_NONE		0
-#define GR_TYPE_NORMAL		1
-#define GR_TYPE_CONCUSSION	2
-#define GR_TYPE_NAIL		3
-#define GR_TYPE_MIRV		4
-#define GR_TYPE_NAPALM		5
-#define GR_TYPE_FLARE		6
-#define GR_TYPE_GAS		7
-#define GR_TYPE_EMP		8
-#define GR_TYPE_FLASH		9
-#define GR_TYPE_CALTROP		10
-
-// Defines for NailGren Types
-#define NGR_TYPE_DEFAULT	0
-#define NGR_TYPE_LASER		1
-#define NGR_TYPE_BURST		2
-
-// NailGren Default Settings
-#define NGR_LASER_DEFAULT_ROTATIONCOUNT		2
-#define NGR_LASER_DEFAULT_ROTATIONTIME		1
-#define NGR_LASER_DEFAULT_DAMAGE		20
-#define NGR_LASER_DEFAULT_RANGE			150
-
-#define NGR_BURST_DEFAULT_COUNT			2
-#define NGR_BURST_DEFAULT_INTERVAL		0.7
-#define NGR_BURST_DEFAULT_RANGE			0.3
-
-// Defines for WeaponMode
-#define GL_NORMAL	0
-#define GL_PIPEBOMB	1
-
-// Defines for Concussion Grenade
-#define GR_CONCUSS_TIME	5
-#define GR_CONCUSS_DEC	20
-
-// Defines for the Gas Grenade
-#define GR_HALLU_TIME	0.5
-#define GR_HALLU_DEC	2.5
-
-/*======================================================*/
-/* New Items						*/
-/*======================================================*/
-#define NIT_SCANNER				1
-
-#define NIT_SILVER_DOOR_OPENED 	IT_KEY1	/* 131072 */
-#define NIT_GOLD_DOOR_OPENED 	IT_KEY2	/* 262144 */
-
-/*======================================================*/
-/* New Item Flags					*/
-/*======================================================*/
-#define NIT_SCANNER_ENEMY	1	// Detect enemies
-#define NIT_SCANNER_FRIENDLY	2	// Detect friendlies (team members)
-#define NIT_SCANNER_MOVEMENT	4	// Motion detection. Only report moving entities.
-
-/*======================================================*/
-/* New Item Related Defines				*/
-/*======================================================*/
-#define NIT_SCANNER_POWER	100	// The amount of power spent on a scan with the scanner
-					// is multiplied by this to get the scanrange.
-#define NIT_SCANNER_MAXCELL	50 	// The maximum number of cells than can be used in one scan
-#define NIT_SCANNER_MIN_MOVEMENT	50 	// The minimum velocity an entity must have to be detected
-						// by scanners that only detect movement
-
-/*======================================================*/
-/* Variables used for New Weapons and Reloading		*/
-/*======================================================*/
-
-// Armor Classes : Bitfields. Use the "armorclass" of armor for the Armor Type.
-#define AT_SAVESHOT		1	// Kevlar  	 : Reduces bullet damage by 15%
-#define AT_SAVENAIL		2	// Wood :) 	 : Reduces nail damage by 15%
-#define AT_SAVEEXPLOSION	4  	// Blast   	 : Reduces explosion damage by 15%
-#define AT_SAVEELECTRICITY	8 	// Shock	 : Reduces electricity damage by 15%
-#define AT_SAVEFIRE		16 	// Asbestos	 : Reduces fire damage by 15%
-
-/*======================================================================*/
-/* TEAMFORTRESS CLASS DETAILS						*/
-/*======================================================================*/
-// Class Details for SCOUT
-#define PC_SCOUT_SKIN			4 	// Skin for this class when Classkin is on.
-#define PC_SCOUT_MAXHEALTH		100	// Maximum Health Level
-#define PC_SCOUT_MAXSPEED		450	// Maximum movement speed
-#define PC_SCOUT_MAXSTRAFESPEED		450	// Maximum strafing movement speed
-#define PC_SCOUT_MAXARMOR		25 	// Maximum Armor Level, of any armor class
-#define PC_SCOUT_INITARMOR		0 	// Armor level when respawned
-#define PC_SCOUT_MAXARMORTYPE		0.3	// Maximum level of Armor absorption
-#define PC_SCOUT_INITARMORTYPE		0.3	// Absorption Level of armor when respawned
-#define PC_SCOUT_ARMORCLASSES		3 	// #AT_SAVESHOT | #AT_SAVENAIL	<-Armor Classes allowed for this class
-#define PC_SCOUT_INITARMORCLASS		0 	// Armorclass worn when respawned
-#define PC_SCOUT_WEAPONS		WEAP_AXE | WEAP_SHOTGUN | WEAP_NAILGUN
-#define PC_SCOUT_MAXAMMO_SHOT		50 	// Maximum amount of shot ammo this class can carry
-#define PC_SCOUT_MAXAMMO_NAIL		200	// Maximum amount of nail ammo this class can carry
-#define PC_SCOUT_MAXAMMO_CELL		100	// Maximum amount of cell ammo this class can carry
-#define PC_SCOUT_MAXAMMO_ROCKET		25 	// Maximum amount of rocket ammo this class can carry
-#define PC_SCOUT_INITAMMO_SHOT		25 	// Amount of shot ammo this class has when respawned
-#define PC_SCOUT_INITAMMO_NAIL		100	// Amount of nail ammo this class has when respawned
-#define PC_SCOUT_INITAMMO_CELL		50 	// Amount of cell ammo this class has when respawned
-#define PC_SCOUT_INITAMMO_ROCKET	0 	// Amount of rocket ammo this class has when respawned
-#define PC_SCOUT_GRENADE_TYPE_1		GR_TYPE_FLASH		//    <- 1st Type of Grenade this class has
-#define PC_SCOUT_GRENADE_TYPE_2		GR_TYPE_CONCUSSION	//    <- 2nd Type of Grenade this class has
-#define PC_SCOUT_GRENADE_INIT_1		2 	// Number of grenades of Type 1 this class has when respawned
-#define PC_SCOUT_GRENADE_INIT_2		3 	// Number of grenades of Type 2 this class has when respawned
-#define PC_SCOUT_GRENADE_MAX_1		3
-#define PC_SCOUT_GRENADE_MAX_2		4
-#define PC_SCOUT_TF_ITEMS		NIT_SCANNER  // <- TeamFortress Items this class has
-
-#define PC_SCOUT_MOTION_MIN_I		0.5 	// < Short range
-#define PC_SCOUT_MOTION_MIN_MOVE	50 	// Minimum vlen of player velocity to be picked up by motion detector
-
-// Class Details for SNIPER
-#define PC_SNIPER_SKIN			5
-#define PC_SNIPER_MAXHEALTH		100
-#define PC_SNIPER_MAXSPEED		300
-#define PC_SNIPER_MAXSTRAFESPEED	300
-#define PC_SNIPER_MAXARMOR		40
-#define PC_SNIPER_INITARMOR		0
-#define PC_SNIPER_MAXARMORTYPE		0.3
-#define PC_SNIPER_INITARMORTYPE		0.3
-#define PC_SNIPER_ARMORCLASSES		3	// #AT_SAVESHOT | #AT_SAVENAIL
-#define PC_SNIPER_INITARMORCLASS	0
-#define PC_SNIPER_WEAPONS		WEAP_SNIPER_RIFLE | WEAP_AUTO_RIFLE | WEAP_AXE | WEAP_NAILGUN
-#define PC_SNIPER_MAXAMMO_SHOT		75
-#define PC_SNIPER_MAXAMMO_NAIL		100
-#define PC_SNIPER_MAXAMMO_CELL		50
-#define PC_SNIPER_MAXAMMO_ROCKET	25
-#define PC_SNIPER_INITAMMO_SHOT		60
-#define PC_SNIPER_INITAMMO_NAIL		50
-#define PC_SNIPER_INITAMMO_CELL		0
-#define PC_SNIPER_INITAMMO_ROCKET	0
-#define PC_SNIPER_GRENADE_TYPE_1	GR_TYPE_NORMAL
-#define PC_SNIPER_GRENADE_TYPE_2	GR_TYPE_FLARE
-#define PC_SNIPER_GRENADE_INIT_1	2
-#define PC_SNIPER_GRENADE_INIT_2	3
-#define PC_SNIPER_GRENADE_MAX_1	        4
-#define PC_SNIPER_GRENADE_MAX_2	        4
-#define PC_SNIPER_TF_ITEMS		0
-
-// Class Details for SOLDIER
-#define PC_SOLDIER_SKIN			6
-#define PC_SOLDIER_MAXHEALTH		100
-#define PC_SOLDIER_MAXSPEED		240
-#define PC_SOLDIER_MAXSTRAFESPEED	240
-#define PC_SOLDIER_MAXARMOR		200
-#define PC_SOLDIER_INITARMOR		100
-#define PC_SOLDIER_MAXARMORTYPE		0.8
-#define PC_SOLDIER_INITARMORTYPE	0.8
-#define PC_SOLDIER_ARMORCLASSES		31	// ALL
-#define PC_SOLDIER_INITARMORCLASS	0
-#define PC_SOLDIER_WEAPONS		WEAP_AXE | WEAP_SHOTGUN | WEAP_SUPER_SHOTGUN | WEAP_ROCKET_LAUNCHER
-#define PC_SOLDIER_MAXAMMO_SHOT		100
-#define PC_SOLDIER_MAXAMMO_NAIL		100
-#define PC_SOLDIER_MAXAMMO_CELL		50
-#define PC_SOLDIER_MAXAMMO_ROCKET	50
-#define PC_SOLDIER_INITAMMO_SHOT	50
-#define PC_SOLDIER_INITAMMO_NAIL	0
-#define PC_SOLDIER_INITAMMO_CELL	0
-#define PC_SOLDIER_INITAMMO_ROCKET	10
-#define PC_SOLDIER_GRENADE_TYPE_1	GR_TYPE_NORMAL
-#define PC_SOLDIER_GRENADE_TYPE_2	GR_TYPE_NAIL
-#define PC_SOLDIER_GRENADE_INIT_1	4
-#define PC_SOLDIER_GRENADE_INIT_2	1
-#define PC_SOLDIER_GRENADE_MAX_1	4
-#define PC_SOLDIER_GRENADE_MAX_2	1
-#define PC_SOLDIER_TF_ITEMS		0
-
-// Class Details for DEMOLITION MAN
-#define PC_DEMOMAN_SKIN			1
-#define PC_DEMOMAN_MAXHEALTH		100
-#define PC_DEMOMAN_MAXSPEED		280
-#define PC_DEMOMAN_MAXSTRAFESPEED	280
-#define PC_DEMOMAN_MAXARMOR		110
-#define PC_DEMOMAN_INITARMOR		40
-#define PC_DEMOMAN_MAXARMORTYPE		0.6
-#define PC_DEMOMAN_INITARMORTYPE	0.6
-#define PC_DEMOMAN_ARMORCLASSES		31	// ALL
-#define PC_DEMOMAN_INITARMORCLASS	0	//4	// AT_SAVEEXPLOSION
-#define PC_DEMOMAN_WEAPONS		WEAP_AXE | WEAP_SHOTGUN | WEAP_GRENADE_LAUNCHER | WEAP_DETPACK
-#define PC_DEMOMAN_MAXAMMO_SHOT		75
-#define PC_DEMOMAN_MAXAMMO_NAIL		50
-#define PC_DEMOMAN_MAXAMMO_CELL		50
-#define PC_DEMOMAN_MAXAMMO_ROCKET	50
-#define PC_DEMOMAN_MAXAMMO_DETPACK	1
-#define PC_DEMOMAN_INITAMMO_SHOT	30
-#define PC_DEMOMAN_INITAMMO_NAIL	0
-#define PC_DEMOMAN_INITAMMO_CELL	0
-#define PC_DEMOMAN_INITAMMO_ROCKET	20
-#define PC_DEMOMAN_INITAMMO_DETPACK	1
-#define PC_DEMOMAN_GRENADE_TYPE_1	GR_TYPE_NORMAL
-#define PC_DEMOMAN_GRENADE_TYPE_2	GR_TYPE_MIRV
-#define PC_DEMOMAN_GRENADE_INIT_1	4
-#define PC_DEMOMAN_GRENADE_INIT_2	4
-#define PC_DEMOMAN_GRENADE_MAX_1	4
-#define PC_DEMOMAN_GRENADE_MAX_2	4
-#define PC_DEMOMAN_TF_ITEMS		0
-
-// Class Details for COMBAT MEDIC
-#define PC_MEDIC_SKIN			3
-#define PC_MEDIC_MAXHEALTH		100
-#define PC_MEDIC_MAXSPEED		320
-#define PC_MEDIC_MAXSTRAFESPEED		320
-#define PC_MEDIC_MAXARMOR		90
-#define PC_MEDIC_INITARMOR		40
-#define PC_MEDIC_MAXARMORTYPE		0.6
-#define PC_MEDIC_INITARMORTYPE		0.3
-#define PC_MEDIC_ARMORCLASSES		11	// ALL except EXPLOSION
-#define PC_MEDIC_INITARMORCLASS		0
-#define PC_MEDIC_WEAPONS		WEAP_MEDIKIT | WEAP_SHOTGUN | WEAP_SUPER_SHOTGUN | WEAP_SUPER_NAILGUN
-#define PC_MEDIC_MAXAMMO_SHOT		75
-#define PC_MEDIC_MAXAMMO_NAIL		150
-#define PC_MEDIC_MAXAMMO_CELL		50
-#define PC_MEDIC_MAXAMMO_ROCKET		25
-#define PC_MEDIC_MAXAMMO_MEDIKIT	100
-#define PC_MEDIC_INITAMMO_SHOT		50
-#define PC_MEDIC_INITAMMO_NAIL		50
-#define PC_MEDIC_INITAMMO_CELL		0
-#define PC_MEDIC_INITAMMO_ROCKET	0
-#define PC_MEDIC_INITAMMO_MEDIKIT	50
-#define PC_MEDIC_GRENADE_TYPE_1		GR_TYPE_NORMAL
-#define PC_MEDIC_GRENADE_TYPE_2		GR_TYPE_CONCUSSION
-#define PC_MEDIC_GRENADE_INIT_1		3
-#define PC_MEDIC_GRENADE_INIT_2		2
-#define PC_MEDIC_GRENADE_MAX_1		4
-#define PC_MEDIC_GRENADE_MAX_2		3
-#define PC_MEDIC_TF_ITEMS		0
-#define PC_MEDIC_REGEN_TIME		3	// Number of seconds between each regen.
-#define PC_MEDIC_REGEN_AMOUNT		2	// Amount of health regenerated each regen.
-#define PC_MEDIC_AURA_HEAL_TIME     1   // Number of seconds between each aura heal.
-#define PC_MEDIC_AURA_HEAL_AMOUNT   5   // Amount of health given per aura heal.
-#define PC_MEDIC_AURA_RANGE         120 // The aura's range
-#define PC_MEDIC_CELL_REGEN_TIME    1   // Number of seconds between each cell regen.
-#define PC_MEDIC_CELL_REGEN_PERCENT 10  // Percentage of max cells regenerated each cell regen.
-#define PC_MEDIC_CELL_REGEN_CD      5   // Seconds to cooldown cell regeneration after healing with medikit.
-#define PC_MEDIC_SAVEME_GRACE       5   // Seconds after which /saveme gives grace period to medikit (no cell regeneration cooldown)
-
-// Class Details for HVYWEAP
-#define PC_HVYWEAP_SKIN			2
-#define PC_HVYWEAP_MAXHEALTH		100
-#define PC_HVYWEAP_MAXSPEED		230
-#define PC_HVYWEAP_MAXSTRAFESPEED	230
-#define PC_HVYWEAP_MAXARMOR		300
-#define PC_HVYWEAP_INITARMOR		150
-#define PC_HVYWEAP_MAXARMORTYPE		0.8
-#define PC_HVYWEAP_INITARMORTYPE	0.8
-#define PC_HVYWEAP_ARMORCLASSES		31	// ALL
-#define PC_HVYWEAP_INITARMORCLASS	0
-#define PC_HVYWEAP_WEAPONS		WEAP_ASSAULT_CANNON | WEAP_AXE | WEAP_SHOTGUN | WEAP_SUPER_SHOTGUN
-#define PC_HVYWEAP_MAXAMMO_SHOT		200
-#define PC_HVYWEAP_MAXAMMO_NAIL		200
-#define PC_HVYWEAP_MAXAMMO_CELL		50
-#define PC_HVYWEAP_MAXAMMO_ROCKET	25
-#define PC_HVYWEAP_INITAMMO_SHOT	200
-#define PC_HVYWEAP_INITAMMO_NAIL	0
-#define PC_HVYWEAP_INITAMMO_CELL	30
-#define PC_HVYWEAP_INITAMMO_ROCKET	0
-#define PC_HVYWEAP_GRENADE_TYPE_1	GR_TYPE_NORMAL
-#define PC_HVYWEAP_GRENADE_TYPE_2	GR_TYPE_MIRV
-#define PC_HVYWEAP_GRENADE_INIT_1	4
-#define PC_HVYWEAP_GRENADE_INIT_2	1
-#define PC_HVYWEAP_GRENADE_MAX_1	4
-#define PC_HVYWEAP_GRENADE_MAX_2	2
-#define PC_HVYWEAP_TF_ITEMS		0
-#define MODEL_PROJ_DIAM2 "progs/proj_diam2.mdl"
-
-
-// Class Details for PYRO
-#define PC_PYRO_SKIN			21
-#define PC_PYRO_MAXHEALTH		100
-#define PC_PYRO_MAXSPEED		300
-#define PC_PYRO_MAXSTRAFESPEED		300
-#define PC_PYRO_MAXARMOR		150
-#define PC_PYRO_INITARMOR		50
-#define PC_PYRO_MAXARMORTYPE		0.6
-#define PC_PYRO_INITARMORTYPE		0.6
-#define PC_PYRO_ARMORCLASSES		27	// ALL except EXPLOSION
-#define PC_PYRO_INITARMORCLASS		16	// AT_SAVEFIRE
-#define PC_PYRO_WEAPONS			WEAP_INCENDIARY | WEAP_FLAMETHROWER | WEAP_AXE | WEAP_SHOTGUN
-#define PC_PYRO_MAXAMMO_SHOT		40
-#define PC_PYRO_MAXAMMO_NAIL		50
-#define PC_PYRO_MAXAMMO_CELL		200
-#define PC_PYRO_MAXAMMO_ROCKET		60
-#define PC_PYRO_INITAMMO_SHOT		20
-#define PC_PYRO_INITAMMO_NAIL		0
-#define PC_PYRO_INITAMMO_CELL		120
-#define PC_PYRO_INITAMMO_ROCKET		15
-#define PC_PYRO_GRENADE_TYPE_1		GR_TYPE_NORMAL
-#define PC_PYRO_GRENADE_TYPE_2		GR_TYPE_NAPALM
-#define PC_PYRO_GRENADE_INIT_1		1
-#define PC_PYRO_GRENADE_INIT_2		4
-#define PC_PYRO_GRENADE_MAX_1		4
-#define PC_PYRO_GRENADE_MAX_2		4
-#define PC_PYRO_TF_ITEMS		0
-
-// Class Details for SPY
-#define PC_SPY_SKIN			22
-#define PC_SPY_MAXHEALTH		100
-#define PC_SPY_MAXSPEED			300
-#define PC_SPY_MAXSTRAFESPEED		300
-#define PC_SPY_MAXARMOR			90
-#define PC_SPY_INITARMOR		15
-#define PC_SPY_MAXARMORTYPE		0.6
-#define PC_SPY_INITARMORTYPE		0.6
-#define PC_SPY_ARMORCLASSES		27	// ALL except EXPLOSION
-#define PC_SPY_INITARMORCLASS		0
-#define PC_SPY_WEAPONS			WEAP_AXE | WEAP_TRANQ | WEAP_SUPER_SHOTGUN | WEAP_NAILGUN
-#define PC_SPY_MAXAMMO_SHOT		40
-#define PC_SPY_MAXAMMO_NAIL		100
-#define PC_SPY_MAXAMMO_CELL		30
-#define PC_SPY_MAXAMMO_ROCKET		15
-#define PC_SPY_INITAMMO_SHOT		40
-#define PC_SPY_INITAMMO_NAIL		50
-#define PC_SPY_INITAMMO_CELL		10
-#define PC_SPY_INITAMMO_ROCKET		0
-#define PC_SPY_GRENADE_TYPE_1		GR_TYPE_NORMAL
-#define PC_SPY_GRENADE_TYPE_2		GR_TYPE_GAS
-#define PC_SPY_GRENADE_INIT_1		2
-#define PC_SPY_GRENADE_INIT_2		2
-#define PC_SPY_GRENADE_MAX_1		4
-#define PC_SPY_GRENADE_MAX_2		2
-#define PC_SPY_TF_ITEMS			0
-#define PC_SPY_CELL_REGEN_TIME		5
-#define PC_SPY_CELL_REGEN_AMOUNT	1
-#define PC_SPY_CELL_USAGE		3	// Amount of cells spent while invisible
-#define PC_SPY_GO_UNDERCOVER_TIME	4	// Time it takes to go undercover
-
-// Class Details for ENGINEER
-#define PC_ENGINEER_SKIN		22	// Not used anymore
-#define PC_ENGINEER_MAXHEALTH		100
-#define PC_ENGINEER_MAXSPEED		300
-#define PC_ENGINEER_MAXSTRAFESPEED	300
-#define PC_ENGINEER_MAXARMOR		30
-#define PC_ENGINEER_INITARMOR		5
-#define PC_ENGINEER_MAXARMORTYPE	0.6
-#define PC_ENGINEER_INITARMORTYPE	0.3
-#define PC_ENGINEER_ARMORCLASSES	31	// ALL
-#define PC_ENGINEER_INITARMORCLASS	0
-#define PC_ENGINEER_WEAPONS		WEAP_SPANNER | WEAP_LASER | WEAP_SUPER_SHOTGUN
-#define PC_ENGINEER_MAXAMMO_SHOT	50
-#define PC_ENGINEER_MAXAMMO_NAIL	50
-#define PC_ENGINEER_MAXAMMO_CELL	200	// synonymous with metal
-#define PC_ENGINEER_MAXAMMO_ROCKET	30
-#define PC_ENGINEER_INITAMMO_SHOT	20
-#define PC_ENGINEER_INITAMMO_NAIL	25
-#define PC_ENGINEER_INITAMMO_CELL	100	// synonymous with metal
-#define PC_ENGINEER_INITAMMO_ROCKET	0
-#define PC_ENGINEER_GRENADE_TYPE_1	GR_TYPE_NORMAL
-#define PC_ENGINEER_GRENADE_TYPE_2	GR_TYPE_EMP
-#define PC_ENGINEER_GRENADE_INIT_1	2
-#define PC_ENGINEER_GRENADE_INIT_2	2
-#define PC_ENGINEER_GRENADE_MAX_1	4
-#define PC_ENGINEER_GRENADE_MAX_2	4
-#define PC_ENGINEER_TF_ITEMS		0
-
-// Class Details for CIVILIAN
-#define PC_CIVILIAN_SKIN		22
-#define PC_CIVILIAN_MAXHEALTH		50
-#define PC_CIVILIAN_MAXSPEED		240
-#define PC_CIVILIAN_MAXSTRAFESPEED	240
-#define PC_CIVILIAN_MAXARMOR		0
-#define PC_CIVILIAN_INITARMOR		0
-#define PC_CIVILIAN_MAXARMORTYPE	0
-#define PC_CIVILIAN_INITARMORTYPE	0
-#define PC_CIVILIAN_ARMORCLASSES	0
-#define PC_CIVILIAN_INITARMORCLASS	0
-#define PC_CIVILIAN_WEAPONS		WEAP_AXE
-#define PC_CIVILIAN_MAXAMMO_SHOT	0
-#define PC_CIVILIAN_MAXAMMO_NAIL	0
-#define PC_CIVILIAN_MAXAMMO_CELL	0
-#define PC_CIVILIAN_MAXAMMO_ROCKET	0
-#define PC_CIVILIAN_INITAMMO_SHOT	0
-#define PC_CIVILIAN_INITAMMO_NAIL	0
-#define PC_CIVILIAN_INITAMMO_CELL	0
-#define PC_CIVILIAN_INITAMMO_ROCKET	0
-#define PC_CIVILIAN_GRENADE_TYPE_1	0
-#define PC_CIVILIAN_GRENADE_TYPE_2	0
-#define PC_CIVILIAN_GRENADE_INIT_1	0
-#define PC_CIVILIAN_GRENADE_INIT_2	0
-#define PC_CIVILIAN_GRENADE_MAX_1	0
-#define PC_CIVILIAN_GRENADE_MAX_2	0
-#define PC_CIVILIAN_TF_ITEMS		0
-
-
-/*======================================================================*/
-/* TEAMFORTRESS GOALS							*/
-/*======================================================================*/
-// For all these defines, see the tfortmap.txt that came with the zip
-// for complete descriptions.
-// Defines for Goal Activation types : goal_activation (in goals)
-#define TFGA_TOUCH		1  // Activated when touched
-#define TFGA_TOUCH_DETPACK	2  // Activated when touched by a detpack explosion
-#define TFGA_REVERSE_AP		4  // Activated when AP details are _not_ met
-#define TFGA_SPANNER		8  // Activated when hit by an engineer's spanner
-
-// Defines for Goal Effects types : goal_effect
-#define TFGE_AP			1  // AP is affected. Default.
-#define TFGE_AP_TEAM		2  // All of the AP's team.
-#define TFGE_NOT_AP_TEAM	4  // All except AP's team.
-#define TFGE_NOT_AP		8  // All except AP.
-#define TFGE_WALL		16 // If set, walls stop the Radius effects
-#define TFGE_SAME_ENVIRONMENT	32 // If set, players in a different environment to the Goal are not affected
-#define TFGE_TIMER_CHECK_AP	64 // If set, Timer Goals check their critera for all players fitting their effects
-
-// Defines for Goal Result types : goal_result
-#define TFGR_SINGLE		1	// Goal can only be activated once
-#define TFGR_ADD_BONUSES	2	// Any Goals activated by this one give their bonuses
-#define TFGR_ENDGAME		4	// Goal fires Intermission, displays scores, and ends level
-#define TFGR_NO_ITEM_RESULTS	8	// GoalItems given by this Goal don't do results
-#define TFGR_REMOVE_DISGUISE	16	// Prevent/Remove undercover from any Spy
-#define TFGR_FORCE_RESPAWN	32
-
-// Defines for Goal Group Result types : goal_group
-// None!
-// But I'm leaving this variable in there, since it's fairly likely
-// that some will show up sometime.
-
-// Defines for Goal Item types, : goal_activation (in items)
-#define TFGI_GLOW		1   // Players carrying this GoalItem will glow
-#define TFGI_SLOW		2   // Players carrying this GoalItem will move at half-speed
-#define TFGI_DROP		4   // Players dying with this item will drop it
-#define TFGI_RETURN_DROP	8   // Return if a player with it dies
-#define TFGI_RETURN_GOAL	16  // Return if a player with it has it removed by a goal's activation
-#define TFGI_RETURN_REMOVE	32  // Return if it is removed by TFGI_REMOVE
-#define TFGI_REVERSE_AP		64  // Only pickup if the player _doesn't_ match AP Details
-#define TFGI_REMOVE		128 // Remove if left untouched for 2 minutes after being dropped
-#define TFGI_KEEP		256 // Players keep this item even when they die
-#define TFGI_ITEMGLOWS		512	// Item glows when on the ground
-#define TFGI_DONTREMOVERES	1024 // Don't remove results when the item is removed
-
-// Defines for TeamSpawnpoints : goal_activation (in team spawns)
-#define TFSP_MULTIPLEITEMS	1  // Give out the GoalItem multiple times
-#define TFSP_MULTIPLEMSGS	2  // Display the message multiple times
-
-// Defines for TeamSpawnpoints : goal_effects (in teamspawns)
-#define TFSP_REMOVESELF		1  // Remove itself after being spawned on
-
-// Defines for Goal States
-#define TFGS_ACTIVE		1
-#define TFGS_INACTIVE		2
-#define TFGS_REMOVED		3
-#define TFGS_DELAYED		4
-
-// Legal Playerclass Handling
-#define TF_ILL_SCOUT 		1
-#define TF_ILL_SNIPER		2
-#define TF_ILL_SOLDIER		4
-#define TF_ILL_DEMOMAN		8
-#define TF_ILL_MEDIC		16
-#define TF_ILL_HVYWEP		32
-#define TF_ILL_PYRO		64
-#define TF_ILL_RANDOMPC		128
-#define TF_ILL_SPY		256
-#define TF_ILL_ENGINEER		512
-
-/*======================================================================*/
-/* Flamethrower								*/
-/*======================================================================*/
-
-#define FLAME_PLYRMAXTIME	45	// lifetime in 0.1 sec of a flame on a player
-#define FLAME_MAXBURNTIME	8	// lifetime in seconds of a flame on the world (big ones)
-#define NAPALM_MAXBURNTIME	20	// lifetime in seconds of flame from a napalm grenade
-#define FLAME_MAXPLYRFLAMES	4	// maximum number of flames on a player
-#define FLAME_NUMLIGHTS		1	// maximum number of light flame
-#define FLAME_BURNRATIO		0.3	// the chance of a flame not 'sticking'
-#define GR_TYPE_FLAMES_NO	15	// number of flames spawned when a grenade explode
-
-/*======================================================*/
-/* CTF Support defines 					*/
-/*======================================================*/
-#define CTF_FLAG1 	1
-#define CTF_FLAG2 	2
-#define CTF_DROPOFF1 	3
-#define CTF_DROPOFF2 	4
-#define CTF_SCORE1   	5
-#define CTF_SCORE2   	6
 
 /*======================================================*/
 /* Death Message defines				*/
@@ -1267,12 +717,104 @@
 #define TEAM_MONSTER 2
 
 // Classes
+// None
+#define STRING_NONE	"none"
+#define MODEL_NONE     ""
+#define MODEL_MIN_NONE   VEC_HULL_MIN
+#define MODEL_MAX_NONE   VEC_HULL_MAX
+#define MODEL_VIEWOFFSET_NONE    '0 0 22'
+#define MODEL_HEAD_NONE ""
+#define SOUND_PAIN_NONE ""
+#define SOUND_DEATH_NONE    ""
+#define SOUND_AASHOOT_NONE    ""
+#define SOUND_AAHIT_NONE    ""
+#define SOUND_AAHITWALL_NONE    ""
+#define SOUND_SKILLONE_CAST_NONE   ""
+#define SOUND_SKILLTWO_CAST_NONE   ""
+#define BASEAD_NONE     0
+#define BASEHEALTH_NONE 1
+#define BASESPEED_NONE  500
+#define BASEATTACKFINISH_NONE    0
+
+#define SKILLONE_LIFETIME_NONE   0
+#define SKILLONE_TICKRATE_NONE   0
+#define SKILLONE_COOLDOWN_NONE  0
+#define SKILLONE_DAMAGE_NONE  0
+#define SKILLONE_RANGE_NONE 0
+
+#define SKILLTWO_LIFETIME_NONE   0
+#define SKILLTWO_TICKRATE_NONE   0
+#define SKILLTWO_COOLDOWN_NONE  0
+#define SKILLTWO_DAMAGE_NONE  0
+#define SKILLTWO_RANGE_NONE    0
+
+#define ITEMS_NONE 0
+#define AMMO_ROCKETS_NONE 0
+#define AMMO_NAILS_NONE 0
+#define AMMO_SHELLS_NONE 0
+#define AMMO_CELLS_NONE 0
+#define ARMORTYPE_NONE 0
+#define ARMORVALUE_NONE 0
+#define WEAPON_NONE 0
+#define FLAGS_CLASSNONE FL_CLIENT | FL_NOTARGET
+#define WATERLEVEL_NONE 3
+#define TAKEDAMAGE_NONE DAMAGE_NO
+#define SOLID_NONE	SOLID_NOT // oh this is a really badly named one
+#define MOVETYPE_CLASSNONE MOVETYPE_NOCLIP
+#define WEAPONMODEL_NONE ""
+
+// Survivor
+#define STRING_SURVIVOR	"survivor"
+#define MODEL_SURVIVOR     "progs/player.mdl"
+#define MODEL_MIN_SURVIVOR   VEC_HULL_MIN
+#define MODEL_MAX_SURVIVOR   VEC_HULL_MAX
+#define MODEL_VIEWOFFSET_SURVIVOR    '0 0 22'
+#define MODEL_HEAD_SURVIVOR "progs/h_player.mdl"
+#define SOUND_PAIN_SURVIVOR ""
+#define SOUND_DEATH_SURVIVOR    ""
+#define SOUND_AASHOOT_SURVIVOR    ""
+#define SOUND_AAHIT_SURVIVOR    ""
+#define SOUND_AAHITWALL_SURVIVOR    ""
+#define SOUND_SKILLONE_CAST_SURVIVOR   ""
+#define SOUND_SKILLTWO_CAST_SURVIVOR   ""
+#define BASEAD_SURVIVOR     0
+#define BASEHEALTH_SURVIVOR 100
+#define BASESPEED_SURVIVOR  320
+#define BASEATTACKFINISH_SURVIVOR    0
+
+#define SKILLONE_LIFETIME_SURVIVOR   0
+#define SKILLONE_TICKRATE_SURVIVOR   0
+#define SKILLONE_COOLDOWN_SURVIVOR  0
+#define SKILLONE_DAMAGE_SURVIVOR  0
+#define SKILLONE_RANGE_SURVIVOR 0
+
+#define SKILLTWO_LIFETIME_SURVIVOR   0
+#define SKILLTWO_TICKRATE_SURVIVOR   0
+#define SKILLTWO_COOLDOWN_SURVIVOR  0
+#define SKILLTWO_DAMAGE_SURVIVOR  0
+#define SKILLTWO_RANGE_SURVIVOR    0
+
+#define ITEMS_SURVIVOR IT_AXE | IT_SHOTGUN
+#define AMMO_ROCKETS_SURVIVOR 0
+#define AMMO_NAILS_SURVIVOR 0
+#define AMMO_SHELLS_SURVIVOR 25
+#define AMMO_CELLS_SURVIVOR 0
+#define ARMORTYPE_SURVIVOR 0
+#define ARMORVALUE_SURVIVOR 0
+#define WEAPON_SURVIVOR 0
+#define FLAGS_SURVIVOR FL_CLIENT
+#define WATERLEVEL_SURVIVOR 0
+#define TAKEDAMAGE_SURVIVOR DAMAGE_AIM
+#define SOLID_SURVIVOR	SOLID_SLIDEBOX
+#define MOVETYPE_SURVIVOR MOVETYPE_WALK
+#define WEAPONMODEL_SURVIVOR "progs/v_shot.mdl"
+
 // Fiend
 #define STRING_FIEND	"fiend"
 #define MODEL_FIEND     "progs/demon.mdl"
-#define MODEL_MIN_FIEND   '-32 -32 -24'
-#define MODEL_MAX_FIEND   '32 32 64'
-#define MODEL_VIEWOFFSET_FIEND    '0 0 50'
+#define MODEL_MIN_FIEND   VEC_HULL_MIN //'-32 -32 -24'
+#define MODEL_MAX_FIEND   VEC_HULL_MAX //'32 32 64'
+#define MODEL_VIEWOFFSET_FIEND    '0 0 22'
 #define MODEL_HEAD_FIEND "progs/h_demon.mdl"
 #define SOUND_PAIN_FIEND "demon/dpain1.wav"
 #define SOUND_DEATH_FIEND    "demon/ddeath.wav"
@@ -1297,6 +839,21 @@
 #define SKILLTWO_COOLDOWN_FIEND  20
 #define SKILLTWO_DAMAGE_FIEND  50
 #define SKILLTWO_RANGE_FIEND    100
+
+#define ITEMS_FIEND 0
+#define AMMO_ROCKETS_FIEND 0
+#define AMMO_NAILS_FIEND 0
+#define AMMO_SHELLS_FIEND 0
+#define AMMO_CELLS_FIEND 0
+#define ARMORTYPE_FIEND 0
+#define ARMORVALUE_FIEND 0
+#define WEAPON_FIEND 0
+#define FLAGS_FIEND FL_CLIENT
+#define WATERLEVEL_FIEND 0
+#define TAKEDAMAGE_FIEND DAMAGE_AIM
+#define SOLID_FIEND	SOLID_SLIDEBOX
+#define MOVETYPE_FIEND MOVETYPE_WALK
+#define WEAPONMODEL_FIEND ""
 
 // Shambler
 #define STRING_SHAMBLER	"shambler"
@@ -1329,6 +886,21 @@
 #define SKILLTWO_DAMAGE_SHAMBLER  80
 #define SKILLTWO_RANGE_SHAMBLER    1000
 
+#define ITEMS_SHAMBLER  0
+#define AMMO_ROCKETS_SHAMBLER  0
+#define AMMO_NAILS_SHAMBLER  0
+#define AMMO_SHELLS_SHAMBLER  0
+#define AMMO_CELLS_SHAMBLER  0
+#define ARMORTYPE_SHAMBLER  0
+#define ARMORVALUE_SHAMBLER  0
+#define WEAPON_SHAMBLER  0
+#define FLAGS_SHAMBLER  FL_CLIENT
+#define WATERLEVEL_SHAMBLER  0
+#define TAKEDAMAGE_SHAMBLER  DAMAGE_AIM
+#define SOLID_SHAMBLER 	SOLID_SLIDEBOX
+#define MOVETYPE_SHAMBLER  MOVETYPE_WALK
+#define WEAPONMODEL_SHAMBLER ""
+
 // Undead King
 #define STRING_UNDEADKING	"undead king"
 #define MODEL_UNDEADKING     "progs/zombie.mdl"
@@ -1360,6 +932,21 @@
 #define SKILLTWO_DAMAGE_UNDEADKING  80
 #define SKILLTWO_RANGE_UNDEADKING    1000
 
+#define ITEMS_UNDEADKING  0
+#define AMMO_ROCKETS_UNDEADKING  0
+#define AMMO_NAILS_UNDEADKING  0
+#define AMMO_SHELLS_UNDEADKING  0
+#define AMMO_CELLS_UNDEADKING  0
+#define ARMORTYPE_UNDEADKING  0
+#define ARMORVALUE_UNDEADKING  0
+#define WEAPON_UNDEADKING  0
+#define FLAGS_UNDEADKING  FL_CLIENT
+#define WATERLEVEL_UNDEADKING  0
+#define TAKEDAMAGE_UNDEADKING  DAMAGE_AIM
+#define SOLID_UNDEADKING 	SOLID_SLIDEBOX
+#define MOVETYPE_UNDEADKING  MOVETYPE_WALK
+#define WEAPONMODEL_UNDEADKING ""
+
 // Leash
 #define STRING_LEASH	"leash"
 #define MODEL_LEASH     "progs/zombie.mdl"
@@ -1390,3 +977,18 @@
 #define SKILLTWO_COOLDOWN_LEASH  20
 #define SKILLTWO_DAMAGE_LEASH  80
 #define SKILLTWO_RANGE_LEASH    1000
+
+#define ITEMS_LEASH  0
+#define AMMO_ROCKETS_LEASH  0
+#define AMMO_NAILS_LEASH  0
+#define AMMO_SHELLS_LEASH  0
+#define AMMO_CELLS_LEASH  0
+#define ARMORTYPE_LEASH  0
+#define ARMORVALUE_LEASH  0
+#define WEAPON_LEASH  0
+#define FLAGS_LEASH  FL_CLIENT
+#define WATERLEVEL_LEASH  0
+#define TAKEDAMAGE_LEASH  DAMAGE_AIM
+#define SOLID_LEASH 	SOLID_SLIDEBOX
+#define MOVETYPE_LEASH  MOVETYPE_WALK
+#define WEAPONMODEL_LEASH ""

@@ -123,7 +123,7 @@ void()  player_stand1 =[        $axstnd1,       player_stand1   ]
 		player_run();
 		return;
 	}
-
+	
 	if (self.weapon == IT_AXE)
 	{
 		if (self.walkframe >= 12)
@@ -139,7 +139,7 @@ void()  player_stand1 =[        $axstnd1,       player_stand1   ]
 	self.walkframe = self.walkframe + 1;    
 };
 
-void()  player_run =[   $rockrun1,      player_run      ]
+void() player_run =[   $rockrun1,      player_run      ]
 {
 	self.weaponframe=0;
 	if (!self.velocity_x && !self.velocity_y)
@@ -164,13 +164,12 @@ void()  player_run =[   $rockrun1,      player_run      ]
 	self.walkframe = self.walkframe + 1;
 };
 
-void()muzzleflash =
+void() muzzleflash =
 {
 	WriteByte (MSG_MULTICAST, SVC_MUZZLEFLASH);
 	WriteEntity (MSG_MULTICAST, self);
 	multicast (self.origin, MULTICAST_PVS);
 };
-
 
 void()  player_shot1 =  [$shotatt1, player_shot2        ] {self.weaponframe=1;muzzleflash();};
 void()  player_shot2 =  [$shotatt2, player_shot3        ] {self.weaponframe=2;};
@@ -207,7 +206,7 @@ void() player_nail1   =[$nailatt1, player_nail2  ]
 	muzzleflash();
 
 	if (!self.button0 || intermission_running || self.impulse)
-		{player_run ();return;}
+		{player_run();return;}
 	self.weaponframe = self.weaponframe + 1;
 	if (self.weaponframe == 9)
 		self.weaponframe = 1;
@@ -220,7 +219,7 @@ void() player_nail2   =[$nailatt2, player_nail1  ]
 	muzzleflash();
 
 	if (!self.button0 || intermission_running || self.impulse)
-		{player_run ();return;}
+		{player_run();return;}
 	self.weaponframe = self.weaponframe + 1;
 	if (self.weaponframe == 9)
 		self.weaponframe = 1;
@@ -236,7 +235,7 @@ void() player_light1   =[$light1, player_light2  ]
 	muzzleflash();
 
 	if (!self.button0 || intermission_running)
-		{player_run ();return;}
+		{player_run();return;}
 	self.weaponframe = self.weaponframe + 1;
 	if (self.weaponframe == 5)
 		self.weaponframe = 1;
@@ -249,7 +248,7 @@ void() player_light2   =[$light2, player_light1  ]
 	muzzleflash();
 
 	if (!self.button0 || intermission_running)
-		{player_run ();return;}
+		{player_run();return;}
 	self.weaponframe = self.weaponframe + 1;
 	if (self.weaponframe == 5)
 		self.weaponframe = 1;
@@ -272,7 +271,7 @@ void(float num_bubbles) DeathBubbles;
 
 void() PainSound =
 {
-local float             rs;
+	local float             rs;
 
 	if (self.health < 0)
 		return;
@@ -377,7 +376,7 @@ void(entity attacker, float damage) player_pain =
 	if (self.weapon == IT_AXE)
 		player_axpain1 ();
 	else
-		player_pain1 ();
+		player_pain1();
 };
 
 void() player_diea1;
@@ -608,7 +607,10 @@ void() PlayerDie =
 	self.invincible_finished = 0;
 	self.super_damage_finished = 0;
 	self.radsuit_finished = 0;
-	self.modelindex = modelindex_player;    // don't use eyes
+	
+	GetClass(self.class);
+	// FIXME - this makes player invis when they first join a team
+	//self.modelindex = selfclass.modelindex;    // don't use eyes
 
 	DropBackpack();
 	
@@ -638,20 +640,28 @@ void() PlayerDie =
 		return;
 	}
 	
-	i = cvar("temp1");
-	if (!i)
-		i = 1 + floor(random()*6);
-	
-	if (i == 1)
-		player_diea1();
-	else if (i == 2)
-		player_dieb1();
-	else if (i == 3)
-		player_diec1();
-	else if (i == 4)
-		player_died1();
+	if (self.team_no == TEAM_SURVIVOR)
+	{
+		i = cvar("temp1");
+		if (!i)
+			i = 1 + floor(random()*6);
+		
+		if (i == 1)
+			player_diea1();
+		else if (i == 2)
+			player_dieb1();
+		else if (i == 3)
+			player_diec1();
+		else if (i == 4)
+			player_died1();
+		else
+			player_diee1();
+	}
 	else
-		player_diee1();
+	{
+		selfclass.diefunc();
+	}
+	
 
 };
 

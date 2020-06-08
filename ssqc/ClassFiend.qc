@@ -1,0 +1,215 @@
+$cd id1/models/demon3
+$scale	0.8
+$origin 0 0 24
+$base base
+$skin base
+
+$frame stand1 stand2 stand3 stand4 stand5 stand6 stand7 stand8 stand9
+$frame stand10 stand11 stand12 stand13
+
+$frame walk1 walk2 walk3 walk4 walk5 walk6 walk7 walk8
+
+$frame run1 run2 run3 run4 run5 run6
+
+$frame leap1 leap2 leap3 leap4 leap5 leap6 leap7 leap8 leap9 leap10
+$frame leap11 leap12
+
+$frame pain1 pain2 pain3 pain4 pain5 pain6
+
+$frame death1 death2 death3 death4 death5 death6 death7 death8 death9
+
+$frame attacka1 attacka2 attacka3 attacka4 attacka5 attacka6 attacka7 attacka8
+$frame attacka9 attacka10 attacka11 attacka12 attacka13 attacka14 attacka15
+
+void() classfiend_run;
+void()	classfiend_stand1	=[	$stand1,	classfiend_stand1	] {
+	self.weaponframe=0;
+	if (self.velocity_x || self.velocity_y)
+	{
+		self.walkframe=0;
+		classfiend_run();
+		return;
+	}
+
+	if (self.walkframe >= 5)
+			self.walkframe = 0;
+	self.frame = $stand1 + self.walkframe;
+	self.walkframe = self.walkframe + 1;
+};
+
+void() classfiend_run=[   $run1,      classfiend_run      ]
+{
+	self.weaponframe=0;
+	if (!self.velocity_x && !self.velocity_y)
+	{
+		self.walkframe=0;
+		classfiend_stand1();
+		return;
+	}
+
+	if (self.walkframe == 6)
+		self.walkframe = 0;
+	self.frame = self.frame + self.walkframe;
+	self.walkframe = self.walkframe + 1;
+};
+
+void()	classfiend_jump1	=[	$leap1,		classfiend_jump2	] {};
+void()	classfiend_jump2	=[	$leap2,		classfiend_jump3	] {};
+void()	classfiend_jump3	=[	$leap3,		classfiend_jump4	] {};
+void()	classfiend_jump4	=[	$leap4,		classfiend_jump5	]
+{
+	self.touch = Demon_JumpTouch;
+	makevectors (self.angles);
+	self.origin_z = self.origin_z + 1;
+	self.velocity = v_forward * 600 + '0 0 250';
+	if (self.flags & FL_ONGROUND)
+		self.flags = self.flags - FL_ONGROUND;
+};
+void()	classfiend_jump5	=[	$leap5,		classfiend_jump6	] {};
+void()	classfiend_jump6	=[	$leap6,		classfiend_jump7	] {};
+void()	classfiend_jump7	=[	$leap7,		classfiend_jump8	] {};
+void()	classfiend_jump8	=[ 	$leap8,		classfiend_jump9	] {};
+void()	classfiend_jump9	=[ 	$leap9,		classfiend_jump10	] {};
+void()	classfiend_jump10	=[ 	$leap10,	classfiend_jump1	] {};
+void()	classfiend_jump11	=[ 	$leap11,	classfiend_jump12	] {};
+void()	classfiend_jump12	=[ 	$leap12,	classfiend_run	] {};
+
+
+void()	classfiend_atta1	=[	$attacka1,		classfiend_atta2	] {};
+void()	classfiend_atta2	=[	$attacka2,		classfiend_atta3	] {};
+void()	classfiend_atta3	=[	$attacka3,		classfiend_atta4	] {};
+void()	classfiend_atta4	=[	$attacka4,		classfiend_atta5	] {};
+void()	classfiend_atta5	=[	$attacka5,		classfiend_atta6	] {Demon_Melee(200);};
+void()	classfiend_atta6	=[	$attacka6,		classfiend_atta7	] {};
+void()	classfiend_atta7	=[	$attacka7,		classfiend_atta8	] {};
+void()	classfiend_atta8	=[	$attacka8,		classfiend_atta9	] {};
+void()	classfiend_atta9	=[	$attacka9,		classfiend_atta10] {};
+void()	classfiend_atta10	=[	$attacka10,		classfiend_atta11] {};
+void()	classfiend_atta11	=[	$attacka11,		classfiend_atta12] {Demon_Melee(-200);};
+void()	classfiend_atta12	=[	$attacka12,		classfiend_atta13] {};
+void()	classfiend_atta13	=[	$attacka13,		classfiend_atta14] {};
+void()	classfiend_atta14	=[	$attacka14,		classfiend_atta15] {};
+void()	classfiend_atta15	=[	$attacka15,		classfiend_run] {};
+
+void()	classfiend_pain1	=[	$pain1,		classfiend_pain2	] {};
+void()	classfiend_pain2	=[	$pain2,		classfiend_pain3	] {};
+void()	classfiend_pain3	=[	$pain3,		classfiend_pain4	] {};
+void()	classfiend_pain4	=[	$pain4,		classfiend_pain5	] {};
+void()	classfiend_pain5	=[	$pain5,		classfiend_pain6	] {};
+void()	classfiend_pain6	=[	$pain6,		classfiend_run	] {};
+
+void()	classfiend_die1		=[	$death1,		classfiend_die2	] {};
+void()	classfiend_die2		=[	$death2,		classfiend_die3	] {};
+void()	classfiend_die3		=[	$death3,		classfiend_die4	] {};
+void()	classfiend_die4		=[	$death4,		classfiend_die5	] {};
+void()	classfiend_die5		=[	$death5,		classfiend_die6	] {};
+void()	classfiend_die6		=[	$death6,		classfiend_die7	]
+{self.solid = SOLID_NOT;};
+void()	classfiend_die7		=[	$death7,		classfiend_die8	] {};
+void()	classfiend_die8		=[	$death8,		classfiend_die9	] {};
+void()	classfiend_die9		=[	$death9,		classfiend_die9 ] {};
+
+void(entity attacker, float damage)	classfiend_pain =
+{
+	if (self.touch == Demon_JumpTouch)
+		return;
+
+	if (self.pain_finished > time)
+		return;
+    GetClass(CLASS_FIEND);
+
+	self.pain_finished = time + 1;
+    sound (self, CHAN_VOICE, selfclass.sound_pain, 1, ATTN_NORM);
+
+	if (random()*200 > damage)
+		return;		// didn't flinch
+		
+	classfiend_pain1 ();
+};
+
+void() classfiend_die =
+{
+    GetClass(CLASS_FIEND);
+    // check for gib
+	if (self.health < -80)
+	{
+		sound (self, CHAN_VOICE, "player/udeath.wav", 1, ATTN_NORM);
+		ThrowHead (selfclass.model_head, self.health);
+		ThrowGib ("progs/gib1.mdl", self.health);
+		ThrowGib ("progs/gib1.mdl", self.health);
+		ThrowGib ("progs/gib1.mdl", self.health);
+		return;
+	}
+
+    // regular death
+    sound (self, CHAN_VOICE, selfclass.sound_death, 1, ATTN_NORM);
+	classfiend_die1();
+};
+
+void() classfiend_MeleeAttack =
+{
+	classfiend_atta1 ();
+};
+
+void(float side) classfiend_Melee =
+{
+	local	float	ldmg;
+	local vector	delta;
+	
+	delta = self.enemy.origin - self.origin;
+
+	if (vlen(delta) > 100)
+		return;
+	if (!CanDamage (self.enemy, self))
+		return;
+		
+    sound (self, CHAN_WEAPON, "demon/dhit2.wav", 1, ATTN_NORM);
+	ldmg = 10 + 5*random();
+	T_Damage (self.enemy, self, self, ldmg);	
+
+	makevectors (self.angles);
+	SpawnMeatSpray (self.origin + v_forward*16, side * v_right);
+};
+
+
+
+void()	classfiend_JumpTouch =
+{
+	local	float	ldmg;
+
+	if (self.health <= 0)
+		return;
+		
+	if (other.takedamage)
+	{
+		if ( vlen(self.velocity) > 400 )
+		{
+			ldmg = 40 + 10*random();
+			T_Damage (other, self, self, ldmg);	
+		}
+	}
+
+/*
+	if (!checkbottom(self))
+	{
+		if (self.flags & FL_ONGROUND)
+		{	// jump randomly to not get hung up
+//dprint ("popjump\n");
+	self.touch = SUB_Null;
+	self.think = demon1_jump1;
+	self.nextthink = time + 0.1;
+
+//			self.velocity_x = (random() - 0.5) * 600;
+//			self.velocity_y = (random() - 0.5) * 600;
+//			self.velocity_z = 200;
+//			self.flags = self.flags - FL_ONGROUND;
+		}
+		return;	// not on ground yet
+	}
+    */
+
+	self.touch = SUB_Null;
+	self.think = classfiend_jump11;
+	self.nextthink = time + 0.1;
+};
+

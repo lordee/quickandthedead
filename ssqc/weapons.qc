@@ -26,10 +26,10 @@
 */
 
 void (entity targ, entity inflictor, entity attacker, float damage) T_Damage;
-void () player_run;
 void(entity bomb, entity attacker, float rad, entity ignore, string dtype) T_RadiusDamage;
 void(vector org, float damage) SpawnBlood;
 void() SuperDamageSound;
+void ClassRun(entity player);
 
 
 // called by worldspawn
@@ -907,7 +907,7 @@ void() W_SetCurrentAmmo =
 {
 	if (self.team_no == TEAM_SURVIVOR)
 	{
-		player_run ();          // get out of any weapon firing states
+		ClassRun(self);	// get out of any weapon firing states
 
 		self.items = self.items - ( self.items & (IT_SHELLS | IT_NAILS | IT_ROCKETS | IT_CELLS) );
 		
@@ -977,30 +977,29 @@ void() W_SetCurrentAmmo =
 
 float() W_BestWeapon =
 {
-	local   float   it;
-	
-	it = self.items;
+	switch (self.team_no)
+	{
+		case TEAM_NONE:
+			return 0;
+		case TEAM_SURVIVOR:
+			float it = self.items;
 
-	if (self.waterlevel <= 1 && self.ammo_cells >= 1 && (it & IT_LIGHTNING) )
-		return IT_LIGHTNING;
-	else if(self.ammo_nails >= 2 && (it & IT_SUPER_NAILGUN) )
-		return IT_SUPER_NAILGUN;
-	else if(self.ammo_shells >= 2 && (it & IT_SUPER_SHOTGUN) )
-		return IT_SUPER_SHOTGUN;
-	else if(self.ammo_nails >= 1 && (it & IT_NAILGUN) )
-		return IT_NAILGUN;
-	else if(self.ammo_shells >= 1 && (it & IT_SHOTGUN)  )
-		return IT_SHOTGUN;
-		
-/*
-	if(self.ammo_rockets >= 1 && (it & IT_ROCKET_LAUNCHER) )
-		return IT_ROCKET_LAUNCHER;
-	else if(self.ammo_rockets >= 1 && (it & IT_GRENADE_LAUNCHER) )
-		return IT_GRENADE_LAUNCHER;
-
-*/
-
-	return (self.team_no == TEAM_NONE) ? 0 : IT_AXE;
+			if (self.waterlevel <= 1 && self.ammo_cells >= 1 && (it & IT_LIGHTNING) )
+				return IT_LIGHTNING;
+			else if(self.ammo_nails >= 2 && (it & IT_SUPER_NAILGUN) )
+				return IT_SUPER_NAILGUN;
+			else if(self.ammo_shells >= 2 && (it & IT_SUPER_SHOTGUN) )
+				return IT_SUPER_SHOTGUN;
+			else if(self.ammo_nails >= 1 && (it & IT_NAILGUN) )
+				return IT_NAILGUN;
+			else if(self.ammo_shells >= 1 && (it & IT_SHOTGUN)  )
+				return IT_SHOTGUN;
+			break;
+		case TEAM_MONSTER:
+			return 0;
+		default:
+			return 0;
+	}
 };
 
 float() W_CheckNoAmmo =

@@ -1,59 +1,102 @@
-enum {
-    CLASS_NONE,  // don't bother for now
-    CLASS_FIEND,
-    CLASS_SHAMBLER,
-    CLASS_UNDEADKING,
-    CLASS_LEASH,
-};
-
-enum {
-    SKILLONE_FIEND,
-    SKILLTWO_FIEND,
-    SKILLONE_SHAMBLER,
-    SKILLTWO_SHAMBLER,
-    SKILLONE_UNDEADKING,
-    SKILLTWO_UNDEADKING,
-    SKILLONE_LEASH,
-    SKILLTWO_LEASH,
-};
-
-typedef struct {
-    float classtype;
-    string classstring;
-    string model;
-    vector model_min;
-    vector model_max;
-    vector model_viewoffset;
-    string model_head;
-    f_void standfunc;
-    string sound_pain;
-    string sound_death;
-    string sound_aashoot;
-    string sound_aahit;
-    string sound_aahitwall;
-    string sound_skillone_cast;
-    string sound_skilltwo_cast;
-    float basead;
-    float basehealth;
-    float basespeed;
-    float baseattackfinish;
-    float skill_one;
-    float skill_one_cooldown;
-    float skill_one_damage;
-    float skill_one_range;
-    float skill_one_value;
-    float skill_two;
-    float skill_two_cooldown;
-    float skill_two_damage;
-    float skill_two_range;
-    float skill_two_value;
-} Class_t;
-
-void()	demon1_stand1;
-void()	sham_stand1;
-void()	zombie_stand1;
-
-Class_t Classes[4] = {
+Class_t Classes[6] = {
+    {
+        CLASS_NONE,
+        STRING_NONE,
+        MODEL_NONE,
+        MODEL_MIN_NONE,
+        MODEL_MAX_NONE,
+        MODEL_VIEWOFFSET_NONE,
+        MODEL_HEAD_NONE,
+        0,
+        player_stand1,
+        player_run,
+        player_pain,
+        player_diea1,
+        SOUND_PAIN_NONE,
+        SOUND_DEATH_NONE,
+        SOUND_AASHOOT_NONE,
+        SOUND_AAHIT_NONE,
+        SOUND_AAHITWALL_NONE,
+        SOUND_SKILLONE_CAST_NONE,
+        SOUND_SKILLTWO_CAST_NONE,
+        BASEAD_NONE,
+        BASEHEALTH_NONE,
+        BASESPEED_NONE,
+        BASEATTACKFINISH_NONE,
+        SKILLONE_NONE,
+        SKILLONE_COOLDOWN_NONE,
+        SKILLONE_DAMAGE_NONE,
+        SKILLONE_RANGE_NONE,
+        0,
+        SKILLTWO_NONE,
+        SKILLTWO_COOLDOWN_NONE,
+        SKILLTWO_DAMAGE_NONE,
+        SKILLTWO_RANGE_NONE,
+        0,
+        ITEMS_NONE,
+        AMMO_ROCKETS_NONE,
+        AMMO_NAILS_NONE,
+        AMMO_SHELLS_NONE,
+        AMMO_CELLS_NONE,
+        ARMORTYPE_NONE,
+        ARMORVALUE_NONE,
+        WEAPON_NONE,
+        FLAGS_CLASSNONE,
+        WATERLEVEL_NONE,
+        TAKEDAMAGE_NONE,
+        SOLID_NONE,
+        MOVETYPE_CLASSNONE,
+        WEAPONMODEL_NONE
+    },
+    {
+        CLASS_SURVIVOR,
+        STRING_SURVIVOR,
+        MODEL_SURVIVOR,
+        MODEL_MIN_SURVIVOR,
+        MODEL_MAX_SURVIVOR,
+        MODEL_VIEWOFFSET_SURVIVOR,
+        MODEL_HEAD_SURVIVOR,
+        0,
+        player_stand1,
+        player_run,
+        player_pain,
+        player_diea1,
+        SOUND_PAIN_SURVIVOR,
+        SOUND_DEATH_SURVIVOR,
+        SOUND_AASHOOT_SURVIVOR,
+        SOUND_AAHIT_SURVIVOR,
+        SOUND_AAHITWALL_SURVIVOR,
+        SOUND_SKILLONE_CAST_SURVIVOR,
+        SOUND_SKILLTWO_CAST_SURVIVOR,
+        BASEAD_SURVIVOR,
+        BASEHEALTH_SURVIVOR,
+        BASESPEED_SURVIVOR,
+        BASEATTACKFINISH_SURVIVOR,
+        SKILLONE_SURVIVOR,
+        SKILLONE_COOLDOWN_SURVIVOR,
+        SKILLONE_DAMAGE_SURVIVOR,
+        SKILLONE_RANGE_SURVIVOR,
+        0,
+        SKILLTWO_SURVIVOR,
+        SKILLTWO_COOLDOWN_SURVIVOR,
+        SKILLTWO_DAMAGE_SURVIVOR,
+        SKILLTWO_RANGE_SURVIVOR,
+        0,
+        ITEMS_SURVIVOR,
+        AMMO_ROCKETS_SURVIVOR,
+        AMMO_NAILS_SURVIVOR,
+        AMMO_SHELLS_SURVIVOR,
+        AMMO_CELLS_SURVIVOR,
+        ARMORTYPE_SURVIVOR,
+        ARMORVALUE_SURVIVOR,
+        WEAPON_SURVIVOR,
+        FLAGS_SURVIVOR,
+        WATERLEVEL_SURVIVOR,
+        TAKEDAMAGE_SURVIVOR,
+        SOLID_SURVIVOR,
+        MOVETYPE_SURVIVOR,
+        WEAPONMODEL_SURVIVOR
+    },
     {
         CLASS_FIEND,
         STRING_FIEND,
@@ -62,7 +105,11 @@ Class_t Classes[4] = {
         MODEL_MAX_FIEND,
         MODEL_VIEWOFFSET_FIEND,
         MODEL_HEAD_FIEND,
-        demon1_stand1,
+        0,
+        classfiend_stand1,
+        classfiend_run,
+        classfiend_pain,
+        classfiend_die,
         SOUND_PAIN_FIEND,
         SOUND_DEATH_FIEND,
         SOUND_AASHOOT_FIEND,
@@ -83,7 +130,22 @@ Class_t Classes[4] = {
         SKILLTWO_COOLDOWN_FIEND,
         SKILLTWO_DAMAGE_FIEND,
         SKILLTWO_RANGE_FIEND,
-        0
+        0,
+        ITEMS_FIEND,
+        AMMO_ROCKETS_FIEND,
+        AMMO_NAILS_FIEND,
+        AMMO_SHELLS_FIEND,
+        AMMO_CELLS_FIEND,
+        ARMORTYPE_FIEND,
+        ARMORVALUE_FIEND,
+        WEAPON_FIEND,
+        FLAGS_FIEND,
+        WATERLEVEL_FIEND,
+        TAKEDAMAGE_FIEND,
+        SOLID_FIEND,
+        MOVETYPE_FIEND,
+        WEAPONMODEL_FIEND
+
     },
     {
         CLASS_SHAMBLER,
@@ -93,7 +155,11 @@ Class_t Classes[4] = {
         MODEL_MAX_SHAMBLER,
         MODEL_VIEWOFFSET_SHAMBLER,
         MODEL_HEAD_SHAMBLER,
+        0,
         sham_stand1,
+        player_run,
+        sham_pain1,
+        sham_death1,
         SOUND_PAIN_SHAMBLER,
         SOUND_DEATH_SHAMBLER,
         SOUND_AASHOOT_SHAMBLER,
@@ -114,7 +180,21 @@ Class_t Classes[4] = {
         SKILLTWO_COOLDOWN_SHAMBLER,
         SKILLTWO_DAMAGE_SHAMBLER,
         SKILLTWO_RANGE_SHAMBLER,
-        0
+        0,
+        ITEMS_SHAMBLER,
+        AMMO_ROCKETS_SHAMBLER,
+        AMMO_NAILS_SHAMBLER,
+        AMMO_SHELLS_SHAMBLER,
+        AMMO_CELLS_SHAMBLER,
+        ARMORTYPE_SHAMBLER,
+        ARMORVALUE_SHAMBLER,
+        WEAPON_SHAMBLER,
+        FLAGS_SHAMBLER,
+        WATERLEVEL_SHAMBLER,
+        TAKEDAMAGE_SHAMBLER,
+        SOLID_SHAMBLER,
+        MOVETYPE_SHAMBLER,
+        WEAPONMODEL_SHAMBLER
     },
     {
         CLASS_UNDEADKING,
@@ -124,7 +204,11 @@ Class_t Classes[4] = {
         MODEL_MAX_UNDEADKING,
         MODEL_VIEWOFFSET_UNDEADKING,
         MODEL_HEAD_UNDEADKING,
+        0,
         zombie_stand1,
+        player_run,
+        zombie_paina1,
+        zombie_die,
         SOUND_PAIN_UNDEADKING,
         SOUND_DEATH_UNDEADKING,
         SOUND_AASHOOT_UNDEADKING,
@@ -145,7 +229,21 @@ Class_t Classes[4] = {
         SKILLTWO_COOLDOWN_UNDEADKING,
         SKILLTWO_DAMAGE_UNDEADKING,
         SKILLTWO_RANGE_UNDEADKING,
-        0
+        0,
+        ITEMS_UNDEADKING,
+        AMMO_ROCKETS_UNDEADKING,
+        AMMO_NAILS_UNDEADKING,
+        AMMO_SHELLS_UNDEADKING,
+        AMMO_CELLS_UNDEADKING,
+        ARMORTYPE_UNDEADKING,
+        ARMORVALUE_UNDEADKING,
+        WEAPON_UNDEADKING,
+        FLAGS_UNDEADKING,
+        WATERLEVEL_UNDEADKING,
+        TAKEDAMAGE_UNDEADKING,
+        SOLID_UNDEADKING,
+        MOVETYPE_UNDEADKING,
+        WEAPONMODEL_UNDEADKING
     },
     {
         CLASS_LEASH,
@@ -155,7 +253,11 @@ Class_t Classes[4] = {
         MODEL_MAX_LEASH,
         MODEL_VIEWOFFSET_LEASH,
         MODEL_HEAD_LEASH,
+        0,
         zombie_stand1,
+        player_run,
+        zombie_paina1,
+        zombie_die,
         SOUND_PAIN_LEASH,
         SOUND_DEATH_LEASH,
         SOUND_AASHOOT_LEASH,
@@ -176,11 +278,25 @@ Class_t Classes[4] = {
         SKILLTWO_COOLDOWN_LEASH,
         SKILLTWO_DAMAGE_LEASH,
         SKILLTWO_RANGE_LEASH,
-        0
+        0,
+        ITEMS_LEASH,
+        AMMO_ROCKETS_LEASH,
+        AMMO_NAILS_LEASH,
+        AMMO_SHELLS_LEASH,
+        AMMO_CELLS_LEASH,
+        ARMORTYPE_LEASH,
+        ARMORVALUE_LEASH,
+        WEAPON_LEASH,
+        FLAGS_LEASH,
+        WATERLEVEL_LEASH,
+        TAKEDAMAGE_LEASH,
+        SOLID_LEASH,
+        MOVETYPE_LEASH,
+        WEAPONMODEL_LEASH
     }
 };
 
-Class_t selfclass;
+
 void GetClass(float id)
 {
     for (float i = 0; i < Classes.length; i++)
@@ -191,5 +307,30 @@ void GetClass(float id)
             return;
         }
     }
-    //selfchamp = Classes[0];
+}
+
+void ClassRun(entity player)
+{
+    GetClass(player.class);
+
+    selfclass.runfunc();
+}
+
+void ClassStand(entity player)
+{
+    GetClass(player.class);
+
+    selfclass.standfunc();
+}
+
+void ClassPain(entity attacker, float damage)
+{
+    GetClass(self.class);
+    selfclass.painfunc(attacker, damage);
+}
+
+void ClassDie()
+{
+    GetClass(self.class);
+    selfclass.diefunc();
 }

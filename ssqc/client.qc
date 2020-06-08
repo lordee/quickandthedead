@@ -28,11 +28,10 @@
 // prototypes
 void () W_WeaponFrame;
 void() W_SetCurrentAmmo;
-void(entity attacker, float damage) player_pain;
-void() player_stand1;
 void (vector org) spawn_tfog;
 void (vector org, entity death_owner) spawn_tdeath;
-
+void ClassPain(entity attacker, float damage);
+void ClassDie();
 float   modelindex_eyes, modelindex_player;
 
 /*
@@ -318,7 +317,8 @@ void() ClientKill =
 	bprint (PRINT_MEDIUM, self.netname);
 	bprint (PRINT_MEDIUM, " suicides\n");
 	set_suicide_frame ();
-	self.modelindex = modelindex_player;
+	//GetClass(self.class);
+	//self.modelindex = selfclass.modelindex;
 	logfrag (self, self);
 	self.frags = self.frags - 2;    // extra penalty
 	respawn ();
@@ -405,124 +405,74 @@ void() PutClientInServer =
 	// pausetime is set by teleporters to keep the player from moving a while
 	self.pausetime = 0;
 
-	// TODO - move to survivor
-	self.th_pain = player_pain;
-	self.th_die = PlayerDie;
 	DecodeLevelParms ();
 
 	// oh, this is a hack!
 	setmodel (self, "progs/eyes.mdl");
 	modelindex_eyes = self.modelindex;
 
-	setmodel (self, "progs/player.mdl");
-	modelindex_player = self.modelindex;
-
 	// Mod - Xian (May.20.97)
 	// Bug where player would have velocity from their last kill
 	self.velocity = '0 0 0';
 
-	float myhealth, myitems, myammo_rockets, myammo_nails, myammo_shells, myammo_cells, myarmortype, myarmorvalue
-	, myweapon, myflags, mywaterlevel, mytakedamage, mysolid, mymovetype, mymodelindex, mymodelindex_player
-	, myspeed;
-	string mymodel, mymdl, myweaponmodel;
-	vector mymodel_min, mymodel_max, myview_ofs;
-	f_void mystand;
-
 	switch (self.team_no)
 	{
 		case TEAM_NONE:
-			myhealth = 1;
-			myitems = 0;
-			myammo_rockets = 0;
-			myammo_nails = 0;
-			myammo_shells = 0;
-			myammo_cells = 0;
-
-			myarmortype = 0;
-			myarmorvalue = 0;
-			myweapon = 0;
-
-			myflags = FL_CLIENT | FL_NOTARGET;
-			mywaterlevel = 3;
-			mytakedamage = DAMAGE_NO;
-			mysolid = SOLID_NOT;
-			mymovetype = MOVETYPE_NOCLIP;
-
-			mymodel = "";
-			mymdl = "";
-			mymodelindex = 0;
-			myweaponmodel = "";
-			myview_ofs = '0 0 22';
-			myspeed = 320;
+			self.class = CLASS_NONE;
 			break;
 		case TEAM_SURVIVOR:
-			myhealth = 100;
-			mytakedamage = DAMAGE_AIM;
-			mysolid = SOLID_SLIDEBOX;
-			mymovetype = MOVETYPE_WALK;
-			myflags = FL_CLIENT;
-			myview_ofs = '0 0 22';
-			myspeed = 320;
-			mymodel_min = VEC_HULL_MIN;
-			mymodel_max = VEC_HULL_MAX;
-			myitems = IT_AXE | IT_SHOTGUN;
-			myammo_shells = 25;
-			mystand = player_stand1;
-
+			self.class = CLASS_SURVIVOR;
 			break;
 		case TEAM_MONSTER:
-			self.class = GetRandomClass(self);
-			// populate selfclass global - yuck
-			GetClass(self.class);
-
-			self.attackdamage = selfclass.basead;
-			
-			self.attackfinish = selfclass.baseattackfinish;
-			self.skill_one = selfclass.skill_one;
-			self.skill_one_cooldown = selfclass.skill_one_cooldown;
-			self.skill_one_cooldown_time = 0;
-			self.skill_one_damage = selfclass.skill_one_damage;
-			self.skill_one_range = selfclass.skill_one_range;
-			self.skill_one_value = selfclass.skill_one_value;
-			self.skill_two = selfclass.skill_two;
-			self.skill_two_cooldown = selfclass.skill_two_cooldown;
-			self.skill_two_cooldown_time = 0;
-			self.skill_two_damage = selfclass.skill_two_damage;
-			self.skill_two_range = selfclass.skill_two_range;
-			self.skill_two_value = selfclass.skill_two_value;
-
-			myhealth = selfclass.basehealth;
-			myspeed = selfclass.basespeed;
-			myview_ofs = selfclass.model_viewoffset;
-			mymodel_min = selfclass.model_min;
-			mymodel_max = selfclass.model_max;
-			mystand = selfclass.standfunc;
+			self.class = GetRandomClass(self);		
 			break;
 		default:
 			bprint(PRINT_HIGH, "team ", ftos(self.team_no));
 			break;
 	}
+	// populate selfclass global - yuck
+	GetClass(self.class);
+	string mymsg = strcat("You are spawning as the ", selfclass.classstring, "\n");
+	sprint(self, PRINT_HIGH, mymsg);
+	centerprint(self, mymsg); // FIXME - not working, menumanager overriding?
 
-	self.health = myhealth;
-	self.max_health = myhealth;
-	self.items = myitems;
-	self.ammo_rockets = myammo_rockets;
-	self.ammo_nails = myammo_nails;
-	self.ammo_shells = myammo_shells;
-	self.ammo_cells = myammo_cells;
-	self.armortype = myarmortype;
-	self.armorvalue = myarmorvalue;
-	self.weapon = myweapon;
-	self.flags = myflags;
-	self.waterlevel = mywaterlevel;
-	self.solid = mysolid;
-	self.movetype = mymovetype;
-	self.model = mymodel;
-	self.mdl = mymdl;
-	self.modelindex = mymodelindex;
-	self.weaponmodel = myweaponmodel;
-	self.speed = myspeed;
-	self.view_ofs = myview_ofs;
+	self.attackdamage = selfclass.basead;
+	self.attackfinish = selfclass.baseattackfinish;
+	self.skill_one = selfclass.skill_one;
+	self.skill_one_cooldown = selfclass.skill_one_cooldown;
+	self.skill_one_cooldown_time = 0;
+	self.skill_one_damage = selfclass.skill_one_damage;
+	self.skill_one_range = selfclass.skill_one_range;
+	self.skill_one_value = selfclass.skill_one_value;
+	self.skill_two = selfclass.skill_two;
+	self.skill_two_cooldown = selfclass.skill_two_cooldown;
+	self.skill_two_cooldown_time = 0;
+	self.skill_two_damage = selfclass.skill_two_damage;
+	self.skill_two_range = selfclass.skill_two_range;
+	self.skill_two_value = selfclass.skill_two_value;
+
+	self.health = selfclass.basehealth;
+	self.max_health = selfclass.basehealth;
+	self.items = selfclass.items;
+	self.ammo_rockets = selfclass.ammo_rockets;
+	self.ammo_nails = selfclass.ammo_nails;
+	self.ammo_shells = selfclass.ammo_shells;
+	self.ammo_cells = selfclass.ammo_cells;
+	self.armortype = selfclass.armortype;
+	self.armorvalue = selfclass.armorvalue;
+	self.weapon = selfclass.weapon;
+	self.flags = selfclass.flags;
+	self.waterlevel = selfclass.waterlevel;
+	self.takedamage = selfclass.takedamage;
+	self.solid = selfclass.solid;
+	self.movetype = selfclass.movetype;
+	self.model = selfclass.model;
+	self.mdl = selfclass.model;
+	self.weaponmodel = selfclass.weaponmodel;
+	self.speed = selfclass.basespeed;
+	self.view_ofs = selfclass.model_viewoffset;
+	self.th_pain = ClassPain;
+	self.th_die = ClassDie;
 	
 	W_SetCurrentAmmo ();
 	
@@ -533,13 +483,12 @@ void() PutClientInServer =
 	self.angles = spot.angles;
 	self.fixangle = TRUE;           // turn this way immediately
 
-	setmodel (self, mymodel);
-	setsize (self, mymodel_min, mymodel_max);
+	bprint(PRINT_HIGH, selfclass.model, "\n");
+	setmodel (self, selfclass.model);
+	selfclass.modelindex = self.modelindex;
+	setsize (self, selfclass.model_min, selfclass.model_max);
 	
-	if (mystand)
-	{
-		mystand();
-	}
+	selfclass.standfunc();
 	
 	makevectors(self.angles);
 	spawn_tfog (self.origin + v_forward*20);
@@ -969,7 +918,11 @@ void() CheckPowerups =
 		self.modelindex = modelindex_eyes;
 	}
 	else
-		self.modelindex = modelindex_player;    // don't use eyes
+	{
+		// FIXME - this sets player as invisible when they choose a team...
+		//GetClass(self.class);
+		//self.modelindex = selfclass.modelindex; // don't use eyes
+	}
 
 // invincibility
 	if (self.invincible_finished)

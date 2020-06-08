@@ -69,6 +69,9 @@ void SetTeam(entity player, float team)
 
 float GetRandomClass(entity player)
 {
+
+    return CLASS_FIEND;
+    
     // never spawn as last class
     float lastClass = player.class;
     float newClass = lastClass;

@@ -185,6 +185,19 @@ void QATD_Setup()
 {
 	MenuManager.Constructor = MM_Constructor;
 	MenuManager.Constructor();
+
+	for(float i = 0; i < Classes.length; i++)
+	{
+		precache_model(Classes[i].model);
+		precache_model(Classes[i].model_head);
+		precache_sound(Classes[i].sound_pain);
+		precache_sound(Classes[i].sound_death);
+		precache_sound(Classes[i].sound_aashoot);
+		precache_sound(Classes[i].sound_aahit);
+		precache_sound(Classes[i].sound_aahitwall);
+		precache_sound(Classes[i].sound_skillone_cast);
+		precache_sound(Classes[i].sound_skilltwo_cast);
+	}
 }
 
 entity  lastspawn;
