@@ -5,14 +5,13 @@ fteextensions.qc
 defs.qc
 
 qatddefs.qc
-Classes.qc
 QATD.qc
 MenuManager.qc
 
 
 subs.qc
-fight.qc
-ai.qc
+ai/fight.qc
+ai/ai.qc
 combat.qc
 items.qc
 weapons.qc
@@ -20,26 +19,29 @@ world.qc
 client.qc
 spectate.qc
 player.qc
-monsters.qc
+ai/monsters.qc
 doors.qc
 buttons.qc
 triggers.qc
 plats.qc
 misc.qc
 
-ogre.qc
-demon.qc
-shambler.qc
-knight.qc
-soldier.qc
-wizard.qc
-dog.qc
-zombie.qc
-boss.qc
+ai/ogre.qc
+ai/demon.qc
+ai/shambler.qc
+ai/knight.qc
+ai/soldier.qc
+ai/wizard.qc
+ai/dog.qc
+ai/zombie.qc
+ai/boss.qc
 
-tarbaby.qc		// registered
-hknight.qc		// registered
-fish.qc			// registered
-shalrath.qc		// registered
-enforcer.qc		// registered
-oldone.qc		// registered
+ai/tarbaby.qc		// registered
+ai/hknight.qc		// registered
+ai/fish.qc			// registered
+ai/shalrath.qc		// registered
+ai/enforcer.qc		// registered
+ai/oldone.qc		// registered
+
+ClassFiend.qc
+Classes.qc
