@@ -564,6 +564,8 @@
 #define DMSG_GREN_FLASH			35
 #define DMSG_TRIGGER			36
 
+#define PSTATE_SKILLONECD	1
+#define PSTATE_SKILLTWOCD	2
 
 // QATD 
 #define TEAM_NONE 0

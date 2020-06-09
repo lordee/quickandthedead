@@ -1055,6 +1055,7 @@ PlayerPostThink
 Called every frame after physics are run
 ================
 */
+void ClassCoolDownCheck(entity player);
 void() PlayerPostThink =
 {
 	if (self.view_ofs == '0 0 0')
@@ -1082,6 +1083,9 @@ void() PlayerPostThink =
 	CheckPowerups ();
 
 	MenuManager.FrameThink(self);
+
+	// check skill cooldowns
+	ClassCoolDownCheck(self);
 
 	W_WeaponFrame ();
 };

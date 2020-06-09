@@ -371,6 +371,7 @@ void ClassUseSkill(entity player, float skillnum)
             sound(player, CHAN_WEAPON, selfclass.sound_skillone_cast, 1, ATTN_NORM);
             selfclass.skillonefunc();
             player.skill_one_cooldown_time = time + player.skill_one_cooldown;
+            player.state = player.state | PSTATE_SKILLONECD;
         }
         else
         {
@@ -384,6 +385,7 @@ void ClassUseSkill(entity player, float skillnum)
             sound(player, CHAN_WEAPON, selfclass.sound_skilltwo_cast, 1, ATTN_NORM);
             selfclass.skilltwofunc();
             player.skill_two_cooldown_time = time + player.skill_two_cooldown;
+            player.state = player.state | PSTATE_SKILLTWOCD;
         }
         else
         {
@@ -396,4 +398,27 @@ void ClassChangeActiveSkill(entity player)
 {
     player.skill_selected = player.impulse;
     sprint(player, PRINT_HIGH, "Skill ", ftos(player.skill_selected), " selected.\n");
+}
+
+void ClassCoolDownCheck(entity player)
+{
+    if (player.skill_one_cooldown_time <= time)
+    {
+        if (player.state & PSTATE_SKILLONECD)
+        {
+            // remove it
+            player.state = player.state - (player.state & PSTATE_SKILLONECD);
+            sprint(player, PRINT_HIGH, "Skill 1 ready\n");
+        }
+    }
+
+    if (player.skill_two_cooldown_time <= time)
+    {
+        if (player.state & PSTATE_SKILLTWOCD)
+        {
+            // remove it
+            player.state = player.state - (player.state & PSTATE_SKILLTWOCD);
+            sprint(player, PRINT_HIGH, "Skill 2 ready\n");
+        }
+    }
 }

@@ -37,6 +37,7 @@ typedef void(entity, float) f_void_ef;
 .float status_string_lines;       // how many lines the centerprint is
 .float status_string_time;        // when text will time out
 .float status_string_refresh_time;       // when sbar is next printed
+.float state; // bitfield to track states
 
 .float team_no;
 //.f_void_float menu_input;
