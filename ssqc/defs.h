@@ -216,129 +216,15 @@
 #define AS_MELEE	3
 #define AS_MISSILE	4
 
-//===========================================================================
-// TEAMFORTRESS Defs
-//===========================================================================
-
-// TeamFortress State Flags
-#define TFSTATE_GRENPRIMED		1   // Whether the player has a primed grenade
-#define TFSTATE_RELOADING		2   // Whether the player is reloading
-#define TFSTATE_ALTKILL			4   // TRUE if killed with a weapon not in self.weapon: NOT USED ANYMORE
-#define TFSTATE_RANDOMPC		8   // Whether Playerclass is random, new one each respawn
-#define TFSTATE_INFECTED		16  // set when player is infected by the bioweapon
-#define TFSTATE_INVINCIBLE		32  // Player has permanent Invincibility (Usually by GoalItem)
-#define TFSTATE_INVISIBLE		64  // Player has permanent Invisibility (Usually by GoalItem)
-#define TFSTATE_QUAD			128 // Player has permanent Quad Damage (Usually by GoalItem)
-#define TFSTATE_RADSUIT			256 // Player has permanent Radsuit (Usually by GoalItem)
-#define TFSTATE_BURNING			512 // Is on fire
-#define TFSTATE_GRENTHROWING		1024  // is throwing a grenade
-#define TFSTATE_AIMING			2048  // is using the laser sight
-#define TFSTATE_LOCK            4096 // this state will stop hwguy from shooting assault cannon
-#define TFSTATE_RESPAWN_READY		8192  // is waiting for respawn, and has pressed fire
-#define TFSTATE_HALLUCINATING		16384  // set when player is hallucinating
-#define TFSTATE_TRANQUILISED 		32768  // set when player is tranquilised
-#define TFSTATE_CANT_MOVE		65536  // set when player is setting a detpack
-
-// Defines used by TF_T_Damage (see combat.qc)
-#define TF_TD_IGNOREARMOUR	1  // Bypasses the armour of the target
-#define TF_TD_NOTTEAM		2  // Doesn't damage a team member (indicates direct fire weapon)
-#define TF_TD_NOTSELF		4  // Doesn't damage self
-
-#define TF_TD_OTHER		0  // Ignore armorclass
-#define TF_TD_SHOT		1  // Bullet damage
-#define TF_TD_NAIL		2  // Nail damage
-#define TF_TD_EXPLOSION		4  // Explosion damage
-#define TF_TD_ELECTRICITY	8  // Electric damage
-#define TF_TD_FIRE		16  // Fire damage
-#define TF_TD_NOSOUND		256 // Special damage. Makes no sound/painframe, etc
-
-// Classic Fortress stuff
-#define CF_MAPVOTE_FORCESHOW        10      // Seconds to force the mapvote menu to be open
-#define CF_MAPVOTE_FINISH           5       // Seconds before timelimit to close all voting
-#define CF_MAPVOTE_DURATION         180     // Seconds to show map vote menu
-#define CF_MAPVOTE_DURATION_DECIDER 90      // Seconds to show map decider menu
-
-/*======================================================*/
-/* Toggleable Game Settings				*/
-/*======================================================*/
-
-// Some of the toggleflags aren't used anymore, but the bits are still
-// there to provide compatability with old maps
-#define TFLAG_CLASS_PERSIST	1  	// Persistent Classes Bit
-#define TFLAG_CHEATCHECK	2 	// Cheatchecking Bit
-#define TFLAG_RESPAWNDELAY	4 	// RespawnDelay bit
-#define TFLAG_UN		8	// NOT USED ANYMORE
-#define TFLAG_UN2		16	// NOT USED ANYMORE
-#define TFLAG_UN3		32	// NOT USED ANYMORE
-#define TFLAG_AUTOTEAM		64	// sets whether players are automatically placed in teams
-#define TFLAG_TEAMFRAGS		128	// Individual Frags, or Frags = TeamScore
-#define TFLAG_FIRSTENTRY	256	// Used to determine the first time toggleflags is set
-					// in a map. Cannot be toggled by players.
-// unused           		512
-#define TFLAG_GRAPPLE		1024	// Grapple on/off
-#define TFLAG_FULLTEAMSCORE	2048
-#define TFLAG_FLAGEMU		4096
-#define TFLAG_WARSTANDARD	8192
-
-#define TF_RESPAWNDELAY1	5 	// seconds of waiting before player can respawn
-#define TF_RESPAWNDELAY2	10 	// seconds of waiting before player can respawn
-#define TF_RESPAWNDELAY3	20 	// seconds of waiting before player can respawn
-
-#define TEAMPLAY_NORMAL		 1
-#define TEAMPLAY_HALFDIRECT	 2
-#define TEAMPLAY_NODIRECT	 4
-#define TEAMPLAY_HALFEXPLOSIVE	 8
-#define TEAMPLAY_NOEXPLOSIVE	 16
-#define TEAMPLAY_LESSPLAYERSHELP 32
-#define TEAMPLAY_LESSSCOREHELP	 64
-
-// FortressMap stuff
-#define TEAM1_CIVILIANS 1
-#define TEAM2_CIVILIANS 2
-#define TEAM3_CIVILIANS 4
-#define TEAM4_CIVILIANS 8
-
-// Defines for the playerclass
-#define PC_UNDEFINED		0
-
-#define PC_SCOUT		1
-#define PC_SNIPER		2
-#define PC_SOLDIER		3
-#define PC_DEMOMAN		4
-#define PC_MEDIC		5
-#define PC_HVYWEAP		6
-#define PC_PYRO			7
-#define PC_SPY			8
-#define PC_ENGINEER		9
-
-// Insert new class definitions here
-
-// PC_RANDOM _MUST_ be the third last class
-#define PC_RANDOM		10 	// Random playerclass
-#define PC_CIVILIAN		11	// Civilians are a special class. They cannot
-					// be chosen by players, only enforced by maps
-#define PC_LASTCLASS		12 	// Use this as the high-boundary for any loops
-					// through the playerclass.
-
-// admin menu page consts
-#define ADMIN_MENU_TYPE_MAIN 0
-#define ADMIN_MENU_TYPE_KICK 1
-#define ADMIN_MENU_TYPE_BAN 2
-#define ADMIN_MENU_TYPE_CAPTAINTEAMONE 3
-#define ADMIN_MENU_TYPE_CAPTAINTEAMTWO 4
-#define ADMIN_MENU_TYPE_CAPTAINSELECT 5
-#define ADMIN_MENU_TYPE_QUADMODE 6
-#define ADMIN_MENU_TYPE_QUAD_ROUNDNUM 7
-#define ADMIN_MENU_TYPE_QUAD_ROUNDTL 8
 
 
 /*======================================================*/
 /* Impulse Defines                                      */
 /*======================================================*/
-#define TF_SLOT1                1   // Changes weapon to slot 1 (primary weapon)
-#define TF_SLOT2                2   // Changes weapon to slot 2 (secondary weapon)
-#define TF_SLOT3                3   // Changes weapon to slot 3 (tertiary weapon)
-#define TF_SLOT4                4   // Changes weapon to slot 4 (melee weapon)
+#define IMP_SLOT1                1   // Changes weapon to slot 1 (primary weapon)
+#define IMP_SLOT2                2   // Changes weapon to slot 2 (secondary weapon)
+#define IMP_SLOT3                3   // Changes weapon to slot 3 (tertiary weapon)
+#define IMP_SLOT4                4   // Changes weapon to slot 4 (melee weapon)
 #define TF_CLASSMENU            5   // Brings up class menu
 // unused                       6
 // unused                       7
@@ -348,9 +234,9 @@
 #define TF_WEAPNEXT             11  // Selects the next weapon slot
 #define TF_WEAPPREV             12  // Selects the previous weapon slot
 #define TF_WEAPLAST             13  // Selects the last used weapon slot
-#define TF_GRENADE_1            14  // Prime grenade type 1
-#define TF_GRENADE_2            15  // Prime grenade type 2
-#define TF_GRENADE_T            16  // Throw primed grenade
+#define IMP_USESKILLONE            14  
+#define IMP_USESKILLTWO            15  
+#define IMP_USESKILL            16  // Use active skill
 #define TF_GRENADE_PT_1         17  // Prime and throw grenade type 1 (two clicks)
 #define TF_GRENADE_PT_2         18  // Prime and throw grenade type 2 (two clicks)
 #define TF_GRENADE_SWITCH       19  // Switch grenade mode 1/2
@@ -610,14 +496,6 @@
 #define DARKBLUE   	14
 
 /*======================================================*/
-/* Team Defines						*/
-/*======================================================*/
-#define TM_MAX_NO	4	// Max number of teams. Simply changing this value isn't enough.
-				// A new global to hold new team colors is needed, and more flags
-				// in the spawnpoint spawnflags may need to be used.
-				// Basically, don't change this unless you know what you're doing :)
-
-/*======================================================*/
 /* New Weapon Defines					*/
 /*======================================================*/
 
@@ -685,30 +563,6 @@
 #define DMSG_SENTRYGUN_ROCKET		34
 #define DMSG_GREN_FLASH			35
 #define DMSG_TRIGGER			36
-
-
-/*======================================================*/
-/* Misc defines						*/
-/*======================================================*/
-
-#define MAX_WORLD_FLAMES	20	// maximum number of flames in the world. DO NOT PUT BELOW 20.
-#define MAX_WORLD_PIPEBOMBS	15	// This is divided between teams
-					//	- this is the most you should have on a net server
-#define MAX_WORLD_AMMOBOXES	20	// This is divided between teams
-					//	- this is the most you should have on a net server
-#define GR_TYPE_MIRV_NO		4	// Number of Mirvs a Mirv Grenade breaks into
-#define GR_TYPE_NAPALM_NO	8	// Number of flames napalm grenade breaks into (unused if net server)
-
-#define TEAM_HELP_RATE		60	// used only if teamplay bit 64 (help team with lower score) is set.
-					// 60 is a mild setting, and won't make too much difference
-					// increasing it _decreases_ the amount of help the losing team gets
-					// Minimum setting is 1, which would really help the losing team
-
-#define SNIPER_RIFLE_RELOAD_TIME 1.5	// seconds
-
-#define RESPAWN_DELAY_TIME	5	// this is the respawn delay, if the RESPAWN_DELAY option is
-					// turned on with temp1.  QuakeWorld servers can use
-					// serverinfo respawn_delay to set their own time.
 
 
 // QATD 
