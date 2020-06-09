@@ -1293,10 +1293,37 @@ ImpulseCommands
 
 ============
 */
+void ClassChangeActiveSkill(entity player);
+void ClassUseSkill(entity player, float skillnum);
 void() ImpulseCommands =
 {
-	if (self.impulse >= 1 && self.impulse <= 8)
-		W_ChangeWeapon ();
+
+	// weapons/skills
+	switch (self.team_no)
+	{
+		case TEAM_SURVIVOR:
+			if (self.impulse >= 1 && self.impulse <= 8)
+				W_ChangeWeapon ();
+			break;
+		case TEAM_MONSTER:
+			if (self.impulse >= 1 && self.impulse <= 2)
+				ClassChangeActiveSkill(self);
+
+			switch (self.impulse)
+			{
+				case IMP_USESKILLONE:
+					ClassUseSkill(self, 1);
+					break;
+				case IMP_USESKILLTWO:
+					ClassUseSkill(self, 2);
+					break;
+				case IMP_USESKILL:
+					ClassUseSkill(self, self.skill_selected);
+					break;
+			}
+			break;
+	}
+	
 
 	if (self.impulse == 10)
 		CycleWeaponCommand ();

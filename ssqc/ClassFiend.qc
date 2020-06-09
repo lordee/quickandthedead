@@ -22,6 +22,7 @@ $frame attacka1 attacka2 attacka3 attacka4 attacka5 attacka6 attacka7 attacka8
 $frame attacka9 attacka10 attacka11 attacka12 attacka13 attacka14 attacka15
 
 void() classfiend_run;
+void()	classfiend_JumpTouch;
 void()	classfiend_stand1	=[	$stand1,	classfiend_stand1	] {
 	self.weaponframe=0;
 	if (self.velocity_x || self.velocity_y)
@@ -58,7 +59,7 @@ void()	classfiend_jump2	=[	$leap2,		classfiend_jump3	] {};
 void()	classfiend_jump3	=[	$leap3,		classfiend_jump4	] {};
 void()	classfiend_jump4	=[	$leap4,		classfiend_jump5	]
 {
-	self.touch = Demon_JumpTouch;
+	self.touch = classfiend_JumpTouch;
 	makevectors (self.angles);
 	self.origin_z = self.origin_z + 1;
 	self.velocity = v_forward * 600 + '0 0 250';
@@ -91,8 +92,8 @@ void classfiend_Melee(float side)
 
 	if (trace_ent.takedamage)
 	{
-		//trace_ent.axhitme = 1;
-		//SpawnBlood (org, 20);
+		trace_ent.axhitme = 1;
+		SpawnBlood (org, 20);
 		sound (self, CHAN_WEAPON, selfclass.sound_aahit, 1, ATTN_NORM);
 		SpawnMeatSpray (self.origin + v_forward*16, side * v_right);
 		T_Damage (trace_ent, self, self, selfclass.basead);
@@ -236,3 +237,12 @@ void()	classfiend_JumpTouch =
 	self.nextthink = time + 0.1;
 };
 
+void classfiend_skillone()
+{
+	classfiend_jump1();
+}
+
+void classfiend_skilltwo()
+{
+	return;
+}

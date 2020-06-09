@@ -13,6 +13,8 @@ Class_t Classes[6] = {
         player_pain,
         player_diea1,
         player_attack,
+        player_stand1,
+        player_stand1,
         SOUND_PAIN_NONE,
         SOUND_DEATH_NONE,
         SOUND_AASHOOT_NONE,
@@ -63,6 +65,8 @@ Class_t Classes[6] = {
         player_pain,
         player_diea1,
         player_attack,
+        player_stand1,
+        player_stand1,
         SOUND_PAIN_SURVIVOR,
         SOUND_DEATH_SURVIVOR,
         SOUND_AASHOOT_SURVIVOR,
@@ -113,6 +117,8 @@ Class_t Classes[6] = {
         classfiend_pain,
         classfiend_die,
         classfiend_attack,
+        classfiend_skillone,
+        classfiend_skilltwo,
         SOUND_PAIN_FIEND,
         SOUND_DEATH_FIEND,
         SOUND_AASHOOT_FIEND,
@@ -164,6 +170,8 @@ Class_t Classes[6] = {
         sham_pain1,
         sham_death1,
         player_attack,
+        player_stand1,
+        player_stand1,
         SOUND_PAIN_SHAMBLER,
         SOUND_DEATH_SHAMBLER,
         SOUND_AASHOOT_SHAMBLER,
@@ -214,6 +222,8 @@ Class_t Classes[6] = {
         zombie_paina1,
         zombie_die,
         player_attack,
+        player_stand1,
+        player_stand1,
         SOUND_PAIN_UNDEADKING,
         SOUND_DEATH_UNDEADKING,
         SOUND_AASHOOT_UNDEADKING,
@@ -264,6 +274,8 @@ Class_t Classes[6] = {
         zombie_paina1,
         zombie_die,
         player_attack,
+        player_stand1,
+        player_stand1,
         SOUND_PAIN_LEASH,
         SOUND_DEATH_LEASH,
         SOUND_AASHOOT_LEASH,
@@ -340,4 +352,48 @@ void ClassDie()
 {
     GetClass(self.class);
     selfclass.diefunc();
+}
+
+void ClassUseSkill(entity player, float skillnum)
+{
+    if (!skillnum)
+    {
+        sprint(player, PRINT_HIGH, "No skill selected!\n");
+        return;
+    }
+
+    GetClass(player.class);
+    // bad code
+    if (skillnum == 1)
+    {
+        if (player.skill_one_cooldown_time <= time)
+        {
+            sound(player, CHAN_WEAPON, selfclass.sound_skillone_cast, 1, ATTN_NORM);
+            selfclass.skillonefunc();
+            player.skill_one_cooldown_time = time + player.skill_one_cooldown;
+        }
+        else
+        {
+            sprint(player, PRINT_HIGH, "Skill is on cooldown!\n");
+        }
+    }
+    else if (skillnum == 2)
+    {
+        if (player.skill_two_cooldown_time <= time)
+        {
+            sound(player, CHAN_WEAPON, selfclass.sound_skilltwo_cast, 1, ATTN_NORM);
+            selfclass.skilltwofunc();
+            player.skill_two_cooldown_time = time + player.skill_two_cooldown;
+        }
+        else
+        {
+            sprint(player, PRINT_HIGH, "Skill is on cooldown!\n");
+        }
+    }
+}
+
+void ClassChangeActiveSkill(entity player)
+{
+    player.skill_selected = player.impulse;
+    sprint(player, PRINT_HIGH, "Skill ", ftos(player.skill_selected), " selected.\n");
 }
