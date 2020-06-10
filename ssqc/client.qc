@@ -32,7 +32,7 @@ void (vector org) spawn_tfog;
 void (vector org, entity death_owner) spawn_tdeath;
 void ClassPain(entity attacker, float damage);
 void ClassDie();
-float   modelindex_eyes, modelindex_player;
+float   modelindex_eyes;//, modelindex_player;
 
 /*
 =============================================================================
@@ -848,6 +848,9 @@ void() PlayerPreThink =
 	if (self.deadflag == DEAD_DYING)
 		return; // dying, so do nothing
 
+	if (self.state & PSTATE_PINNED)
+		return;
+
 	if (self.button2)
 	{
 		PlayerJump ();
@@ -1044,7 +1047,6 @@ void() CheckPowerups =
 			self.radsuit_finished = 0;
 		}
 	}       
-
 };
 
 
@@ -1061,6 +1063,8 @@ void() PlayerPostThink =
 	if (self.view_ofs == '0 0 0')
 		return;         // intermission or finale
 	if (self.deadflag)
+		return;
+	if (self.state & PSTATE_PINNED)
 		return;
 
 // check to see if player landed and play landing sound 

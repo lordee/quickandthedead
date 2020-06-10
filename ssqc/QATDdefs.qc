@@ -43,6 +43,7 @@ typedef void(entity, float) f_void_ef;
 //.f_void_float menu_input;
 .float menu;
 .float class;
+.entity interactentity;
 
 
 // class fields

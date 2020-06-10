@@ -216,6 +216,7 @@ void() player_run =[   $rockrun1,      player_run      ]
 	{
 		if (self.walkframe == 6)
 			self.walkframe = 0;
+		
 		self.frame = $axrun1 + self.walkframe;
 	}
 	else
@@ -521,6 +522,9 @@ local float             rs;
 
 void() PlayerDead =
 {
+	if (self.state & PSTATE_PINNED)
+		return;
+
 	self.nextthink = -1;
 // allow respawn after a certain time
 	self.deadflag = DEAD_DEAD;
@@ -728,10 +732,19 @@ void() PlayerDie =
 
 };
 
+void player_setpinnedframe(entity player)
+{
+	if (player.model != "progs/player.mdl")
+		return; // already gibbed
+	player.frame = $deatha11;
+	player.nextthink = -1;
+}
+
 void() set_suicide_frame =
-{       // used by klill command and diconnect command
+{       
+	// used by kill command and disconnect command
 	if (self.model != "progs/player.mdl")
-		return; // allready gibbed
+		return; // already gibbed
 	self.frame = $deatha11;
 	self.solid = SOLID_NOT;
 	self.movetype = MOVETYPE_TOSS;

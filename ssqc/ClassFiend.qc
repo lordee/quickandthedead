@@ -54,10 +54,7 @@ void() classfiend_run=[   $run1,      classfiend_run      ]
 	self.walkframe = self.walkframe + 1;
 };
 
-void()	classfiend_jump1	=[	$leap1,		classfiend_jump2	] {};
-void()	classfiend_jump2	=[	$leap2,		classfiend_jump3	] {};
-void()	classfiend_jump3	=[	$leap3,		classfiend_jump4	] {};
-void()	classfiend_jump4	=[	$leap4,		classfiend_jump5	]
+void()	classfiend_jump1	=[	$leap1,		classfiend_jump2	] 
 {
 	self.touch = classfiend_JumpTouch;
 	makevectors (self.angles);
@@ -66,12 +63,15 @@ void()	classfiend_jump4	=[	$leap4,		classfiend_jump5	]
 	if (self.flags & FL_ONGROUND)
 		self.flags = self.flags - FL_ONGROUND;
 };
+void()	classfiend_jump2	=[	$leap2,		classfiend_jump3	] {};
+void()	classfiend_jump3	=[	$leap3,		classfiend_jump4	] {};
+void()	classfiend_jump4	=[	$leap4,		classfiend_jump5	] {};
 void()	classfiend_jump5	=[	$leap5,		classfiend_jump6	] {};
 void()	classfiend_jump6	=[	$leap6,		classfiend_jump7	] {};
 void()	classfiend_jump7	=[	$leap7,		classfiend_jump8	] {};
 void()	classfiend_jump8	=[ 	$leap8,		classfiend_jump9	] {};
 void()	classfiend_jump9	=[ 	$leap9,		classfiend_jump10	] {};
-void()	classfiend_jump10	=[ 	$leap10,	classfiend_jump1	] {};
+void()	classfiend_jump10	=[ 	$leap10,	classfiend_jump11	] {};
 void()	classfiend_jump11	=[ 	$leap11,	classfiend_jump12	] {};
 void()	classfiend_jump12	=[ 	$leap12,	classfiend_run	] {};
 
@@ -153,11 +153,11 @@ void()	classfiend_die6		=[	$death6,		classfiend_die7	]
 {self.solid = SOLID_NOT;};
 void()	classfiend_die7		=[	$death7,		classfiend_die8	] {};
 void()	classfiend_die8		=[	$death8,		classfiend_die9	] {};
-void()	classfiend_die9		=[	$death9,		classfiend_die9 ] {};
+void()	classfiend_die9		=[	$death9,		classfiend_die9 ] {PlayerDead();};
 
 void(entity attacker, float damage)	classfiend_pain =
 {
-	if (self.touch == Demon_JumpTouch)
+	if (self.touch == classfiend_JumpTouch)
 		return;
 
 	if (self.pain_finished > time)
@@ -173,8 +173,50 @@ void(entity attacker, float damage)	classfiend_pain =
 	classfiend_pain1 ();
 };
 
+void classfiend_PinPlayer(entity pinner, entity pinned, float pin)
+{
+	entity oldself = self;
+	if (pin)
+	{
+		// make them non solid, non move
+		pinned.movetype = MOVETYPE_NONE;
+		//pinnedPlayer.solid = SOLID_NOT;
+		//pinnedPlayer.takedamage = DAMAGE_NO;
+		pinned.weaponmodel = "";
+		pinned.view_ofs = '0 0 -8';
+		pinned.state = pinned.state | PSTATE_PINNED;
+		player_setpinnedframe(pinned);
+
+		pinner.state = pinner.state | PSTATE_PINNING;
+		pinner.interactentity = pinned;
+		droptofloor();
+		pinner.movetype = MOVETYPE_NONE;
+	}
+	else
+	{
+		pinner.state = pinner.state - (pinner.state & PSTATE_PINNING);
+		if (pinned)
+		{
+			pinned.state = pinned.state - (pinned.state & PSTATE_PINNED);
+			pinned.movetype = MOVETYPE_SURVIVOR;
+			self = pinned;
+			W_SetCurrentAmmo();
+			self = oldself;
+			pinned.view_ofs = MODEL_VIEWOFFSET_SURVIVOR;
+			pinner.interactentity = world;
+		}
+        
+	}
+}
+
 void() classfiend_die =
 {
+	if (self.state & PSTATE_PINNING)
+    {
+        entity pinned = self.interactentity;
+        classfiend_PinPlayer(self, pinned, FALSE);
+    }
+
     GetClass(CLASS_FIEND);
     // check for gib
 	if (self.health < -80)
@@ -192,45 +234,15 @@ void() classfiend_die =
 	classfiend_die1();
 };
 
-void() classfiend_MeleeAttack =
-{
-	classfiend_atta1 ();
-};
-
 void()	classfiend_JumpTouch =
 {
-	local	float	ldmg;
-
 	if (self.health <= 0)
 		return;
 		
-	if (other.takedamage)
+	if (other.team_no == TEAM_SURVIVOR)
 	{
-		if ( vlen(self.velocity) > 400 )
-		{
-			ldmg = 40 + 10*random();
-			T_Damage (other, self, self, ldmg);	
-		}
+		classfiend_PinPlayer(self, other, TRUE);
 	}
-
-/*
-	if (!checkbottom(self))
-	{
-		if (self.flags & FL_ONGROUND)
-		{	// jump randomly to not get hung up
-//dprint ("popjump\n");
-	self.touch = SUB_Null;
-	self.think = demon1_jump1;
-	self.nextthink = time + 0.1;
-
-//			self.velocity_x = (random() - 0.5) * 600;
-//			self.velocity_y = (random() - 0.5) * 600;
-//			self.velocity_z = 200;
-//			self.flags = self.flags - FL_ONGROUND;
-		}
-		return;	// not on ground yet
-	}
-    */
 
 	self.touch = SUB_Null;
 	self.think = classfiend_jump11;
@@ -244,5 +256,15 @@ void classfiend_skillone()
 
 void classfiend_skilltwo()
 {
-	return;
+	switch (self.movetype)
+	{
+		case MOVETYPE_WALLWALK:
+			self.movetype = MOVETYPE_FIEND;
+			sprint(self, PRINT_HIGH, "Wall climbing off\n");
+			break;
+		case MOVETYPE_FIEND:
+			self.movetype = MOVETYPE_WALLWALK;
+			sprint(self, PRINT_HIGH, "Wall climbing on\n"); 
+			break;
+	}
 }
