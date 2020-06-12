@@ -44,7 +44,11 @@ typedef void(entity, float) f_void_ef;
 .float menu;
 .float class;
 .entity interactentity;
-
+// buffs
+.float nextthinkinterval;
+.float buffcategory;
+.float buffid;
+.float buffvalue;
 
 // class fields
 .float attackdamage;
@@ -57,12 +61,10 @@ typedef void(entity, float) f_void_ef;
 .float skill_one_cooldown;
 .float skill_one_cooldown_time;
 .float skill_one_range;
-.float skill_one_value;
 .float skill_two_damage;
 .float skill_two_cooldown;
 .float skill_two_cooldown_time;
 .float skill_two_range;
-.float skill_two_value;
 
 typedef struct {
     float classtype;
@@ -96,11 +98,17 @@ typedef struct {
     float skill_one_damage;
     float skill_one_range;
     float skill_one_value;
+    float skill_one_buff_category;
+    float skill_one_buff_lifetime;
+    float skill_one_buff_tickrate;
     float skill_two;
     float skill_two_cooldown;
     float skill_two_damage;
     float skill_two_range;
     float skill_two_value;
+    float skill_two_buff_category;
+    float skill_two_buff_lifetime;
+    float skill_two_buff_tickrate;
 
     float items;
     float ammo_rockets;

@@ -23,7 +23,7 @@ $frame attacka9 attacka10 attacka11 attacka12 attacka13 attacka14 attacka15
 
 void() classfiend_run;
 void()	classfiend_JumpTouch;
-void()	classfiend_stand1	=[	$stand1,	classfiend_stand1	] {
+void()	classfiend_stand	=[	$stand1,	classfiend_stand	] {
 	self.weaponframe=0;
 	if (self.velocity_x || self.velocity_y)
 	{
@@ -32,7 +32,7 @@ void()	classfiend_stand1	=[	$stand1,	classfiend_stand1	] {
 		return;
 	}
 
-	if (self.walkframe >= 5)
+	if (self.walkframe >= 13)
 			self.walkframe = 0;
 	self.frame = $stand1 + self.walkframe;
 	self.walkframe = self.walkframe + 1;
@@ -44,7 +44,7 @@ void() classfiend_run=[   $run1,      classfiend_run      ]
 	if (!self.velocity_x && !self.velocity_y)
 	{
 		self.walkframe=0;
-		classfiend_stand1();
+		classfiend_stand();
 		return;
 	}
 
@@ -56,10 +56,11 @@ void() classfiend_run=[   $run1,      classfiend_run      ]
 
 void()	classfiend_jump1	=[	$leap1,		classfiend_jump2	] 
 {
+	GetClass(self.class);
 	self.touch = classfiend_JumpTouch;
 	makevectors (self.angles);
 	self.origin_z = self.origin_z + 1;
-	self.velocity = v_forward * 600 + '0 0 250';
+	self.velocity = v_forward * selfclass.skill_one_range + '0 0 250';
 	if (self.flags & FL_ONGROUND)
 		self.flags = self.flags - FL_ONGROUND;
 };
@@ -79,8 +80,7 @@ void()	classfiend_jump12	=[ 	$leap12,	classfiend_run	] {};
 void classfiend_Melee(float side)
 {
 	GetClass(self.class);
-	vector  source;
-	vector  org;
+	vector  source, org;
 
 	makevectors (self.v_angle);
 	source = self.origin + '0 0 16';
@@ -162,7 +162,7 @@ void(entity attacker, float damage)	classfiend_pain =
 
 	if (self.pain_finished > time)
 		return;
-    GetClass(CLASS_FIEND);
+    GetClass(self.class);
 
 	self.pain_finished = time + 1;
     sound (self, CHAN_VOICE, selfclass.sound_pain, 1, ATTN_NORM);
@@ -217,7 +217,7 @@ void() classfiend_die =
         classfiend_PinPlayer(self, pinned, FALSE);
     }
 
-    GetClass(CLASS_FIEND);
+    GetClass(self.class);
     // check for gib
 	if (self.health < -80)
 	{

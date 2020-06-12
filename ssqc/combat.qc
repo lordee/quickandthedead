@@ -265,7 +265,6 @@ void(entity targ, entity inflictor, entity attacker, float damage) T_Damage =
 	{
 		self.th_pain (attacker, take);
 	}
-
 	self = oldself;
 };
 

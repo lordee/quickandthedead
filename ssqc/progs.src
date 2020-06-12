@@ -43,5 +43,8 @@ ai/shalrath.qc		// registered
 ai/enforcer.qc		// registered
 ai/oldone.qc		// registered
 
+Buffs.qc
 ClassFiend.qc
+ClassShambler.qc
+
 Classes.qc

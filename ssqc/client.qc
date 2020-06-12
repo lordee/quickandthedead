@@ -438,7 +438,7 @@ void() PutClientInServer =
 
 	self.attackdamage = selfclass.basead;
 	self.attackfinish = selfclass.baseattackfinish;
-	self.skill_one = selfclass.skill_one;
+	/*self.skill_one = selfclass.skill_one;
 	self.skill_one_cooldown = selfclass.skill_one_cooldown;
 	self.skill_one_cooldown_time = 0;
 	self.skill_one_damage = selfclass.skill_one_damage;
@@ -449,7 +449,7 @@ void() PutClientInServer =
 	self.skill_two_cooldown_time = 0;
 	self.skill_two_damage = selfclass.skill_two_damage;
 	self.skill_two_range = selfclass.skill_two_range;
-	self.skill_two_value = selfclass.skill_two_value;
+	self.skill_two_value = selfclass.skill_two_value;*/
 
 	self.health = selfclass.basehealth;
 	self.max_health = selfclass.basehealth;
