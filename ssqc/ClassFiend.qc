@@ -205,7 +205,6 @@ void classfiend_PinPlayer(entity pinner, entity pinned, float pin)
 			pinned.view_ofs = MODEL_VIEWOFFSET_SURVIVOR;
 			pinner.interactentity = world;
 		}
-        
 	}
 }
 
