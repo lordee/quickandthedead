@@ -67,20 +67,22 @@ void() classsham_run       =[      $run1,        classsham_run      ] {
 	self.walkframe = self.walkframe + 1;
 };
 
-void() classsham_smash1     =[      $smash1,       classsham_smash2    ] {
-sound (self, CHAN_VOICE, "shambler/melee1.wav", 1, ATTN_NORM);
+void classsham_CastSkillOne();
+void() classsham_smash     =[      $smash1,       classsham_smash    ] {
+	if (self.walkframe >= 12)
+	{
+		self.walkframe = 0;
+		classsham_run();
+		return;
+	}
+
+	self.frame = $smash1 + self.walkframe;
+	if (self.walkframe == 10)
+	{
+		classsham_CastSkillOne();
+	}
+	self.walkframe = self.walkframe + 1;
 };
-void() classsham_smash2     =[      $smash2,       classsham_smash3    ] {};
-void() classsham_smash3     =[      $smash3,       classsham_smash4    ] {};
-void() classsham_smash4     =[      $smash4,       classsham_smash5    ] {};
-void() classsham_smash5     =[      $smash5,       classsham_smash6    ] {};
-void() classsham_smash6     =[      $smash6,       classsham_smash7    ] {};
-void() classsham_smash7     =[      $smash7,       classsham_smash8    ] {};
-void() classsham_smash8     =[      $smash8,       classsham_smash9    ] {};
-void() classsham_smash9     =[      $smash9,       classsham_smash10   ] {};
-void() classsham_smash10    =[      $smash10,      classsham_smash11   ] {};
-void() classsham_smash11    =[      $smash11,      classsham_smash12   ] {};
-void() classsham_smash12    =[      $smash12,      classsham_run	   ] {};
 
 void classsham_Melee(float side)
 {
@@ -136,6 +138,17 @@ void() classsham_swingr6 =[      $swingr6,      classsham_swingr7   ] {};
 void() classsham_swingr7 =[      $swingr7,      classsham_swingr8   ] {classsham_Melee(-250);};
 void() classsham_swingr8 =[      $swingr8,      classsham_swingr9   ] {};
 void() classsham_swingr9 =[      $swingr9,      classsham_run  ] {};
+
+void() classsham_magic1     =[      $magic1,       classsham_magic2    ] {};
+void() classsham_magic2     =[      $magic2,       classsham_magic3    ] {};
+void() classsham_magic3     =[      $magic3,       classsham_magic4    ] {};
+void() classsham_magic4     =[      $magic4,       classsham_magic5    ] {};
+void() classsham_magic5     =[      $magic5,       classsham_magic6    ] {};
+void() classsham_magic6     =[      $magic6,       classsham_magic9    ] {};
+void() classsham_magic9     =[      $magic9,       classsham_magic10   ] {};
+void() classsham_magic10    =[      $magic10,      classsham_magic11   ] {};
+void() classsham_magic11    =[      $magic11,      classsham_magic12   ] {};
+void() classsham_magic12    =[      $magic12,      classsham_run	   ] {};
 
 void() classsham_pain1       =[      $pain1, classsham_pain2      ] {};
 void() classsham_pain2       =[      $pain2, classsham_pain3      ] {};
@@ -208,7 +221,7 @@ void classsham_attack()
         classsham_swingl1();
 }
 
-void classsham_skillone()
+void classsham_CastSkillOne()
 {
 	GetClass(self.class);
 
@@ -233,6 +246,12 @@ void classsham_skillone()
 		}
 		affected = affected.chain;
 	}
+}
+
+void classsham_skillone()
+{
+	self.walkframe = 0;
+	classsham_smash();
 }
 
 void classsham_skilltwo_Touch()
