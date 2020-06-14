@@ -119,6 +119,9 @@
 #define VEC_HULL2_MIN	'-32 -32 -24'
 #define VEC_HULL2_MAX	'32 32 64'
 
+#define VEC_ZOMBIE_MIN '-16 -16 -24'
+#define VEC_ZOMBIE_MAX '16 16 40'
+
 // protocol bytes
 #define SVC_TEMPENTITY		23
 #define SVC_KILLEDMONSTER	27
@@ -767,9 +770,9 @@
 // Undead King
 #define STRING_UNDEADKING	"undead king"
 #define MODEL_UNDEADKING     "progs/zombie.mdl"
-#define MODEL_MIN_UNDEADKING   '-16 -16 -24'
-#define MODEL_MAX_UNDEADKING   '16 16 40'
-#define MODEL_VIEWOFFSET_UNDEADKING    '0 0 30'
+#define MODEL_MIN_UNDEADKING  VEC_HULL_MIN
+#define MODEL_MAX_UNDEADKING   VEC_HULL_MAX
+#define MODEL_VIEWOFFSET_UNDEADKING    '0 0 22'
 #define MODEL_HEAD_UNDEADKING "progs/h_zombie.mdl"
 #define SOUND_PAIN_UNDEADKING "zombie/z_pain.wav"
 #define SOUND_DEATH_UNDEADKING    "zombie/z_gib.wav"

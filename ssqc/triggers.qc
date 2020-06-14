@@ -344,7 +344,6 @@ void() tdeath_touch =
 
 	if (other == self.owner)
 		return;
-
 // frag anyone who teleports in on top of an invincible player
 	if (other.classname == "player")
 	{
@@ -365,7 +364,6 @@ void() tdeath_touch =
 			T_Damage (self.owner, self, self, 50000);
 			return;
 		}
-		
 	}
 
 	if (other.health)

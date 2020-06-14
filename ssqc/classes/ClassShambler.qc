@@ -37,32 +37,22 @@ $frame death1 death2 death3 death4 death5 death6
 $frame death7 death8 death9 death10 death11
 
 void() classsham_run;
-void() classsham_stand	=[	$stand1,	classsham_stand	] {
-	self.weaponframe=0;
-	if (self.velocity_x || self.velocity_y)
+void() classsham_stand	=[	$stand1,		classsham_stand	] {
+	if (!ClassStandFunc(classsham_run, 17))
 	{
-		self.walkframe=0;
-		classsham_run();
 		return;
 	}
 
-	if (self.walkframe >= 17)
-			self.walkframe = 0;
 	self.frame = $stand1 + self.walkframe;
 	self.walkframe = self.walkframe + 1;
 };
 
-void() classsham_run       =[      $run1,        classsham_run      ] {
-	self.weaponframe=0;
-	if (!self.velocity_x && !self.velocity_y)
+void() classsham_run	=[	$run1,		classsham_run	] {
+	if (!ClassRunFunc(classsham_stand, 6))
 	{
-		self.walkframe=0;
-		classsham_stand();
 		return;
 	}
 
-	if (self.walkframe >= 6)
-		self.walkframe = 0;
 	self.frame = self.frame + self.walkframe;
 	self.walkframe = self.walkframe + 1;
 };

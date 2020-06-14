@@ -241,13 +241,13 @@ Class_t Classes[6] = {
         MODEL_VIEWOFFSET_UNDEADKING,
         MODEL_HEAD_UNDEADKING,
         0,
-        zombie_stand1,
-        player_run,
-        zombie_paina1,
-        zombie_die,
-        player_attack,
-        player_stand1,
-        player_stand1,
+        classundeadking_stand,
+        classundeadking_run,
+        classundeadking_pain,
+        classundeadking_die,
+        classundeadking_attack,
+        classundeadking_skillone,
+        classundeadking_skilltwo,
         SOUND_PAIN_UNDEADKING,
         SOUND_DEATH_UNDEADKING,
         SOUND_AASHOOT_UNDEADKING,
@@ -371,11 +371,43 @@ void ClassRun(entity player)
     selfclass.runfunc();
 }
 
+float ClassRunFunc(f_void standfunc, float wframemax)
+{
+    self.weaponframe=0;
+	if (!self.velocity_x && !self.velocity_y)
+	{
+		self.walkframe=0;
+		standfunc();
+		return FALSE;
+	}
+
+	if (self.walkframe >= wframemax)
+		self.walkframe = 0;
+
+	return TRUE;
+}
+
 void ClassStand(entity player)
 {
     GetClass(player.class);
     self = player;
+
     selfclass.standfunc();
+}
+
+float ClassStandFunc(f_void runfunc, float wframemax)
+{
+	if (self.velocity_x || self.velocity_y)
+	{
+		self.walkframe=0;
+		runfunc();
+		return FALSE;
+	}
+
+	if (self.walkframe >= wframemax)
+		self.walkframe = 0;
+
+	return TRUE;
 }
 
 void ClassPain(entity attacker, float damage)

@@ -23,33 +23,22 @@ $frame attacka9 attacka10 attacka11 attacka12 attacka13 attacka14 attacka15
 
 void() classfiend_run;
 void()	classfiend_JumpTouch;
-void()	classfiend_stand	=[	$stand1,	classfiend_stand	] {
-	self.weaponframe=0;
-	if (self.velocity_x || self.velocity_y)
+void() classfiend_stand	=[	$stand1,		classfiend_stand	] {
+	if (!ClassStandFunc(classfiend_run, 13))
 	{
-		self.walkframe=0;
-		classfiend_run();
 		return;
 	}
 
-	if (self.walkframe >= 13)
-			self.walkframe = 0;
 	self.frame = $stand1 + self.walkframe;
 	self.walkframe = self.walkframe + 1;
 };
 
-void() classfiend_run=[   $run1,      classfiend_run      ]
-{
-	self.weaponframe=0;
-	if (!self.velocity_x && !self.velocity_y)
+void() classfiend_run	=[	$run1,		classfiend_run	] {
+	if (!ClassRunFunc(classfiend_stand, 6))
 	{
-		self.walkframe=0;
-		classfiend_stand();
 		return;
 	}
 
-	if (self.walkframe == 6)
-		self.walkframe = 0;
 	self.frame = self.frame + self.walkframe;
 	self.walkframe = self.walkframe + 1;
 };

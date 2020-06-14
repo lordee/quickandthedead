@@ -300,6 +300,9 @@ float() FindTarget =
 			return FALSE;	// current check entity isn't in PVS
 	}
 
+	if (client.team_no != TEAM_SURVIVOR)
+		return FALSE;
+		
 	if (client == self.enemy)
 		return FALSE;
 

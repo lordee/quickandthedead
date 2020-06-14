@@ -44,7 +44,8 @@ ai/enforcer.qc		// registered
 ai/oldone.qc		// registered
 
 Buffs.qc
-ClassFiend.qc
-ClassShambler.qc
+classes/ClassUndeadKing.qc
+classes/ClassFiend.qc
+classes/ClassShambler.qc
 
-Classes.qc
+classes/Classes.qc

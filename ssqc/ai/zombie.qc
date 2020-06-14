@@ -469,12 +469,6 @@ If crucified, stick the bounding box 12 pixels back into a wall to look right.
 */
 void() monster_zombie =
 {
-	if (deathmatch)
-	{
-		remove(self);
-		return;
-	}
-
 	precache_model ("progs/zombie.mdl");
 	precache_model ("progs/h_zombie.mdl");
 	precache_model ("progs/zom_gib.mdl");
@@ -495,7 +489,7 @@ void() monster_zombie =
 
 	setmodel (self, "progs/zombie.mdl");
 
-	setsize (self, '-16 -16 -24', '16 16 40');
+	setsize (self, VEC_ZOMBIE_MIN, VEC_ZOMBIE_MAX);
 	self.health = 60;
 
 	self.th_stand = zombie_stand1;
