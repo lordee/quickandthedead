@@ -299,13 +299,13 @@ Class_t Classes[6] = {
         MODEL_VIEWOFFSET_LEASH,
         MODEL_HEAD_LEASH,
         0,
-        zombie_stand1,
-        player_run,
-        zombie_paina1,
-        zombie_die,
-        player_attack,
-        player_stand1,
-        player_stand1,
+        classleash_stand,
+        classleash_run,
+        classleash_pain,
+        classleash_die,
+        classleash_attack,
+        classleash_skillone,
+        classleash_skilltwo,
         SOUND_PAIN_LEASH,
         SOUND_DEATH_LEASH,
         SOUND_AASHOOT_LEASH,
@@ -497,4 +497,15 @@ void ClassCoolDownCheck(entity player)
             }
         }
     }
+}
+
+void ClassAttack()
+{
+    if (self.attack_finished >= time)
+        return;
+
+    self.walkframe = 0;
+    GetClass(self.class);
+    self.attack_finished = time + selfclass.baseattackfinish;
+    selfclass.attackfunc();
 }

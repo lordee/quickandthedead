@@ -47,5 +47,6 @@ Buffs.qc
 classes/ClassUndeadKing.qc
 classes/ClassFiend.qc
 classes/ClassShambler.qc
+classes/ClassLeash.qc
 
 classes/Classes.qc

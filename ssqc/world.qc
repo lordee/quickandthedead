@@ -198,6 +198,9 @@ void QATD_Setup()
 		precache_sound(Classes[i].sound_skillone_cast);
 		precache_sound(Classes[i].sound_skilltwo_cast);
 	}
+
+	precache_model("progs/hook.mdl");
+	precache_model("progs/chain.mdl");
 }
 
 entity  lastspawn;

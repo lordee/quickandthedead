@@ -12,7 +12,7 @@
         /*{
             "label": "cp csprogs",
             "type": "shell",
-            "command": "cp ./csprogs.dat /home/danni/Games/quake-team-fortress-server/quickandthedead/",
+            "command": "cp ./csprogs.dat /home/lordy/Games/quake-team-fortress-server/quickandthedead/",
             "dependsOn": [
                 "make"
             ]
@@ -20,7 +20,7 @@
         {
             "label": "cp menu",
             "type": "shell",
-            "command": "cp ./menu.dat /home/danni/Games/quake-team-fortress-server/quickandthedead/",
+            "command": "cp ./menu.dat /home/lordy/Games/quake-team-fortress-server/quickandthedead/",
             "dependsOn": [
                 "cp csprogs"
             ]
@@ -28,7 +28,7 @@
         {
             "label": "cp qwprogs",
             "type": "shell",
-            "command": "cp ./qwprogs.dat /home/danni/Games/quake-team-fortress-server/quickandthedead/",
+            "command": "cp ./qwprogs.dat /home/lordy/Games/quake-team-fortress-server/quickandthedead/",
             "dependsOn": [
                 "make"
             ]
@@ -46,7 +46,7 @@
         {
             "label": "Run FTESV",
             "type": "shell",
-            "command": "/home/danni/Games/quake-team-fortress-server/fteqw-sv64 +gamedir quickandthedead +map e1m1"
+            "command": "/home/lordy/Games/quake-team-fortress-server/fteqw-sv64 +gamedir quickandthedead +map e1m1"
         },
     ]
 }

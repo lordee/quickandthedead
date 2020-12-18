@@ -1058,14 +1058,26 @@ Called every frame after physics are run
 ================
 */
 void ClassCoolDownCheck(entity player);
+void PainSound();
 void() PlayerPostThink =
 {
 	if (self.view_ofs == '0 0 0')
 		return;         // intermission or finale
 	if (self.deadflag)
 		return;
-	if (self.state & PSTATE_PINNED)
+	if (self.state & PSTATE_PINNED || self.state & PSTATE_LEASHED)
+	{
+		if (self.cnt == 0 || (time - self.cnt) >= 1)
+		{
+			// TODO strangled frames, sounds
+			float wt = self.watertype;
+			self.watertype = CONTENT_LAVA;
+			PainSound();
+			self.watertype = wt;
+			self.cnt = time;
+		}
 		return;
+	}
 
 // check to see if player landed and play landing sound 
 	if ((self.jump_flag < -300) && (self.flags & FL_ONGROUND) )

@@ -121,7 +121,6 @@ void classfiend_attack()
 {
 	GetClass(self.class);
 
-	self.attack_finished = time + selfclass.baseattackfinish;
 	sound(self, CHAN_WEAPON, selfclass.sound_aashoot, 1, ATTN_NORM);
 	classfiend_atta1();
 }

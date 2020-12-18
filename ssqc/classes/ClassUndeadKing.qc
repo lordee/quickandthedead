@@ -104,9 +104,8 @@ void(vector st) ClassUndeadKingFireGrenade =
 	missile.movetype = MOVETYPE_BOUNCE;
 	missile.solid = SOLID_BBOX;
 
+	makevectors(self.v_angle);
 	org = self.origin + st_x * v_forward + st_y * v_right + (st_z - 24) * v_up;
-	
-	makevectors (self.v_angle);
 
 	missile.velocity = aim(self, 1000);
 	missile.velocity = missile.velocity * 600;
@@ -166,7 +165,6 @@ void() classundeadking_attackc		=[	$attc1,		classundeadking_attackc	] {
 void classundeadking_attack()
 {
 	GetClass(self.class);
-    self.attack_finished = time + selfclass.baseattackfinish;
 	sound(self, CHAN_WEAPON, selfclass.sound_aashoot, 1, ATTN_NORM);
 
 	float r;	

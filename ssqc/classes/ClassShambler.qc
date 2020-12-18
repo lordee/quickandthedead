@@ -108,26 +108,39 @@ void classsham_Melee(float side)
 		multicast (org, MULTICAST_PVS);
 	}
 }
+void() classsham_swingl	=[      $swingl1,      classsham_swingl   ] {
+	
+	if (self.walkframe == 7)
+	{
+		classsham_Melee(250);
+	}
+	else if (self.walkframe == 9)
+	{
+		self.walkframe = 0;
+		classsham_run();
+		return;
+	}
 
-void() classsham_swingl1	=[      $swingl1,      classsham_swingl2   ] {};
-void() classsham_swingl2 =[      $swingl2,      classsham_swingl3   ] {};
-void() classsham_swingl3 =[      $swingl3,      classsham_swingl4   ] {};
-void() classsham_swingl4 =[      $swingl4,      classsham_swingl5   ] {};
-void() classsham_swingl5 =[      $swingl5,      classsham_swingl6   ] {};
-void() classsham_swingl6 =[      $swingl6,      classsham_swingl7   ] {};
-void() classsham_swingl7 =[      $swingl7,      classsham_swingl8   ] {classsham_Melee(250);};
-void() classsham_swingl8 =[      $swingl8,      classsham_swingl9   ] {};
-void() classsham_swingl9 =[      $swingl9,      classsham_run  ] {};
+	self.frame = self.frame + self.walkframe;
+	self.walkframe = self.walkframe + 1;
+};
 
-void() classsham_swingr1	=[      $swingr1,      classsham_swingr2   ] {};
-void() classsham_swingr2	=[      $swingr2,      classsham_swingr3   ] {};
-void() classsham_swingr3 =[      $swingr3,      classsham_swingr4   ] {};
-void() classsham_swingr4 =[      $swingr4,      classsham_swingr5   ] {};
-void() classsham_swingr5 =[      $swingr5,      classsham_swingr6   ] {};
-void() classsham_swingr6 =[      $swingr6,      classsham_swingr7   ] {};
-void() classsham_swingr7 =[      $swingr7,      classsham_swingr8   ] {classsham_Melee(-250);};
-void() classsham_swingr8 =[      $swingr8,      classsham_swingr9   ] {};
-void() classsham_swingr9 =[      $swingr9,      classsham_run  ] {};
+void() classsham_swingr	=[      $swingr1,      classsham_swingr   ] {
+	
+	if (self.walkframe == 7)
+	{
+		classsham_Melee(250);
+	}
+	else if (self.walkframe == 9)
+	{
+		self.walkframe = 0;
+		classsham_run();
+		return;
+	}
+
+	self.frame = self.frame + self.walkframe;
+	self.walkframe = self.walkframe + 1;
+};
 
 void() classsham_magic1     =[      $magic1,       classsham_magic2    ] {};
 void() classsham_magic2     =[      $magic2,       classsham_magic3    ] {};
@@ -202,13 +215,12 @@ void() classsham_die =
 void classsham_attack()
 {
     GetClass(self.class);
-    self.attack_finished = time + selfclass.baseattackfinish;
 	sound(self, CHAN_WEAPON, selfclass.sound_aashoot, 1, ATTN_NORM);
 
     if (random() <= 0.5)
-        classsham_swingr1();
+        classsham_swingr();
     else 
-        classsham_swingl1();
+        classsham_swingl();
 }
 
 void classsham_CastSkillOne()

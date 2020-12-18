@@ -1033,13 +1033,11 @@ void()  player_shot1;
 void()  player_nail1;
 void()  player_light1;
 void()  player_rocket1;
+void ClassAttack();
 
 void() W_Attack =
 {
-	GetClass(self.class);
-	// calculate forward angle for velocity
-	makevectors     (self.v_angle);
-	selfclass.attackfunc();
+	ClassAttack();
 };
 
 /*

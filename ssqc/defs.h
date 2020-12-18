@@ -572,6 +572,8 @@
 #define PSTATE_PINNED 4
 #define PSTATE_PINNING 8
 #define PSTATE_STUNNED 16
+#define PSTATE_LEASHED 32
+#define PSTATE_LEASHING 64
 
 // QATD 
 #define TEAM_NONE 0
@@ -815,18 +817,18 @@
 
 // Leash
 #define STRING_LEASH	"leash"
-#define MODEL_LEASH     "progs/zombie.mdl"
-#define MODEL_MIN_LEASH   '-16 -16 -24'
-#define MODEL_MAX_LEASH   '16 16 40'
-#define MODEL_VIEWOFFSET_LEASH    '0 0 50'
-#define MODEL_HEAD_LEASH "progs/h_zombie.mdl"
-#define SOUND_PAIN_LEASH "zombie/z_pain.wav"
-#define SOUND_DEATH_LEASH    "zombie/z_gib.wav"
-#define SOUND_AASHOOT_LEASH    "zombie/z_shot1.wav"
+#define MODEL_LEASH     "progs/soldier.mdl"
+#define MODEL_MIN_LEASH   VEC_HULL_MIN
+#define MODEL_MAX_LEASH   VEC_HULL_MAX
+#define MODEL_VIEWOFFSET_LEASH    '0 0 22'
+#define MODEL_HEAD_LEASH "progs/h_guard.mdl"
+#define SOUND_PAIN_LEASH "soldier/pain1.wav"
+#define SOUND_DEATH_LEASH    "soldier/death1.wav"
+#define SOUND_AASHOOT_LEASH    "soldier/sattck1.wav"
 #define SOUND_AAHIT_LEASH    "zombie/z_hit.wav"
 #define SOUND_AAHITWALL_LEASH    "zombie/z_miss.wav"
-#define SOUND_SKILLONE_CAST_LEASH   "shambler/ssight.wav"
-#define SOUND_SKILLTWO_CAST_LEASH   "shambler/ssight.wav"
+#define SOUND_SKILLONE_CAST_LEASH   "soldier/sight1.wav"
+#define SOUND_SKILLTWO_CAST_LEASH   "soldier/sight1.wav"
 #define BASEAD_LEASH     10
 #define BASEHEALTH_LEASH 300
 #define BASESPEED_LEASH  330
@@ -835,8 +837,9 @@
 #define SKILLONE_LIFETIME_LEASH   1
 #define SKILLONE_TICKRATE_LEASH   2
 #define SKILLONE_COOLDOWN_LEASH  20
-#define SKILLONE_DAMAGE_LEASH  100
-#define SKILLONE_RANGE_LEASH 200
+#define SKILLONE_DAMAGE_LEASH  10
+#define SKILLONE_RANGE_LEASH 1000
+#define SKILLONE_THINK_TICK_LEASH 0.1
 
 #define SKILLTWO_LIFETIME_LEASH   1
 #define SKILLTWO_TICKRATE_LEASH   1
@@ -858,3 +861,4 @@
 #define SOLID_LEASH 	SOLID_SLIDEBOX
 #define MOVETYPE_LEASH  MOVETYPE_WALK
 #define WEAPONMODEL_LEASH ""
+#define CHAIN_LINK_LEN 55
