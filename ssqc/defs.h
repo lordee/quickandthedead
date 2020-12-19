@@ -833,6 +833,9 @@
 #define BASEHEALTH_LEASH 300
 #define BASESPEED_LEASH  330
 #define BASEATTACKFINISH_LEASH    1
+#define LEASH_MIN_CHAIN_LEN 	40
+#define LEASH_CHAIN_SHRINK_RATE 	40		// units of shrink chain in 0.1 sec
+
 
 #define SKILLONE_LIFETIME_LEASH   1
 #define SKILLONE_TICKRATE_LEASH   2

@@ -290,10 +290,7 @@ void () MaintainLinks =
 	}
 };
 
-void LeashRemove()
-{
-    self.owner.state = self.owner.state - (self.owner.state & PSTATE_LEASHING);
-    self.owner.movetype = MOVETYPE_WALK;
+void () DropHook = {
     entity linkptr, nextptr;
 
 	// removes hook and chain
@@ -304,6 +301,14 @@ void LeashRemove()
 		remove (linkptr);
 		linkptr = nextptr;
 	}
+};
+
+void LeashRemove()
+{
+    self.owner.state = self.owner.state - (self.owner.state & PSTATE_LEASHING);
+    self.owner.movetype = MOVETYPE_WALK;
+
+    DropHook();
 }
 
 void classleash_skillone_Think()
@@ -367,6 +372,23 @@ void LeashTouch()
 {
     if (other.team_no == TEAM_SURVIVOR)
     {
+        sound (self, CHAN_AUTO, "shambler/smack.wav", 1, ATTN_NORM);
+	    
+        vector spray;
+        // FIXME - change to diff mdl
+		spray_x = 40 * crandom();
+		spray_y = 40 * crandom();
+		spray_z = 40 * crandom();
+		SpawnMeatSpray (self.origin, spray);
+		spray_x = 80 * crandom();
+		spray_y = 80 * crandom();
+		spray_z = 80 * crandom();
+		SpawnMeatSpray (self.origin, spray);
+		spray_x = 120 * crandom();
+		spray_y = 120 * crandom();
+		spray_z = 120 * crandom();
+		SpawnMeatSpray (self.origin, spray);
+
         self.touch = SUB_Null;
         self.enemy = other;
         other.state = other.state | PSTATE_LEASHED;
@@ -376,6 +398,13 @@ void LeashTouch()
     }
 
     // otherwise, get rid of it
+    // don't attach hook to sky
+	if ((pointcontents(self.origin) == CONTENT_SKY) )
+	{		
+		LeashRemove();
+		return;
+	}
+    sound (self, CHAN_AUTO, "player/axhit2.wav", 1, ATTN_NORM);
     LeashRemove();
 }
 
@@ -410,14 +439,98 @@ void classleash_skillone()
 	puller.think = MaintainLinks;
 }
 
-void classleash_skilltwo()
-{
-    // grapple
-}
+void () HookThink = {
+    // shrink the length of the chain
+ 	if (self.armorvalue > LEASH_MIN_CHAIN_LEN)
+	{
+		if (time - self.ltime > 0.1) self.ltime = time - 0.1;
+		float framestep = 10 * (time - self.ltime) * LEASH_CHAIN_SHRINK_RATE;
+		self.armorvalue = self.armorvalue - framestep;
+		if (self.armorvalue < LEASH_MIN_CHAIN_LEN) 
+            self.armorvalue = LEASH_MIN_CHAIN_LEN;
+		self.ltime = time;
 
+		// trigger slide sound
+		if (time - self.delay >= 0.1)		
+		{
+			sound (self.owner, CHAN_AUTO, "hook/chain2.wav", 0.8, ATTN_NORM);
+			self.delay = time;
+		}
+	}
+    else
+    {
+        DropHook();
+        return;
+    }
 
+    // chain physics
+    vector chainvec = self.origin - (self.owner.origin + '0 0 16');
+	float chainlen = vlen (chainvec);
+    float f1, f2;
 
-/*void LaunchHook()
+	// if player's location is beyond the chain's reach
+	if (chainlen > self.armorvalue)	
+	{	 
+		// determine player's velocity component of chain vector
+		vector velpart = chainvec * ((self.owner.velocity * chainvec) / (chainvec * chainvec));
+		
+		// restrainment default force 
+		f2 = (chainlen - self.armorvalue) * 5;
+
+		// if player's velocity heading is away from the hook
+		if ((self.owner.velocity * chainvec) < 0)
+		{
+			// if chain has streched for 25 units
+			if (chainlen > self.armorvalue + 25)
+				// remove player's velocity component moving away from hook
+				self.owner.velocity = self.owner.velocity - velpart; 
+			f1 = f2;
+		}
+		else  // if player's velocity heading is towards the hook
+		{
+			if (vlen(velpart) < f2)
+				f1 = f2 - vlen(velpart);
+			else		
+				f1 = 0;
+		}
+	}
+	else
+		f1 = 0;
+	
+      // applys chain restrainment 
+	self.owner.velocity = self.owner.velocity + normalize(chainvec) * f1;
+	
+	//prevents sticking on the ground caused by built in friction routines
+	if (self.owner.velocity_z > (cvar("sv_gravity") / 20))
+		self.owner.flags = self.owner.flags - (self.owner.flags & FL_ONGROUND);
+
+	MaintainLinks ();
+
+	self.nextthink = time + 0.01;
+};
+
+void() HookTouch = {
+	// armorvalue is used to hold current length of chain
+	self.armorvalue = vlen (self.origin - (self.owner.origin + '0 0 16'));	
+
+	// don't attach hook to sky
+	if ((pointcontents(self.origin) == CONTENT_SKY))
+	{		
+		DropHook();
+		return;
+	}
+
+    sound (self, CHAN_AUTO, "player/axhit2.wav", 1, ATTN_NORM);
+    self.avelocity = '0 0 0';
+
+	self.velocity = other.velocity;
+	self.enemy = other;
+	self.think = HookThink;
+	self.nextthink = time + 0.01;
+	self.touch = SUB_Null;
+};
+
+void LaunchHook()
 {
     entity hook = spawn();
 
@@ -441,4 +554,10 @@ void classleash_skilltwo()
     hook.touch = HookTouch;
 	hook.nextthink = time + 0.01;     
 	hook.think = MaintainLinks;
-}*/
+}
+
+void classleash_skilltwo()
+{
+    // grapple
+    LaunchHook();
+}

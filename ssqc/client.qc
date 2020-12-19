@@ -1155,7 +1155,7 @@ called when a player dies
 void(entity targ, entity attacker) ClientObituary =
 {
 	local   float rnum;
-	local   string deathstring, deathstring2;
+	local   string deathstring = "", deathstring2 = "";
 	local   string  attackerteam, targteam;
 
 	rnum = random();
