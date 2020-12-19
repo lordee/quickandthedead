@@ -432,10 +432,12 @@ void() PutClientInServer =
 	}
 	// populate selfclass global - yuck
 	GetClass(self.class);
-	string mymsg = strcat("You are spawning as the ", selfclass.classstring, "\n");
-	sprint(self, PRINT_HIGH, mymsg);
-	centerprint(self, mymsg); // FIXME - not working, menumanager overriding?
-
+	if (self.class)
+	{
+		string mymsg = strcat("You are spawning as the ", selfclass.classstring, "\n");
+		sprint(self, PRINT_HIGH, mymsg);
+		centerprint(self, mymsg); // FIXME - not working, menumanager overriding?
+	}
 	self.attackdamage = selfclass.basead;
 	self.attackfinish = selfclass.baseattackfinish;
 	/*self.skill_one = selfclass.skill_one;
