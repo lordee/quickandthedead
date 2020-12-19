@@ -52,7 +52,37 @@ void() classleash_run	=[	$run1,		classleash_run	] {
 
 void classleash_shoot()
 {
-    bprint(PRINT_HIGH, "classleash_shoot not implemented\n");
+    // modified w_fireaxe
+    GetClass(self.class);
+    vector  source, org;
+
+	makevectors (self.v_angle);
+	source = self.origin + '0 0 16';
+	traceline (source, source + v_forward*64, FALSE, self);
+	if (trace_fraction == 1.0)
+		return;
+	
+	org = trace_endpos - v_forward*4;
+
+	if (trace_ent.takedamage)
+	{
+		trace_ent.axhitme = 1;
+		SpawnBlood (org, 20);
+        sound (self, CHAN_WEAPON, selfclass.sound_aahit, 1, ATTN_NORM);
+        T_Damage (trace_ent, self, self, selfclass.basead);
+	}
+	else
+	{       // hit wall
+		sound (self, CHAN_WEAPON, selfclass.sound_aahitwall, 1, ATTN_NORM);
+
+		WriteByte (MSG_MULTICAST, SVC_TEMPENTITY);
+		WriteByte (MSG_MULTICAST, TE_GUNSHOT);
+		WriteByte (MSG_MULTICAST, 3);
+		WriteCoord (MSG_MULTICAST, org_x);
+		WriteCoord (MSG_MULTICAST, org_y);
+		WriteCoord (MSG_MULTICAST, org_z);
+		multicast (org, MULTICAST_PVS);
+	}
 }
 
 void()	classleash_attack	=[	$shoot1,	classleash_attack	] {
