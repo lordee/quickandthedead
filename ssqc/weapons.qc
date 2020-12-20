@@ -1340,6 +1340,7 @@ W_WeaponFrame
 Called every frame so impulse events can be handled as well as possible
 ============
 */
+float SelectSpawnPoint_Monster();
 void() W_WeaponFrame =
 {
 	if (time < self.attack_finished)
@@ -1350,6 +1351,26 @@ void() W_WeaponFrame =
 // check for attack
 	if (self.button0)
 	{
+		if (!self.spawned)
+        {
+            if (self.team_no == TEAM_MONSTER)
+            {
+                if (SelectSpawnPoint_Monster())
+                {
+                    self.spawned = TRUE;
+                    self.dimension_seen = DIMENSION_ALIVE;
+					self.dimension_solid = DIMENSION_ALIVE;
+					self.dimension_see = DIMENSION_ALIVE;
+					self.dimension_hit = DIMENSION_ALIVE;
+					sprint(self, PRINT_HIGH, "Spawning in!\n");
+                }
+                else
+                {
+                    sprint(self, PRINT_HIGH, "A survivor can see you!\n");
+                }
+                return;
+            }
+        }
 		SuperDamageSound ();
 		W_Attack ();
 	}

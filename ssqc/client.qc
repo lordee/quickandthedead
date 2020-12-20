@@ -329,6 +329,48 @@ float(vector v) CheckSpawnPoint =
 	return FALSE;
 };
 
+float () SelectSpawnPoint_Monster =
+{
+    float goodspawn;
+    goodspawn = TRUE;
+    // check if visible to any enemies... dodgily
+    entity p;
+    p = find(world, classname, "player");
+	vector orghead;
+	orghead = self.origin;
+	vector mod = selfclass.model_max;
+	orghead_z = orghead_z + (mod_z / 2);
+
+	vector otherhead;
+	vector othermax;
+    while (p)
+    {
+        if (p.team_no == TEAM_SURVIVOR)
+        {
+            traceline(self.origin, p.origin, MOVE_NOMONSTERS, self);
+            if (trace_fraction == 1)
+            {
+                goodspawn = FALSE;
+            }
+
+			GetClass(self.class);
+			othermax = selfclass.model_max;
+			otherhead = p.origin;
+			otherhead_z = otherhead_z + (othermax_z / 2);
+			traceline(orghead, otherhead, MOVE_NOMONSTERS, self);
+
+			if (trace_fraction == 1)
+            {
+                goodspawn = FALSE;
+            }
+        }
+        
+        p = find(p, classname, "player");
+    }
+
+    return goodspawn;
+};
+
 /*
 ============
 SelectSpawnPoint
@@ -422,9 +464,21 @@ void() PutClientInServer =
 			break;
 		case TEAM_SURVIVOR:
 			self.class = CLASS_SURVIVOR;
+			self.spawned = TRUE;
+			self.dimension_seen = DIMENSION_ALIVE;
+			self.dimension_solid = DIMENSION_ALIVE;
+			self.dimension_see = DIMENSION_ALIVE;
+			self.dimension_hit = DIMENSION_ALIVE;
 			break;
 		case TEAM_MONSTER:
-			self.class = GetRandomClass(self);		
+			self.class = GetRandomClass(self);
+			self.spawned = FALSE;
+			self.dimension_seen = DIMENSION_MONSTERSPAWN;
+			self.dimension_solid = DIMENSION_MONSTERSPAWN;
+			self.dimension_hit = DIMENSION_MONSTERSPAWN;
+			self.dimension_ghost = DIMENSION_MONSTERSPAWN;
+			self.dimension_ghost_alpha = 0.3;
+			self.dimension_see = DIMENSION_MONSTERSPAWN | DIMENSION_ALIVE;
 			break;
 		default:
 			bprint(PRINT_HIGH, "team ", ftos(self.team_no));
