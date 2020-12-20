@@ -375,7 +375,7 @@ entity() SelectSpawnPoint =
 {
 	local entity spot;
 	
-	if (self.team_no == TEAM_SURVIVORS)
+	if (self.team_no == TEAM_SURVIVOR)
 	{
 		// TODO - check for nearby team mates, spawn near them, not in them
 		spot = find(world, classname, "info_player_coop");
@@ -390,7 +390,7 @@ entity() SelectSpawnPoint =
 		spot = find(world, classname, "player");
 		while (spot)
 		{
-			if (spot.team_no == TEAM_SURVIVORS)
+			if (spot.team_no == TEAM_SURVIVOR)
 			{
 				if (spot.deadflag == DEAD_NO)
 				{
