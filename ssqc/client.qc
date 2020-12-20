@@ -371,47 +371,38 @@ float () SelectSpawnPoint_Monster =
     return goodspawn;
 };
 
-/*
-============
-SelectSpawnPoint
-
-Returns the entity to spawn at
-============
-*/
 entity() SelectSpawnPoint =
 {
-	local	entity spot;
+	local entity spot;
 	
-// testinfo_player_start is only found in regioned levels
-	spot = find (world, classname, "testplayerstart");
-	if (spot)
-		return spot;
-		
-// choose a info_player_deathmatch point
-	if (coop)
+	if (self.team_no == TEAM_SURVIVORS)
 	{
-		lastspawn = find(lastspawn, classname, "info_player_coop");
-		if (lastspawn == world)
-			lastspawn = find (lastspawn, classname, "info_player_start");
-		if (lastspawn != world)
-			return lastspawn;
-	}
-	else if (deathmatch)
-	{
-		lastspawn = find(lastspawn, classname, "info_player_deathmatch");
-		if (lastspawn == world)
-			lastspawn = find (lastspawn, classname, "info_player_deathmatch");
-		if (lastspawn != world)
-			return lastspawn;
-	}
-
-	if (serverflags)
-	{	// return with a rune to start
-		spot = find (world, classname, "info_player_start2");
+		// TODO - check for nearby team mates, spawn near them, not in them
+		spot = find(world, classname, "info_player_coop");
+		if (!spot)
+			spot = find (world, classname, "info_player_start");
 		if (spot)
 			return spot;
 	}
+	else
+	{
+		// monsters spawn near survivors
+		spot = find(world, classname, "player");
+		while (spot)
+		{
+			if (spot.team_no == TEAM_SURVIVORS)
+			{
+				if (spot.deadflag == DEAD_NO)
+				{
+					return spot;
+				}
+				// TODO - track number of players and spawn on random player or closest to end or something
+			}
+			spot = find(spot, classname, "player");
+		}
+	}
 	
+	// if no monster spot found, find a normal player spot
 	spot = find (world, classname, "info_player_start");
 	if (!spot)
 		error ("PutClientInServer: no info_player_start on level");
