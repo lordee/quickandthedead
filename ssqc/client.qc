@@ -246,28 +246,53 @@ void() changelevel_touch =
 	if (other.classname != "player")
 		return;
 
-// if "noexit" is set, blow up the player trying to leave
-//ZOID, 12-13-96, noexit isn't supported in QW.  Overload samelevel
-//      if ((cvar("noexit") == 1) || ((cvar("noexit") == 2) && (mapname != "start")))
-	if ((cvar("samelevel") == 2) || ((cvar("samelevel") == 3) && (mapname != "start")))
+	if (other.team_no == TEAM_SURVIVOR)
 	{
-		T_Damage (other, self, self, 50000);
-		return;
+		// wait for all survivors to be there, or a combo of that and dead
+		entity p;
+		p = find(world, classname, "player");
+		float totSurvivors = 0, deadSurvivors = 0, exitSurvivors = 1;
+		
+		while (p)
+		{
+			if (p.team_no == TEAM_SURVIVOR)
+			{
+				totSurvivors = totSurvivors + 1;
+				if (p.deadflag == DEAD_DEAD)
+				{
+					deadSurvivors = deadSurvivors + 1;
+				}
+				else if (vlen(p.origin - other.origin) <= 300)
+				{
+					exitSurvivors = exitSurvivors + 1;
+				}
+			}
+		}
+
+		string msg = "";
+		if (exitSurvivors + deadSurvivors >= totSurvivors)
+		{
+			// made it out
+			msg = strcat(ftos(exitSurvivors), "/", ftos(totSurvivors), " escaped!\n");
+			nextmap = self.map;
+
+			SUB_UseTargets ();
+
+			self.touch = SUB_Null;
+
+		// we can't move people right now, because touch functions are called
+		// in the middle of C movement code, so set a think time to do it
+			self.think = execute_changelevel;
+			self.nextthink = time + 0.1;
+		}
+		else
+		{
+			float left = totSurvivors - deadSurvivors - exitSurvivors;
+			msg = strcat(ftos(left), " survivors still need to get to the exit!\n");
+		}
+		
+		bprint(PRINT_HIGH, msg);
 	}
-
-	bprint (PRINT_HIGH, other.netname);
-	bprint (PRINT_HIGH," exited the level\n");
-	
-	nextmap = self.map;
-
-	SUB_UseTargets ();
-
-	self.touch = SUB_Null;
-
-// we can't move people right now, because touch functions are called
-// in the middle of C movement code, so set a think time to do it
-	self.think = execute_changelevel;
-	self.nextthink = time + 0.1;
 };
 
 /*QUAKED trigger_changelevel (0.5 0.5 0.5) ? NO_INTERMISSION
