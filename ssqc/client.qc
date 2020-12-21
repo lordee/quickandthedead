@@ -563,9 +563,11 @@ void() PutClientInServer =
 	selfclass.standfunc();
 	
 	makevectors(self.angles);
-	spawn_tfog (self.origin + v_forward*20);
-
-	spawn_tdeath (self.origin, self);
+	if (self.team_no == TEAM_SURVIVOR)
+	{
+		spawn_tfog (self.origin + v_forward*20);
+		spawn_tdeath (self.origin, self);
+	}
 
 	// Set Rocket Jump Modifiers
 	if (stof(infokey(world, "rj")) != 0)
