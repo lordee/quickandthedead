@@ -490,6 +490,9 @@ local entity    bubble_spawner;
 	return;
 };
 
+void () ReviveSound = {
+	sound (self, CHAN_VOICE, "player/gasp2.wav", 1, ATTN_NONE);
+};
 
 void() DeathSound =
 {
@@ -728,8 +731,6 @@ void() PlayerDie =
 	{
 		selfclass.diefunc();
 	}
-	
-
 };
 
 void player_setpinnedframe(entity player)
@@ -752,6 +753,17 @@ void() set_suicide_frame =
 	self.nextthink = -1;
 };
 
+void()  player_down1    =       [       $deatha1,       player_down2    ] {};
+void()  player_down2    =       [       $deatha2,       player_down3    ] {};
+void()  player_down3    =       [       $deatha3,       player_down4    ] {};
+void()  player_down4    =       [       $deatha4,       player_down5    ] {};
+void()  player_down5    =       [       $deatha5,       player_down6    ] {};
+void()  player_down6    =       [       $deatha6,       player_down7    ] {};
+void()  player_down7    =       [       $deatha7,       player_down8    ] {};
+void()  player_down8    =       [       $deatha8,       player_down9    ] {};
+void()  player_down9    =       [       $deatha9,       player_down10   ] {};
+void()  player_down10   =       [       $deatha10,      player_down11   ] {};
+void()  player_down11   =       [       $deatha11,      player_down11 ] {};
 
 void()  player_diea1    =       [       $deatha1,       player_diea2    ] {};
 void()  player_diea2    =       [       $deatha2,       player_diea3    ] {};

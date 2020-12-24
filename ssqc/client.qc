@@ -56,8 +56,6 @@ void() info_intermission =
 	self.angles = self.mangle;      // so C can get at it
 };
 
-
-
 void() SetChangeParms =
 {
 	if (self.health <= 0)
@@ -237,62 +235,30 @@ void() execute_changelevel =
 		other.modelindex = 0;
 		other = find (other, classname, "player");
 	}       
-
 };
 
+void (entity exit) NextMap = {
+    self = exit;
+    nextmap = self.map;
+
+    SUB_UseTargets ();
+
+    self.touch = SUB_Null;
+
+// we can't move people right now, because touch functions are called
+// in the middle of C movement code, so set a think time to do it
+    self.think = execute_changelevel;
+    self.nextthink = time + 0.1;
+};
 
 void() changelevel_touch =
 {
+	return;
+
 	if (other.classname != "player")
 		return;
 
-	if (other.team_no == TEAM_SURVIVOR)
-	{
-		// wait for all survivors to be there, or a combo of that and dead
-		entity p;
-		p = find(world, classname, "player");
-		float totSurvivors = 0, deadSurvivors = 0, exitSurvivors = 1;
-		
-		while (p)
-		{
-			if (p.team_no == TEAM_SURVIVOR)
-			{
-				totSurvivors = totSurvivors + 1;
-				if (p.deadflag == DEAD_DEAD)
-				{
-					deadSurvivors = deadSurvivors + 1;
-				}
-				else if (vlen(p.origin - other.origin) <= 300)
-				{
-					exitSurvivors = exitSurvivors + 1;
-				}
-			}
-		}
-
-		string msg = "";
-		if (exitSurvivors + deadSurvivors >= totSurvivors)
-		{
-			// made it out
-			msg = strcat(ftos(exitSurvivors), "/", ftos(totSurvivors), " escaped!\n");
-			nextmap = self.map;
-
-			SUB_UseTargets ();
-
-			self.touch = SUB_Null;
-
-		// we can't move people right now, because touch functions are called
-		// in the middle of C movement code, so set a think time to do it
-			self.think = execute_changelevel;
-			self.nextthink = time + 0.1;
-		}
-		else
-		{
-			float left = totSurvivors - deadSurvivors - exitSurvivors;
-			msg = strcat(ftos(left), " survivors still need to get to the exit!\n");
-		}
-		
-		bprint(PRINT_HIGH, msg);
-	}
+	
 };
 
 /*QUAKED trigger_changelevel (0.5 0.5 0.5) ? NO_INTERMISSION
@@ -301,7 +267,7 @@ When the player touches this, he gets sent to the map listed in the "map" variab
 void() trigger_changelevel =
 {
 	if (!self.map)
-		objerror ("chagnelevel trigger doesn't have map");
+		objerror ("changelevel trigger doesn't have map");
 	
 	InitTrigger ();
 	self.touch = changelevel_touch;
@@ -446,6 +412,17 @@ called each time a player enters a new level
 */
 void() PutClientInServer =
 {
+	if (!self.aliased)
+	{
+		self.aliased = TRUE;
+		QATD_Alias("+qatd_use", 17);
+		QATD_Alias("-qatd_use", 18);
+		QATD_Alias("qatd_castskill_one", 14);
+		QATD_Alias("qatd_castskill_two", 15);
+		QATD_Alias("qatd_castskill_active", 16);
+		QATD_Alias("qatd_ready", 19);
+		QATD_Alias("ready", 19);
+	}
 	self.air_finished = time + 12;
 	self.dmg = 2;                   // initial water damage
 	self.super_damage_finished = 0;
@@ -484,7 +461,7 @@ void() PutClientInServer =
 			self.dimension_seen = DIMENSION_ALIVE;
 			self.dimension_solid = DIMENSION_ALIVE;
 			self.dimension_see = DIMENSION_ALIVE;
-			self.dimension_hit = DIMENSION_ALIVE;
+			self.dimension_hit = DIMENSION_ALIVE | DIMENSION_DOWNED;
 			break;
 		case TEAM_MONSTER:
 			self.class = GetRandomClass(self);
@@ -1139,6 +1116,7 @@ void() PlayerPostThink =
 		return;         // intermission or finale
 	if (self.deadflag)
 		return;
+
 	if (self.state & PSTATE_PINNED || self.state & PSTATE_LEASHED)
 	{
 		if (self.cnt == 0 || (time - self.cnt) >= 1)
@@ -1516,5 +1494,76 @@ void(entity targ, entity attacker) ClientObituary =
 
 			bprint (PRINT_MEDIUM," died\n");
 		}
+	}
+};
+
+float (entity player, vector spot) TestSpot = {
+	tracebox(spot, player.mins, player.maxs, spot, 0, player);
+
+	if (trace_startsolid)
+	{
+		return FALSE; // failed
+	}
+	else
+	{
+		return TRUE; // spot is empty
+	}
+};
+
+vector (entity player) FindSpot = {
+	vector spot;
+
+	spot = player.origin;
+	if (TestSpot(player, spot))
+	{
+		return spot;
+	}
+	else
+	{
+		float foundSpot = FALSE;
+		vector newSpot = spot;
+		float xiter = 0;
+
+		for (float x = -5; x <= 5; x++)
+		{
+			newSpot_x = spot_x + (32 * x);
+			for (float z = -5; z <= 5; z++)
+			{
+				newSpot_z = spot_z + (32 * z);
+				if (TestSpot(player, newSpot))
+				{
+					return newSpot;
+				}
+			}
+		}
+
+		return spot; // FIXME - non solid for a while?
+	}	
+};
+
+void () PlayerReady = {
+	self.ready = (self.ready == TRUE) ? FALSE : TRUE;
+	string msg = "";
+
+	msg = (self.ready) ? strcat(self.netname, " has readied up!\n") : strcat(self.netname, "is no longer ready!\n");
+
+	bprint(PRINT_HIGH, msg);
+	msg = "";
+	float count = 0;
+	entity p = find(world, classname, "player");
+	while (p)
+	{
+		if (!p.ready)
+		{
+			count++;
+			msg = (count == 1) ? p.netname : strcat(", ", p.netname);
+		}
+		
+		p = find(p, classname, "player");
+	}
+
+	if (count)
+	{
+		bprint(PRINT_HIGH, strcat("Players not ready:\n", msg, "\n"));
 	}
 };

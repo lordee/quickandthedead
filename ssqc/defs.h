@@ -237,12 +237,12 @@
 #define TF_WEAPNEXT             11  // Selects the next weapon slot
 #define TF_WEAPPREV             12  // Selects the previous weapon slot
 #define TF_WEAPLAST             13  // Selects the last used weapon slot
-#define IMP_USESKILLONE            14  
-#define IMP_USESKILLTWO            15  
+#define IMP_USESKILLONE         14  
+#define IMP_USESKILLTWO         15  
 #define IMP_USESKILL            16  // Use active skill
-#define TF_GRENADE_PT_1         17  // Prime and throw grenade type 1 (two clicks)
-#define TF_GRENADE_PT_2         18  // Prime and throw grenade type 2 (two clicks)
-#define TF_GRENADE_SWITCH       19  // Switch grenade mode 1/2
+#define IMP_USESTART            17  // +use
+#define IMP_USEEND              18  // -use
+#define IMP_READY               19  // ready
 #define TF_QUICKSLOT1           20  // Fire weapon slot 1 and then switch back to current weapon
 #define TF_QUICKSLOT2           21  // Fire weapon slot 2 and then switch back to current weapon
 #define TF_QUICKSLOT3           22  // Fire weapon slot 3 and then switch back to current weapon
@@ -574,6 +574,8 @@
 #define PSTATE_STUNNED 16
 #define PSTATE_LEASHED 32
 #define PSTATE_LEASHING 64
+#define PSTATE_REVIVING 128
+#define PSTATE_USING    256
 
 // QATD 
 #define TEAM_NONE 0
@@ -582,7 +584,8 @@
 
 // Buffs
 #define DEBUFF_STUN_MOVEALLOWED 1
-#define DEBUFF_STUN 2
+#define DEBUFF_STUN             2
+#define DEBUFF_DOWNEDHEALTHROT  3
 
 // Classes
 // None
@@ -676,6 +679,9 @@
 #define SOLID_SURVIVOR	SOLID_SLIDEBOX
 #define MOVETYPE_SURVIVOR MOVETYPE_WALK
 #define WEAPONMODEL_SURVIVOR "progs/v_shot.mdl"
+
+#define SURVIVOR_HEALTH_DOWNED_TICK 5
+#define SURVIVOR_REVIVE_TIME 10
 
 // Fiend
 #define STRING_FIEND	"fiend"
@@ -866,5 +872,6 @@
 #define WEAPONMODEL_LEASH ""
 #define CHAIN_LINK_LEN 55
 
-#define DIMENSION_ALIVE   1
+#define DIMENSION_ALIVE         1
 #define DIMENSION_MONSTERSPAWN  2
+#define DIMENSION_DOWNED        4

@@ -69,7 +69,6 @@ void SetTeam(entity player, float team)
 
 float GetRandomClass(entity player)
 {
-
     return CLASS_LEASH;
     
     // never spawn as last class
@@ -98,3 +97,8 @@ float GetRandomClass(entity player)
     }
     return newClass;
 }
+
+void (string alias, float imp) QATD_Alias = {
+    string cmd = strcat("alias ", alias, " \"impulse ", ftos(imp), "\"\n");
+    stuffcmd(self, cmd);
+};

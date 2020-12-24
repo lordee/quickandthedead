@@ -1291,17 +1291,30 @@ ImpulseCommands
 
 ============
 */
-void ClassChangeActiveSkill(entity player);
-void ClassUseSkill(entity player, float skillnum);
+void (entity player) ClassChangeActiveSkill;
+void (entity player, float skillnum) ClassUseSkill;
+void (entity player) Use;
+void () PlayerReady;
 void() ImpulseCommands =
 {
-
 	// weapons/skills
 	switch (self.team_no)
 	{
 		case TEAM_SURVIVOR:
 			if (self.impulse >= 1 && self.impulse <= 8)
 				W_ChangeWeapon ();
+
+			switch (self.impulse)
+			{
+				case IMP_USESTART:
+					self.state = self.state | PSTATE_USING;
+					break;
+				case IMP_USEEND:
+					self.state = self.state - (self.state & PSTATE_USING);
+					self.state = self.state - (self.state & PSTATE_REVIVING);
+					self.movetype = MOVETYPE_WALK;
+					break;
+			}
 			break;
 		case TEAM_MONSTER:
 			if (self.impulse >= 1 && self.impulse <= 2)
@@ -1322,6 +1335,12 @@ void() ImpulseCommands =
 			break;
 	}
 	
+	switch (self.impulse)
+	{
+		case IMP_READY:
+			PlayerReady();
+			break;
+	}
 
 	if (self.impulse == 10)
 		CycleWeaponCommand ();
@@ -1346,7 +1365,12 @@ void() W_WeaponFrame =
 	if (time < self.attack_finished)
 		return;
 
-	ImpulseCommands ();
+	ImpulseCommands();
+
+	if (self.state & PSTATE_USING)
+	{
+		Use(self);
+	}
 	
 // check for attack
 	if (self.button0)

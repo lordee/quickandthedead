@@ -122,6 +122,35 @@ void(entity targ, entity attacker) Killed =
 	self = oself;
 };
 
+void () DeathSound;
+void () player_down1;
+// first time player has been downed
+void (entity targ, entity attacker) Downed = {
+	self = targ;
+	self.downedflag = TRUE;
+	self.downedcount++;
+	// lie down
+	self.weaponmodel="";
+	self.view_ofs = '0 0 -8';
+	self.deadflag = DEAD_DYING;
+	//self.solid = SOLID_NOT;
+	self.dimension_solid = DIMENSION_DOWNED;
+	self.flags = self.flags - (self.flags & FL_ONGROUND);
+	self.movetype = MOVETYPE_TOSS;
+	if (self.velocity_z < 10)
+		self.velocity_z = self.velocity_z + random()*300;
+	
+	DeathSound();
+	
+	//self.angles_x = 0;
+	//self.angles_z = 0;
+	
+	player_down1();
+	self.movetype = MOVETYPE_NONE;
+
+	string msg = strcat(self.netname, " has been downed by ", attacker.netname, "\n");
+	bprint(PRINT_HIGH, msg);
+};
 
 /*
 ============
@@ -131,8 +160,7 @@ The damage is coming from inflictor, but get mad at attacker
 This should be the only function that ever reduces health.
 ============
 */
-void(entity targ, entity inflictor, entity attacker, float damage) T_Damage =
-{
+void(entity targ, entity inflictor, entity attacker, float damage) T_Damage = {
 	local   vector  dir;
 	local   entity  oldself;
 	local   float   save;
@@ -201,8 +229,6 @@ void(entity targ, entity inflictor, entity attacker, float damage) T_Damage =
 
 	}
 
-
-
 // check for godmode or invincibility
 	if (targ.flags & FL_GODMODE)
 		return;
@@ -233,9 +259,21 @@ void(entity targ, entity inflictor, entity attacker, float damage) T_Damage =
 		
 // do the damage
 	targ.health = targ.health - take;
+	bprint(PRINT_HIGH, strcat(attacker.netname, " inflicted ", ftos(rint(take)), " damage on ", targ.netname, "\n"));
 
 	if (targ.health <= 0)
 	{
+		targ.health = 1;
+		if (targ.team_no == TEAM_SURVIVOR)
+		{
+			// allow player to be resuscitated if they're downed
+			if (targ.downedflag == FALSE)
+			{
+				Downed(targ, attacker);
+				return;
+			}
+		}
+
 		Killed(targ, attacker);
 		return;
 	}
@@ -345,4 +383,73 @@ void(entity attacker, float damage) T_BeamDamage =
 		head = head.chain;
 	}
 };
+void () W_SetCurrentAmmo;
+void () player_stand1;
+void () ReviveSound;
+vector (entity player) FindSpot;
+void (entity targ, float cat, float lifetime, float tickrate) T_ApplyBuff;
+void (entity reviver, entity downed) RevivePlayer = {
+	if (downed.downedflag == FALSE)
+		return;
+		
+	if (!(reviver.state & PSTATE_REVIVING))
+	{
+		reviver.state = reviver.state | PSTATE_REVIVING;
+		reviver.movetype = MOVETYPE_NONE;
+		sprint(reviver, PRINT_HIGH, strcat("Reviving ", downed.netname, "\n"));
+		sprint(downed, PRINT_HIGH, strcat(reviver.netname, " is reviving you\n"));
+	}
 
+	// add each frame to progress... assume 77 fps
+	downed.revivetick++;
+	float progTime = downed.revivetick * (1/77);
+
+	if (downed.revivetick % 77 == 0)
+	{
+		float prog = progTime / SURVIVOR_REVIVE_TIME * 100;
+		sprint(reviver, PRINT_HIGH, ftos(rint(prog)), "%\n");
+		sprint(downed, PRINT_HIGH, ftos(rint(prog)), "%\n");
+	}
+	
+	if (progTime >= SURVIVOR_REVIVE_TIME)
+	{
+		downed.revivetick = 0;
+		GetClass(downed.class); // undefined, also survivor defaults
+		self = downed;
+		W_SetCurrentAmmo(); // weapon model etc
+		self.view_ofs = selfclass.model_viewoffset;
+		self.deadflag = DEAD_NO;
+		self.downedflag = FALSE;
+		self.solid = SOLID_SLIDEBOX;
+		self.flags = FL_CLIENT;
+		self.movetype = MOVETYPE_WALK;
+
+		switch (self.downedcount)
+		{
+			case 1:
+				self.health = 100;
+				break;
+			case 2:
+				self.health = 75;
+				break;
+			case 3:
+				self.health = 50;
+				break;
+			default:
+				self.health = 25;
+				break;
+		}
+		
+		T_ApplyBuff(self, DEBUFF_DOWNEDHEALTHROT, 999, SURVIVOR_HEALTH_DOWNED_TICK);
+
+		self.origin = FindSpot(self);
+
+		ReviveSound();
+
+		player_stand1();
+		string msg = strcat(self.netname, " has been revived by ", reviver.netname, "\n");
+		bprint(PRINT_HIGH, msg);
+		reviver.state = reviver.state - (reviver.state & PSTATE_REVIVING);
+		reviver.movetype = MOVETYPE_WALK;
+	}
+};

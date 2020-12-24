@@ -3,7 +3,6 @@
 float skill;
 float coop;
 
-
 enum {
     CLASS_NONE,
     CLASS_SURVIVOR,
@@ -43,8 +42,15 @@ typedef void(entity, float) f_void_ef;
 //.f_void_float menu_input;
 .float menu;
 .float class;
-.float spawned;
+.float spawned; // whether monster has spawned
 .entity interactentity;
+.float downedflag; // survivor downed
+.float downedcount;
+.float revivetick;
+.float revivecount;
+.float aliased;
+.float ready;
+
 // buffs
 .float nextthinkinterval;
 .float buffcategory;
@@ -129,3 +135,19 @@ typedef struct {
 Class_t Classes[6];
 Class_t selfclass;
 void GetClass(float id);
+
+typedef struct {
+    void () Constructor;
+    entity Timer;
+    float RoundNum;
+    float RoundCountdown;
+
+    // scores
+    float team_one_distance;
+    float team_one_survivors_escape;
+    float team_one_time_taken;
+    float team_two_distance;
+    float team_two_survivors_escape;
+    float team_two_time_taken;
+} RoundManager_t;
+RoundManager_t RoundManager;

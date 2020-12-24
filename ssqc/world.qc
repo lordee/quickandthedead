@@ -186,6 +186,9 @@ void QATD_Setup()
 	MenuManager.Constructor = MM_Constructor;
 	MenuManager.Constructor();
 
+	RoundManager.Constructor = RM_Constructor;
+	RoundManager.Constructor();
+
 	for(float i = 0; i < Classes.length; i++)
 	{
 		precache_model(Classes[i].model);
@@ -408,6 +411,8 @@ void() StartFrame =
 	deathmatch = cvar("deathmatch");
 	
 	framecount = framecount + 1;
+
+	RoundEndCheck();
 };
 
 /*

@@ -2,6 +2,17 @@ void () BuffThink = {
     float h;
     h = self.health - 1;
 
+	// debuff tick applied
+	switch (self.buffcategory)
+    {
+		case DEBUFF_DOWNEDHEALTHROT:
+			// don't die whilst downed, clients go weird
+			if (!self.downedflag)
+				self.owner.health = self.owner.health - 1;
+			break;
+        default:
+    }
+
     if (h > 0)
     {
         self.health = h;
@@ -10,6 +21,7 @@ void () BuffThink = {
         return;
     }
 
+	// debuff ends
     switch (self.buffcategory)
     {
 		case DEBUFF_STUN_MOVEALLOWED:
@@ -25,6 +37,7 @@ void () BuffThink = {
     remove(self);
 }
 
+/*
 float BuffExists(entity player, float id)
 {
 	entity buff;
@@ -42,14 +55,13 @@ float BuffExists(entity player, float id)
 	}
 	return FALSE;
 }
-
-void (entity targ, float cat, float id, float lifetime, float tickrate) T_ApplyBuff = {
+*/
+void (entity targ, float cat, float lifetime, float tickrate) T_ApplyBuff = {
 	entity newbuff;
 	newbuff = spawn();
     newbuff.owner = targ;
     newbuff.classname = "buff";
     newbuff.buffcategory = cat;
-	newbuff.buffid = id;
     
     newbuff.think = BuffThink;
 	newbuff.max_health = lifetime;

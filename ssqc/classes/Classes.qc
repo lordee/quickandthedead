@@ -509,3 +509,29 @@ void ClassAttack()
     self.attack_finished = time + selfclass.baseattackfinish;
     selfclass.attackfunc();
 }
+
+void (entity player) Use = {
+    // if pointed at a downed player
+    makevectors(player.v_angle);
+    vector source;
+    source = player.origin + player.view_ofs;
+    traceline(source, source + v_forward * 64, MOVE_HITMODEL | MOVE_EVERYTHING, player);
+
+    if (trace_ent)
+    {
+        if (trace_ent.team_no == player.team_no)
+        {
+            // start/continue revive process
+            RevivePlayer(player, trace_ent);
+        }
+    }
+    else
+    {
+        if (player.state & PSTATE_REVIVING)
+        {
+            sprint(player, PRINT_HIGH, "Reviving paused\n");
+            player.state = player.state - (player.state & PSTATE_REVIVING);
+		    player.movetype = MOVETYPE_WALK;
+        }
+    }
+};
