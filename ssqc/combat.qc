@@ -167,6 +167,8 @@ void(entity targ, entity inflictor, entity attacker, float damage) T_Damage = {
 	local   float   take;
 	local   string  attackerteam, targteam;
 
+	if (!RoundManager.RoundInProgress)
+		return;
 
 	if (!targ.takedamage)
 		return;
@@ -259,7 +261,8 @@ void(entity targ, entity inflictor, entity attacker, float damage) T_Damage = {
 		
 // do the damage
 	targ.health = targ.health - take;
-	bprint(PRINT_HIGH, strcat(attacker.netname, " inflicted ", ftos(rint(take)), " damage on ", targ.netname, "\n"));
+	if (attacker.classname == "player" && targ.classname == "player")
+		bprint(PRINT_HIGH, strcat(attacker.netname, " inflicted ", ftos(rint(take)), " damage on ", targ.netname, "\n"));
 
 	if (targ.health <= 0)
 	{
