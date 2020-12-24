@@ -532,7 +532,6 @@ void() PutClientInServer =
 	self.angles = spot.angles;
 	self.fixangle = TRUE;           // turn this way immediately
 
-	bprint(PRINT_HIGH, selfclass.model, "\n");
 	setmodel (self, selfclass.model);
 	selfclass.modelindex = self.modelindex;
 	setsize (self, selfclass.model_min, selfclass.model_max);
@@ -1542,6 +1541,9 @@ vector (entity player) FindSpot = {
 };
 
 void () PlayerReady = {
+	if (!RoundManager.RoundInProgress || RoundManager.RoundNum > 0)
+		return;
+		
 	self.ready = (self.ready == TRUE) ? FALSE : TRUE;
 	string msg = "";
 
