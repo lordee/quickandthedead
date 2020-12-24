@@ -1521,7 +1521,6 @@ vector (entity player) FindSpot = {
 	{
 		float foundSpot = FALSE;
 		vector newSpot = spot;
-		float xiter = 0;
 
 		for (float x = -5; x <= 5; x++)
 		{
@@ -1541,9 +1540,9 @@ vector (entity player) FindSpot = {
 };
 
 void () PlayerReady = {
-	if (!RoundManager.RoundInProgress || RoundManager.RoundNum > 0)
+	if (RoundManager.RoundInProgress || RoundManager.RoundNum > 0)
 		return;
-		
+
 	self.ready = (self.ready == TRUE) ? FALSE : TRUE;
 	string msg = "";
 
