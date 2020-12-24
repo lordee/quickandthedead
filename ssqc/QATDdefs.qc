@@ -141,6 +141,7 @@ typedef struct {
     entity Timer;
     float RoundNum;
     float RoundCountdown;
+    float RoundInProgress;
 
     // scores
     float team_one_distance;

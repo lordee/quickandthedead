@@ -8,8 +8,14 @@ void () RM_Constructor = {
 
 // prematch
 void () RoundStart;
+void () RoundEndCheck;
 void () RoundPreMatch = {
     self.nextthink = time + 1;
+    if (RoundManager.RoundInProgress)
+    {
+        self.think = RoundEndCheck;   
+    }
+    
     // if players aren't ready, centerprint list and prompt for ready
     lightstyle (0, "e");
     string readyMsg = "Not ready: ";
@@ -77,7 +83,8 @@ void () RoundPreMatch = {
         p = find(world, classname, "player");
         while (p)
         {
-            centerprint(p, readyMsg);
+            if (p.team_no)
+                p.status_string = readyMsg;
             p = find(p, classname, "player");
         }
     }
@@ -87,6 +94,7 @@ void () RoundPreMatch = {
 void () RoundStart = {
     lightstyle (0, "m");
     RoundManager.RoundNum = RoundManager.RoundNum + 1;
+    RoundManager.RoundInProgress = TRUE;
     bprint(PRINT_HIGH, strcat("Starting round ", ftos(RoundManager.RoundNum), "\n"));
 
     // spawn players
@@ -102,6 +110,7 @@ void () RoundStart = {
 // end Rounds
 void (entity exit) NextMap;
 void (float downedCount, float exitCount, float totCount) RoundEnd = {
+    RoundManager.RoundInProgress = FALSE;
     string msg = "";
     if (downedCount >= totCount)
     {

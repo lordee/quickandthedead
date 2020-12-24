@@ -411,8 +411,6 @@ void() StartFrame =
 	deathmatch = cvar("deathmatch");
 	
 	framecount = framecount + 1;
-
-	RoundEndCheck();
 };
 
 /*
