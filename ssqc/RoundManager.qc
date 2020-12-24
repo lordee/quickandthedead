@@ -13,7 +13,8 @@ void () RoundPreMatch = {
     self.nextthink = time + 1;
     if (RoundManager.RoundInProgress)
     {
-        self.think = RoundEndCheck;   
+        self.think = RoundEndCheck;
+        return;
     }
     
     // if players aren't ready, centerprint list and prompt for ready
@@ -61,6 +62,7 @@ void () RoundPreMatch = {
             while (p)
             {
                 p.movetype = MOVETYPE_NONE;
+                p.status_string = "";
                 p = find(p, classname, "player");
             }
             readyMsg = strcat("Round ", ftos(RoundManager.RoundNum + 1), " begins in \s[\s10\s]\s seconds\n");
