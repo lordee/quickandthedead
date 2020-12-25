@@ -253,12 +253,7 @@ void (entity exit) NextMap = {
 
 void() changelevel_touch =
 {
-	return;
-
-	if (other.classname != "player")
-		return;
-
-	
+	return;	
 };
 
 /*QUAKED trigger_changelevel (0.5 0.5 0.5) ? NO_INTERMISSION
@@ -410,6 +405,7 @@ PutClientInServer
 called each time a player enters a new level
 ============
 */
+
 void() PutClientInServer =
 {
 	if (!self.aliased)
@@ -527,6 +523,7 @@ void() PutClientInServer =
 	
 	entity spot;
 	spot = SelectSpawnPoint ();
+	spot = TestAndFindReplacementSpot(self, spot);
 
 	self.origin = spot.origin + '0 0 1';
 	self.angles = spot.angles;
@@ -1509,34 +1506,42 @@ float (entity player, vector spot) TestSpot = {
 	}
 };
 
-vector (entity player) FindSpot = {
-	vector spot;
+entity (entity player, entity spot) FindSpot = {
+	float foundSpot = FALSE;
+	entity newSpot = spawn();
+	newSpot.think = SUB_Remove;
+	newSpot.nextthink = time + 1;
+	newSpot.origin = spot.origin;
+	
+	vector newOrg = spot.origin;
+	vector spotOrg = spot.origin;
 
-	spot = player.origin;
-	if (TestSpot(player, spot))
+	for (float x = -5; x <= 5; x++)
+	{
+		newOrg_x = spotOrg_x + (32 * x);
+		for (float z = -5; z <= 5; z++)
+		{
+			newOrg_z = spotOrg_z + (32 * z);
+			if (TestSpot(player, newOrg))
+			{
+				newSpot.origin = newOrg;
+				return newSpot;
+			}
+		}
+	}
+
+	return spot; // FIXME - non solid for a while? need an alternative to just returning the failed spot
+};
+
+entity (entity player, entity spot) TestAndFindReplacementSpot = {
+	if (TestSpot(player, spot.origin))
 	{
 		return spot;
 	}
 	else
 	{
-		float foundSpot = FALSE;
-		vector newSpot = spot;
-
-		for (float x = -5; x <= 5; x++)
-		{
-			newSpot_x = spot_x + (32 * x);
-			for (float z = -5; z <= 5; z++)
-			{
-				newSpot_z = spot_z + (32 * z);
-				if (TestSpot(player, newSpot))
-				{
-					return newSpot;
-				}
-			}
-		}
-
-		return spot; // FIXME - non solid for a while?
-	}	
+		return FindSpot(player, spot);
+	}
 };
 
 void () PlayerReady = {

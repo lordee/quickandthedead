@@ -142,6 +142,7 @@ typedef struct {
     float RoundNum;
     float RoundCountdown;
     float RoundInProgress;
+    float RoundStartTime;
 
     // scores
     float team_one_distance;

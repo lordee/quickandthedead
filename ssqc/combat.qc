@@ -389,8 +389,8 @@ void(entity attacker, float damage) T_BeamDamage =
 void () W_SetCurrentAmmo;
 void () player_stand1;
 void () ReviveSound;
-vector (entity player) FindSpot;
 void (entity targ, float cat, float lifetime, float tickrate) T_ApplyBuff;
+entity (entity player, entity spot) TestAndFindReplacementSpot;
 void (entity reviver, entity downed) RevivePlayer = {
 	if (downed.downedflag == FALSE)
 		return;
@@ -445,7 +445,8 @@ void (entity reviver, entity downed) RevivePlayer = {
 		
 		T_ApplyBuff(self, DEBUFF_DOWNEDHEALTHROT, 999, SURVIVOR_HEALTH_DOWNED_TICK);
 
-		self.origin = FindSpot(self);
+		entity spot = TestAndFindReplacementSpot(self, self);
+		self.origin = spot.origin;
 
 		ReviveSound();
 

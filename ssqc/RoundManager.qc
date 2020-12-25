@@ -97,6 +97,7 @@ void () RoundStart = {
     lightstyle (0, "m");
     RoundManager.RoundNum = RoundManager.RoundNum + 1;
     RoundManager.RoundInProgress = TRUE;
+    RoundManager.RoundStartTime = time;
     bprint(PRINT_HIGH, strcat("Starting round ", ftos(RoundManager.RoundNum), "\n"));
 
     // spawn players
@@ -107,6 +108,9 @@ void () RoundStart = {
         PutClientInServer();
         p = find(p, classname, "player");
     }
+
+    // FIXME - reset all original entities
+    // generateentitydata/parseentitydata
 };
 
 // end Rounds
@@ -127,8 +131,11 @@ void (float downedCount, float exitCount, float totCount) RoundEnd = {
 
     bprint(PRINT_HIGH, msg);
 
+    float t = time - RoundManager.RoundStartTime;
     if (RoundManager.RoundNum == 1)
     {
+        RoundManager.team_one_time_taken = t;
+        RoundManager.team_one_survivors_escape = exitCount;
         // Swap teams, start again
         entity p = find(world, classname, "player");
         while (p)
@@ -148,6 +155,8 @@ void (float downedCount, float exitCount, float totCount) RoundEnd = {
     }
     else
     {
+        RoundManager.team_two_time_taken = t;
+        RoundManager.team_two_survivors_escape = exitCount;
         // end map, calc scores
         float t1DistScore = RoundManager.team_one_distance * 1000;
         float t2DistScore = RoundManager.team_two_distance * 1000;
