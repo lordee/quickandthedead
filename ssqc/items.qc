@@ -37,8 +37,6 @@ void() SUB_regen =
 	setorigin (self, self.origin);
 };
 
-
-
 /*QUAKED noclass (0 0 0) (-8 -8 -8) (8 8 8)
 prints a warning message when spawned
 */
@@ -50,11 +48,12 @@ void() noclass =
 	remove (self);
 };
 
-void() q_touch;
-
 void() q_touch =
 {
-local string    s;
+	if (!RoundManager.RoundInProgress || other.team_no == TEAM_MONSTER)
+		return;
+
+	local string    s;
 
 	if (other.classname != "player")
 		return;
@@ -119,7 +118,10 @@ void(float timeleft) DropQuad =
 
 void() r_touch =
 {
-local string    s;
+	if (!RoundManager.RoundInProgress || other.team_no == TEAM_MONSTER)
+	return;
+
+	local string    s;
 
 	if (other.classname != "player")
 		return;
@@ -295,6 +297,8 @@ void() item_health =
 
 void() health_touch =
 {
+	if (!RoundManager.RoundInProgress || other.team_no == TEAM_MONSTER)
+		return;
 	local   string  s;
 	
 	if (deathmatch == 4)
@@ -383,11 +387,11 @@ ARMOR
 
 ===============================================================================
 */
-
-void() armor_touch;
-
 void() armor_touch =
 {
+	if (!RoundManager.RoundInProgress || other.team_no == TEAM_MONSTER)
+		return;
+
 	local   float   type, value, bit;
 	type = 0;
 	value = 0;
@@ -566,6 +570,9 @@ float() W_BestWeapon;
 
 void() weapon_touch =
 {
+	if (!RoundManager.RoundInProgress || other.team_no == TEAM_MONSTER)
+		return;
+
 	local   float   hadammo, best, new, old;
 	new = 0;
 	local   entity  stemp;
@@ -810,8 +817,11 @@ AMMO
 
 void() ammo_touch =
 {
-local entity    stemp;
-local float             best;
+	if (!RoundManager.RoundInProgress || other.team_no == TEAM_MONSTER)
+		return;
+
+	local entity stemp;
+	local float best;
 
 	if (other.classname != "player")
 		return;
@@ -1103,6 +1113,8 @@ KEYS
 
 void() key_touch =
 {
+	if (!RoundManager.RoundInProgress || other.team_no == TEAM_MONSTER)
+		return;
 	if (other.classname != "player")
 		return;
 	if (other.health <= 0)
@@ -1124,7 +1136,6 @@ void() key_touch =
 	activator = other;
 	SUB_UseTargets();                               // fire all targets / killtargets
 };
-
 
 void() key_setsounds =
 {
@@ -1233,6 +1244,8 @@ END OF LEVEL RUNES
 
 void() sigil_touch =
 {
+	if (!RoundManager.RoundInProgress || other.team_no == TEAM_MONSTER)
+		return;
 	if (other.classname != "player")
 		return;
 	if (other.health <= 0)
@@ -1300,6 +1313,8 @@ POWERUPS
 
 void() powerup_touch =
 {
+	if (!RoundManager.RoundInProgress || other.team_no == TEAM_MONSTER)
+		return;
 	if (other.classname != "player")
 		return;
 	if (other.health <= 0)
@@ -1456,6 +1471,8 @@ PLAYER BACKPACKS
 
 void() BackpackTouch =
 {
+	if (!RoundManager.RoundInProgress || other.team_no == TEAM_MONSTER)
+		return;
 	local string    s;
 	local   float   best, old, new;
 	local           entity  stemp;

@@ -1,3 +1,21 @@
+typedef struct {
+    void () Constructor;
+    entity Timer;
+    float RoundNum;
+    float RoundCountdown;
+    float RoundInProgress;
+    float RoundStartTime;
+
+    // scores
+    float team_one_distance;
+    float team_one_survivors_escape;
+    float team_one_time_taken;
+    float team_two_distance;
+    float team_two_survivors_escape;
+    float team_two_time_taken;
+} RoundManager_t;
+RoundManager_t RoundManager;
+
 void () RoundPreMatch;
 
 void () RM_Constructor = {

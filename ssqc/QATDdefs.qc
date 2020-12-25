@@ -135,21 +135,3 @@ typedef struct {
 Class_t Classes[6];
 Class_t selfclass;
 void GetClass(float id);
-
-typedef struct {
-    void () Constructor;
-    entity Timer;
-    float RoundNum;
-    float RoundCountdown;
-    float RoundInProgress;
-    float RoundStartTime;
-
-    // scores
-    float team_one_distance;
-    float team_one_survivors_escape;
-    float team_one_time_taken;
-    float team_two_distance;
-    float team_two_survivors_escape;
-    float team_two_time_taken;
-} RoundManager_t;
-RoundManager_t RoundManager;
