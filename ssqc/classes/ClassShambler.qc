@@ -252,12 +252,21 @@ void classsham_CastSkillOne()
 
 void classsham_skillone()
 {
+	if (!self.spawned)
+	{
+		sprint(self, PRINT_HIGH, "You cannot use this skill as a ghost\n");
+		return;
+	}
 	self.walkframe = 0;
 	classsham_smash();
 }
 
 void classsham_skilltwo_Touch()
 {
+	if (!self.spawned)
+	{
+		return;
+	}
     // push back unit hit, stunning them for duration and .1 secs after hitting ground?
     if (other)
     {

@@ -223,6 +223,9 @@ void() classfiend_die =
 
 void()	classfiend_JumpTouch =
 {
+	if (!self.spawned)
+		return;
+		
 	if (self.health <= 0)
 		return;
 		

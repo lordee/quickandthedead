@@ -346,6 +346,11 @@ void classundeadking_skillone_Think()
 
 void classundeadking_skillone()
 {
+	if (!self.spawned)
+	{
+		sprint(self, PRINT_HIGH, "You cannot use this skill as a ghost\n");
+		return;
+	}
 	entity timer;
 	timer = spawn();
 
@@ -358,6 +363,11 @@ void classundeadking_skillone()
 
 void classundeadking_skilltwo()
 {
+	if (!self.spawned)
+	{
+		sprint(self, PRINT_HIGH, "You cannot use this skill as a ghost\n");
+		return;
+	}
 	// shoot zombie, if touch teleport to them
 	makevectors(self.v_angle);
 	traceline(self.origin, self.origin + v_forward * 1000, FALSE, self);

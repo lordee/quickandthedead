@@ -440,6 +440,11 @@ void LeashTouch()
 
 void classleash_skillone()
 {
+	if (!self.spawned)
+	{
+		sprint(self, PRINT_HIGH, "You cannot use this skill as a ghost\n");
+		return;
+	}
     if (self.state & PSTATE_LEASHING)
         return;
 
