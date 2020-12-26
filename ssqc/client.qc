@@ -486,7 +486,7 @@ void() PutClientInServer =
 	{
 		string mymsg = strcat("You are spawning as the ", selfclass.classstring, "\n");
 		sprint(self, PRINT_HIGH, mymsg);
-		centerprint(self, mymsg); // FIXME - not working, menumanager overriding?
+		self.status_string = mymsg;
 	}
 	self.attackdamage = selfclass.basead;
 	self.attackfinish = selfclass.baseattackfinish;
