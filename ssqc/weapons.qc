@@ -1320,17 +1320,24 @@ void() ImpulseCommands =
 			if (self.impulse >= 1 && self.impulse <= 2)
 				ClassChangeActiveSkill(self);
 
-			switch (self.impulse)
+			if (RoundManager.RoundInProgress)
 			{
-				case IMP_USESKILLONE:
-					ClassUseSkill(self, 1);
-					break;
-				case IMP_USESKILLTWO:
-					ClassUseSkill(self, 2);
-					break;
-				case IMP_USESKILL:
-					ClassUseSkill(self, self.skill_selected);
-					break;
+				switch (self.impulse)
+				{
+					case IMP_USESKILLONE:
+						ClassUseSkill(self, 1);
+						break;
+					case IMP_USESKILLTWO:
+						ClassUseSkill(self, 2);
+						break;
+					case IMP_USESKILL:
+						ClassUseSkill(self, self.skill_selected);
+						break;
+				}
+			}
+			else
+			{
+				sprint(self, PRINT_HIGH, "You cannot use skills in prematch!\n");
 			}
 			break;
 	}
@@ -1379,6 +1386,9 @@ void() W_WeaponFrame =
         {
             if (self.team_no == TEAM_MONSTER)
             {
+				if (!RoundManager.RoundInProgress)
+				return;
+
                 if (SelectSpawnPoint_Monster())
                 {
                     self.spawned = TRUE;
