@@ -279,7 +279,7 @@ slower noticing monsters.
 float() FindTarget =
 {
 	if (!RoundManager.RoundInProgress)
-		return;
+		return FALSE;
 	local entity	client;
 	local float		r;
 
