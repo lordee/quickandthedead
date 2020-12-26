@@ -135,3 +135,30 @@ typedef struct {
 Class_t Classes[6];
 Class_t selfclass;
 void GetClass(float id);
+
+void MM_CheckMenu(entity player);
+void MM_SetMenu(entity player, float menuType, string... count);
+void MM_RefreshScreen(entity player);
+void MM_MenuInput(entity player);
+void MM_ClearScreen(entity player);
+void MM_FrameThink(entity player);
+void MM_CenterPrint(entity player, string... count);
+
+void MM_TeamMenu(entity player);
+void MM_TeamMenu_Input(entity player);
+
+typedef struct {
+    void (entity player) CheckMenu;
+    void (entity player, float menuType, string... count) SetMenu;
+    void (entity player) RefreshScreen;
+    void (entity player) ClearScreen;
+    void (entity player) MenuInput;
+    void (entity player) FrameThink;
+    void (entity player, string... count) CenterPrint;
+
+    void (entity player) TeamMenu;
+    void (entity player) MenuTeamInput;
+    void () Constructor;
+} QATD_MenuManager;
+
+QATD_MenuManager MenuManager;

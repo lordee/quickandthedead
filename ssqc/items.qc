@@ -1251,7 +1251,7 @@ void() sigil_touch =
 	if (other.health <= 0)
 		return;
 
-	centerprint (other, "You got the rune!");
+	MenuManager.CenterPrint(other, "You got the rune!");
 
 	sound (other, CHAN_ITEM, self.noise, 1, ATTN_NORM);
 	stuffcmd (other, "bf\n");

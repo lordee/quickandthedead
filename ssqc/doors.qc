@@ -234,7 +234,7 @@ void() door_touch =
 
 	if (self.owner.message != "")
 	{
-		centerprint (other, self.owner.message);
+		MenuManager.CenterPrint(other, self.owner.message);
 		sound (other, CHAN_VOICE, "misc/talk.wav", 1, ATTN_NORM);
 	}
 	
@@ -249,17 +249,17 @@ void() door_touch =
 		{
 			if (world.worldtype == 2)
 			{
-				centerprint (other, "You need the silver keycard");
+				MenuManager.CenterPrint(other, "You need the silver keycard");
 				sound (self, CHAN_VOICE, self.noise3, 1, ATTN_NORM);
 			}
 			else if (world.worldtype == 1)
 			{
-				centerprint (other, "You need the silver runekey");
+				MenuManager.CenterPrint(other, "You need the silver runekey");
 				sound (self, CHAN_VOICE, self.noise3, 1, ATTN_NORM);
 			}
 			else if (world.worldtype == 0)
 			{
-				centerprint (other, "You need the silver key");
+				MenuManager.CenterPrint(other, "You need the silver key");
 				sound (self, CHAN_VOICE, self.noise3, 1, ATTN_NORM);
 			}
 		}
@@ -267,17 +267,17 @@ void() door_touch =
 		{
 			if (world.worldtype == 2)
 			{
-				centerprint (other, "You need the gold keycard");
+				MenuManager.CenterPrint(other, "You need the gold keycard");
 				sound (self, CHAN_VOICE, self.noise3, 1, ATTN_NORM);
 			}
 			else if (world.worldtype == 1)
 			{
-				centerprint (other, "You need the gold runekey");
+				MenuManager.CenterPrint(other, "You need the gold runekey");
 				sound (self, CHAN_VOICE, self.noise3, 1, ATTN_NORM);                    
 			}
 			else if (world.worldtype == 0)
 			{
-				centerprint (other, "You need the gold key");
+				MenuManager.CenterPrint(other, "You need the gold key");
 				sound (self, CHAN_VOICE, self.noise3, 1, ATTN_NORM);
 			}
 		}
@@ -732,7 +732,7 @@ void() secret_touch =
 	
 	if (self.message)
 	{
-		centerprint (other, self.message);
+		MenuManager.CenterPrint(other, self.message);
 		sound (other, CHAN_BODY, "misc/talk.wav", 1, ATTN_NORM);
 	}
 };

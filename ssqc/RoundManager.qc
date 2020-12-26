@@ -30,11 +30,11 @@ void () RoundEndCheck;
 void () RoundPreMatch;
 void () RoundManagerThink = {
     self.nextthink = time + 1;
-   
+    entity p;
     if (RoundManager.NextSpawnTime == 0)
     {
         RoundManager.NextSpawnTime = MONSTER_SPAWN_DELAY;
-        entity p = find(world, classname, "player");
+        p = find(world, classname, "player");
 
         while (p)
         {
@@ -51,6 +51,37 @@ void () RoundManagerThink = {
     else
     {
         RoundManager.NextSpawnTime = MONSTER_SPAWN_DELAY - 1;
+        string mymsg = "";
+        switch (RoundManager.NextSpawnTime)
+        {
+            case 1:
+            case 2:
+            case 3:
+            case 4:
+                mymsg = strcat("\s[\s", ftos(rint(RoundManager.NextSpawnTime)), "\s]\s\n");
+                break;
+            case 5:
+            case 10:
+            case 20:
+                mymsg = strcat("Spawning in \s[\s", ftos(rint(RoundManager.NextSpawnTime)), "\s]\s seconds\n");
+                break;
+        }
+
+        if (mymsg != "")
+        {
+            p = find(world, classname, "player");
+            while (p)
+            {
+                if (p.team_no == TEAM_MONSTER)
+                {
+                    if (!p.spawned)
+                    {
+                        sprint(p, PRINT_HIGH, mymsg);
+                    }
+                }
+                p = find(p, classname, "player");
+            }
+        }
     }
 
     if (RoundManager.RoundInProgress)
@@ -135,7 +166,7 @@ void () RoundPreMatch = {
         while (p)
         {
             if (p.team_no)
-                p.status_string = readyMsg;
+                MenuManager.CenterPrint(p, readyMsg);
             p = find(p, classname, "player");
         }
     }

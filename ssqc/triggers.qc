@@ -254,20 +254,20 @@ void() counter_use =
 		&& (self.spawnflags & SPAWNFLAG_NOMESSAGE) == 0)
 		{
 			if (self.count >= 4)
-				centerprint (activator, "There are more to go...");
+				MenuManager.CenterPrint(activator, "There are more to go...");
 			else if (self.count == 3)
-				centerprint (activator, "Only 3 more to go...");
+				MenuManager.CenterPrint(activator, "Only 3 more to go...");
 			else if (self.count == 2)
-				centerprint (activator, "Only 2 more to go...");
+				MenuManager.CenterPrint(activator, "Only 2 more to go...");
 			else
-				centerprint (activator, "Only 1 more to go...");
+				MenuManager.CenterPrint(activator, "Only 1 more to go...");
 		}
 		return;
 	}
 	
 	if (activator.classname == "player"
 	&& (self.spawnflags & SPAWNFLAG_NOMESSAGE) == 0)
-		centerprint(activator, "Sequence completed!");
+		MenuManager.CenterPrint(activator, "Sequence completed!");
 	self.enemy = activator;
 	multi_trigger ();
 };
@@ -550,7 +550,7 @@ void() trigger_onlyregistered_touch =
 	{
 		if (self.message != "")
 		{
-			centerprint (other, self.message);
+			MenuManager.CenterPrint(other, self.message);
 			sound (other, CHAN_BODY, "misc/talk.wav", 1, ATTN_NORM);
 		}
 	}

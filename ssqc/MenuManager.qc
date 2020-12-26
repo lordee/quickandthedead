@@ -3,30 +3,7 @@ enum {
     MENU_TEAM,
 };
 
-void MM_CheckMenu(entity player);
-void MM_SetMenu(entity player, float menuType, string... count);
-void MM_RefreshScreen(entity player);
-void MM_MenuInput(entity player);
-void MM_ClearScreen(entity player);
-void MM_FrameThink(entity player);
 
-void MM_TeamMenu(entity player);
-void MM_TeamMenu_Input(entity player);
-
-typedef struct {
-    void (entity player) CheckMenu;
-    void (entity player, float menuType, string... count) SetMenu;
-    void (entity player) RefreshScreen;
-    void (entity player) ClearScreen;
-    void (entity player) MenuInput;
-    void (entity player) FrameThink;
-
-    void (entity player) TeamMenu;
-    void (entity player) MenuTeamInput;
-    void () Constructor;
-} QATD_MenuManager;
-
-QATD_MenuManager MenuManager;
 
 void MM_Constructor()
 {
@@ -36,9 +13,39 @@ void MM_Constructor()
 	MenuManager.MenuInput = MM_MenuInput;
 	MenuManager.ClearScreen = MM_ClearScreen;
 	MenuManager.FrameThink = MM_FrameThink;
+    MenuManager.CenterPrint = MM_CenterPrint;
 
     MenuManager.TeamMenu = MM_TeamMenu;
     MenuManager.MenuTeamInput = MM_TeamMenu_Input;
+}
+
+void MM_CenterPrint(entity player, string... count)
+{
+    float i, len, lineCount = 0;
+    string s;
+    s = "";
+
+    for (i = 0; i < count; i++)
+    {
+        s = strcat(s, ...(i, string));
+    }
+    len = strlen(s);
+
+    for (i = 0; i < len; i++)
+    {
+        if (substring(s, i, 1) == "\n")
+        {
+            lineCount++;
+        }
+    }
+
+    if (len > 0 && lineCount == 0)
+        lineCount = 1;
+
+    player.status_string = s;
+    player.status_string_time = time + 1.5;
+    player.status_string_refresh_time = time;
+    player.status_string_lines = lineCount;
 }
 
 void MM_FrameThink(entity player)
@@ -115,6 +122,8 @@ void MM_SetMenu(entity player, float menuType, string... count)
             lineCount++;
         }
     }
+    if (len > 0 && lineCount == 0)
+        lineCount = 1;
 
     player.status_string = s;
     player.status_string_lines = lineCount;
@@ -153,7 +162,11 @@ void MM_TeamMenu_Input(entity player)
         case 0:
             return;
         case 1:
+            SetTeam(player, player.impulse);
+            player.menu = MENU_NONE;
+            break;
         case 2:
+            player.state = player.state | PSTATE_SPAWNALLOWED;
             SetTeam(player, player.impulse);
             player.menu = MENU_NONE;
             break;
