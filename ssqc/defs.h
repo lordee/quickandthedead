@@ -567,6 +567,7 @@
 #define DMSG_GREN_FLASH			35
 #define DMSG_TRIGGER			36
 
+// player state - .state
 #define PSTATE_SKILLONECD	1
 #define PSTATE_SKILLTWOCD	2
 #define PSTATE_PINNED 4
@@ -576,6 +577,7 @@
 #define PSTATE_LEASHING 64
 #define PSTATE_REVIVING 128
 #define PSTATE_USING    256
+#define PSTATE_SPAWNALLOWED 512
 
 // QATD 
 #define TEAM_NONE 0
@@ -875,3 +877,5 @@
 #define DIMENSION_ALIVE         1
 #define DIMENSION_MONSTERSPAWN  2
 #define DIMENSION_DOWNED        4
+
+#define MONSTER_SPAWN_DELAY     20

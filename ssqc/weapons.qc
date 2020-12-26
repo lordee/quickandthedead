@@ -1391,16 +1391,25 @@ void() W_WeaponFrame =
 
                 if (SelectSpawnPoint_Monster())
                 {
-                    self.spawned = TRUE;
-                    self.dimension_seen = DIMENSION_ALIVE;
-					self.dimension_solid = DIMENSION_ALIVE;
-					self.dimension_see = DIMENSION_ALIVE;
-					self.dimension_hit = DIMENSION_ALIVE;
-					sprint(self, PRINT_HIGH, "Spawning in!\n");
+					if (self.state & PSTATE_SPAWNALLOWED)
+					{
+						self.spawned = TRUE;
+						self.dimension_seen = DIMENSION_ALIVE;
+						self.dimension_solid = DIMENSION_ALIVE;
+						self.dimension_see = DIMENSION_ALIVE;
+						self.dimension_hit = DIMENSION_ALIVE;
+						sprint(self, PRINT_HIGH, "Spawning in!\n");
+					}
+					else
+					{
+						sprint(self, PRINT_HIGH, "Spawn allowed in ", ftos(rint(RoundManager.NextSpawnTime)), " seconds\n");
+						self.attack_finished = time + 1;
+					}
                 }
                 else
                 {
                     sprint(self, PRINT_HIGH, "A survivor can see you!\n");
+					self.attack_finished = time + 1;
                 }
                 return;
             }

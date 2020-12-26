@@ -5,6 +5,7 @@ typedef struct {
     float RoundCountdown;
     float RoundInProgress;
     float RoundStartTime;
+    float NextSpawnTime;
 
     // scores
     float team_one_distance;
@@ -16,25 +17,55 @@ typedef struct {
 } RoundManager_t;
 RoundManager_t RoundManager;
 
-void () RoundPreMatch;
+void () RoundManagerThink;
 
 void () RM_Constructor = {
     RoundManager.Timer = spawn();
-    RoundManager.Timer.think = RoundPreMatch;
+    RoundManager.Timer.think = RoundManagerThink;
     RoundManager.Timer.nextthink = time + 1;
 };
 
 // prematch
-void () RoundStart;
 void () RoundEndCheck;
-void () RoundPreMatch = {
+void () RoundPreMatch;
+void () RoundManagerThink = {
     self.nextthink = time + 1;
+   
+    if (RoundManager.NextSpawnTime == 0)
+    {
+        RoundManager.NextSpawnTime = MONSTER_SPAWN_DELAY;
+        entity p = find(world, classname, "player");
+
+        while (p)
+        {
+            if (p.team_no == TEAM_MONSTER)
+            {
+                if (!p.spawned)
+                {
+                    p.state = p.state | PSTATE_SPAWNALLOWED;
+                }
+            }
+            p = find(p, classname, "player");
+        }
+    }
+    else
+    {
+        RoundManager.NextSpawnTime = MONSTER_SPAWN_DELAY - 1;
+    }
+
     if (RoundManager.RoundInProgress)
     {
-        self.think = RoundEndCheck;
-        return;
+        RoundEndCheck();
     }
-    
+    else
+    {
+        RoundPreMatch();
+    }
+}
+
+void () RoundStart;
+
+void () RoundPreMatch = {
     // if players aren't ready, centerprint list and prompt for ready
     lightstyle (0, "e");
     string readyMsg = "Not ready: ";

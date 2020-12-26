@@ -460,14 +460,21 @@ void() PutClientInServer =
 			self.dimension_hit = DIMENSION_ALIVE | DIMENSION_DOWNED;
 			break;
 		case TEAM_MONSTER:
-			self.class = GetRandomClass(self);
-			self.spawned = FALSE;
-			self.dimension_seen = DIMENSION_MONSTERSPAWN;
-			self.dimension_solid = DIMENSION_MONSTERSPAWN;
-			self.dimension_hit = DIMENSION_MONSTERSPAWN;
-			self.dimension_ghost = DIMENSION_MONSTERSPAWN;
-			self.dimension_ghost_alpha = 0.3;
-			self.dimension_see = DIMENSION_MONSTERSPAWN | DIMENSION_ALIVE;
+			if (self.state & PSTATE_SPAWNALLOWED)
+			{
+				self.class = GetRandomClass(self);
+				self.spawned = FALSE;
+				self.dimension_seen = DIMENSION_MONSTERSPAWN;
+				self.dimension_solid = DIMENSION_MONSTERSPAWN;
+				self.dimension_hit = DIMENSION_MONSTERSPAWN;
+				self.dimension_ghost = DIMENSION_MONSTERSPAWN;
+				self.dimension_ghost_alpha = 0.3;
+				self.dimension_see = DIMENSION_MONSTERSPAWN | DIMENSION_ALIVE;
+			}
+			else
+			{
+				return;
+			}
 			break;
 		default:
 			bprint(PRINT_HIGH, "team ", ftos(self.team_no));
