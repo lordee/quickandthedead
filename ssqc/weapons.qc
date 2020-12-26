@@ -1298,64 +1298,68 @@ void () PlayerReady;
 void() ImpulseCommands =
 {
 	// weapons/skills
-	switch (self.team_no)
+	if (self.impulse)
 	{
-		case TEAM_SURVIVOR:
-			if (self.impulse >= 1 && self.impulse <= 8)
-				W_ChangeWeapon ();
+		switch (self.team_no)
+		{
+			case TEAM_SURVIVOR:
+				if (self.impulse >= 1 && self.impulse <= 8)
+					W_ChangeWeapon ();
 
-			switch (self.impulse)
-			{
-				case IMP_USESTART:
-					self.state = self.state | PSTATE_USING;
-					break;
-				case IMP_USEEND:
-					self.state = self.state - (self.state & PSTATE_USING);
-					self.state = self.state - (self.state & PSTATE_REVIVING);
-					self.movetype = MOVETYPE_WALK;
-					break;
-			}
-			break;
-		case TEAM_MONSTER:
-			if (self.impulse >= 1 && self.impulse <= 2)
-				ClassChangeActiveSkill(self);
-
-			if (RoundManager.RoundInProgress)
-			{
 				switch (self.impulse)
 				{
-					case IMP_USESKILLONE:
-						ClassUseSkill(self, 1);
+					case IMP_USESTART:
+						self.state = self.state | PSTATE_USING;
 						break;
-					case IMP_USESKILLTWO:
-						ClassUseSkill(self, 2);
-						break;
-					case IMP_USESKILL:
-						ClassUseSkill(self, self.skill_selected);
+					case IMP_USEEND:
+						self.state = self.state - (self.state & PSTATE_USING);
+						self.state = self.state - (self.state & PSTATE_REVIVING);
+						self.movetype = MOVETYPE_WALK;
 						break;
 				}
-			}
-			else
-			{
-				sprint(self, PRINT_HIGH, "You cannot use skills in prematch!\n");
-			}
-			break;
+				break;
+			case TEAM_MONSTER:
+				if (self.impulse >= 1 && self.impulse <= 2)
+					ClassChangeActiveSkill(self);
+
+				if (RoundManager.RoundInProgress)
+				{
+					switch (self.impulse)
+					{
+						case IMP_USESKILLONE:
+							ClassUseSkill(self, 1);
+							break;
+						case IMP_USESKILLTWO:
+							ClassUseSkill(self, 2);
+							break;
+						case IMP_USESKILL:
+							ClassUseSkill(self, self.skill_selected);
+							break;
+					}
+				}
+				else
+				{
+					sprint(self, PRINT_HIGH, "You cannot use skills in prematch!\n");
+					self.attack_finished = time + 1;
+				}
+				break;
+		}
+		
+		switch (self.impulse)
+		{
+			case IMP_READY:
+				PlayerReady();
+				break;
+		}
+
+		if (self.impulse == 10)
+			CycleWeaponCommand ();
+		if (self.impulse == 11)
+			ServerflagsCommand ();
+		if (self.impulse == 12)
+			CycleWeaponReverseCommand ();
 	}
 	
-	switch (self.impulse)
-	{
-		case IMP_READY:
-			PlayerReady();
-			break;
-	}
-
-	if (self.impulse == 10)
-		CycleWeaponCommand ();
-	if (self.impulse == 11)
-		ServerflagsCommand ();
-	if (self.impulse == 12)
-		CycleWeaponReverseCommand ();
-
 	self.impulse = 0;
 };
 
