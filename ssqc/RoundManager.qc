@@ -142,7 +142,6 @@ void () RoundPreMatch = {
             while (p)
             {
                 p.movetype = MOVETYPE_NONE;
-                p.status_string = "";
                 p = find(p, classname, "player");
             }
             readyMsg = strcat("Round ", ftos(RoundManager.RoundNum + 1), " begins in \s[\s10\s]\s seconds\n");
