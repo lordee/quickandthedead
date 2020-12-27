@@ -388,6 +388,7 @@ local entity	death;
 	death.nextthink = time + 0.2;
 	death.think = SUB_Remove;
 	death.owner = death_owner;
+	death.dimension_hit = death_owner.dimension_hit;
 	
 	force_retouch = 2;		// make sure even still objects get hit
 };
