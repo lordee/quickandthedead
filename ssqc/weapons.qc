@@ -1327,6 +1327,7 @@ void() ImpulseCommands =
 			{
 				switch (self.impulse)
 				{
+					// FIXME - stop using self.attack_finished as it delays the impulse processing
 					case IMP_USESKILLONE:
 						ClassUseSkill(self, 1);
 						break;
