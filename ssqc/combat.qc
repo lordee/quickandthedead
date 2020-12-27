@@ -261,8 +261,12 @@ void(entity targ, entity inflictor, entity attacker, float damage) T_Damage = {
 		
 // do the damage
 	targ.health = targ.health - take;
+	if (attacker.classname == "monster_zombie" && attacker.owner.classname == "player")
+	{
+		attacker = attacker.owner;
+	}
 	if (attacker.classname == "player" && targ.classname == "player")
-		bprint(PRINT_HIGH, strcat(attacker.netname, " inflicted ", ftos(rint(take)), " damage on ", targ.netname, "\n"));
+		bprint(PRINT_HIGH, strcat(attacker.netname, " inflicted ", ftos(rint(take)), " damage to ", targ.netname, "\n"));
 
 	if (targ.health <= 0)
 	{
