@@ -250,7 +250,7 @@ void ClassUndeadKingSkillOneTouch()
 		sound (self, CHAN_WEAPON, selfclass.sound_aahitwall, 1, ATTN_NORM);
 		return;
 	}
-		
+	entity p = self.owner;
 	if (other.team_no != self.owner.team_no)
 	{
 		sound (self, CHAN_WEAPON, selfclass.sound_aahit, 1, ATTN_NORM);
@@ -284,6 +284,7 @@ void ClassUndeadKingSkillOneTouch()
 			self = z;
 			monster_zombie();
 			z.classname = "monster_zombie";
+			z.owner = p;
 			z.enemy = other;
 			z.takedamage = TRUE;
 			z.th_run();
