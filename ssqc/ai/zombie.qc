@@ -408,8 +408,6 @@ has been twice in two seconds, otherwise it goes into one of the four
 fast pain frames.
 
 A hit of less than 10 points of damage (winged by a shotgun) will be ignored.
-
-FIXME: don't use pain_finished because of nightmare hack
 =================
 */
 void(entity attacker, float take) zombie_pain =
