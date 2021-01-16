@@ -208,12 +208,28 @@ void () RoundStart = {
         }   
     }
 
-    // spawn players
+    // spawn players, survivors first so monsters can spawn on someone
     entity p = find(world, classname, "player");
     while (p)
     {
-        self = p;
-        PutClientInServer();
+        if (p.team_no == TEAM_SURVIVOR)
+        {
+            self = p;
+            PutClientInServer();
+        }
+        
+        p = find(p, classname, "player");
+    }
+
+    entity p = find(world, classname, "player");
+    while (p)
+    {
+        if (p.team_no == TEAM_MONSTER)
+        {
+            self = p;
+            PutClientInServer();
+        }
+        
         p = find(p, classname, "player");
     }
 };
