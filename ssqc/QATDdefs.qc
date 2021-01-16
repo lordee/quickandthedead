@@ -1,4 +1,5 @@
 #include "defs.h"
+#pragma target fte
 
 float skill;
 float coop;
@@ -162,3 +163,6 @@ typedef struct {
 } QATD_MenuManager;
 
 QATD_MenuManager MenuManager;
+
+//float MapEntsNum;
+//string *MapEnts;
