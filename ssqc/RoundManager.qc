@@ -208,6 +208,23 @@ void () RoundStart = {
         }   
     }
 
+    entity mon = find(world, classname, "monster_knight");
+
+    while (mon)
+    {
+        if (mon.owner)
+        {
+            if (mon.owner.classname == "player")
+            {
+                entity temp = find(mon, classname, "monster_knight");
+                remove(mon);
+                mon = temp;
+                continue;
+            }
+        }
+        mon = find(mon, classname, "monster_knight");
+    }
+
     // spawn players, survivors first so monsters can spawn on someone
     entity p = find(world, classname, "player");
     while (p)
