@@ -236,11 +236,6 @@ void() knight_die =
 */
 void() monster_knight =
 {
-	if (deathmatch)
-	{
-		remove(self);
-		return;
-	}
 	precache_model ("progs/knight.mdl");
 	precache_model ("progs/h_knight.mdl");
 

@@ -199,7 +199,6 @@ void(entity targ, entity inflictor, entity attacker, float damage) T_Damage = {
 
 // add to the damage total for clients, which will be sent as a single
 // message at the end of the frame
-// FIXME: remove after combining shotgun blasts?
 	if (targ.flags & FL_CLIENT)
 	{
 		targ.dmg_take = targ.dmg_take + take;
@@ -261,7 +260,7 @@ void(entity targ, entity inflictor, entity attacker, float damage) T_Damage = {
 		
 // do the damage
 	targ.health = targ.health - take;
-	if (attacker.classname == "monster_zombie" && attacker.owner.classname == "player")
+	if (attacker.classname == "monster_knight" && attacker.owner.classname == "player")
 	{
 		attacker = attacker.owner;
 	}

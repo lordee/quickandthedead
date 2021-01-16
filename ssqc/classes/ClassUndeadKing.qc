@@ -278,16 +278,18 @@ void ClassUndeadKingSkillOneTouch()
 
 			dest_x *= trace_fraction;
 			dest_z *= trace_fraction;
-
+			
 			z.origin = dest;
 			// set enemy
 			self = z;
-			monster_zombie();
-			z.classname = "monster_zombie";
+			monster_knight();
+			z.classname = "monster_knight";
 			z.owner = p;
 			z.enemy = other;
 			z.takedamage = TRUE;
 			z.th_run();
+
+			//setorigin(z, dest);
 			// if spawn place found
 			spawned++;
 		}
@@ -373,7 +375,7 @@ void classundeadking_skilltwo()
 	makevectors(self.v_angle);
 	traceline(self.origin, self.origin + v_forward * 1000, FALSE, self);
 
-	if (trace_ent.classname == "monster_zombie")
+	if (trace_ent.classname == "monster_knight")
 	{
 		vector org;
 		org = trace_ent.origin;
