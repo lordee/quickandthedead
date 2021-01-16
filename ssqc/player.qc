@@ -679,9 +679,6 @@ void() PlayerDie =
 	self.radsuit_finished = 0;
 	
 	GetClass(self.class);
-	// FIXME - this makes player invis when they first join a team
-	//self.modelindex = selfclass.modelindex;    // don't use eyes
-
 	DropBackpack();
 	
 	self.weaponmodel="";

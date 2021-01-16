@@ -974,12 +974,6 @@ void() CheckPowerups =
 		self.frame = 0;
 		self.modelindex = modelindex_eyes;
 	}
-	else
-	{
-		// FIXME - this sets player as invisible when they choose a team...
-		//GetClass(self.class);
-		//self.modelindex = selfclass.modelindex; // don't use eyes
-	}
 
 // invincibility
 	if (self.invincible_finished)
