@@ -130,6 +130,9 @@ ACTIVATION FUNCTIONS
 
 void() door_fire =
 {
+	if (!self)
+		return;
+
 	local entity    oself;
 	local entity    starte;
 
@@ -174,6 +177,15 @@ void() door_fire =
 
 void() door_use =
 {
+	if (!self)
+		return;
+
+	if (!self.owner)
+		return;
+
+	if (!self.enemy)
+		return;
+
 	local entity oself;
 
 	self.message = "";                      // door message are for touch only
@@ -227,9 +239,11 @@ void() door_touch =
 {
 	if (other.classname != "player")
 		return;
+	if (!self.owner)
+		return;
 	if (self.owner.attack_finished > time)
 		return;
-
+	
 	self.owner.attack_finished = time + 2;
 
 	if (self.owner.message != "")
@@ -242,7 +256,6 @@ void() door_touch =
 	if (!self.items)
 		return;
 
-// FIXME: blink key on player's status bar
 	if ( (self.items & other.items) != self.items )
 	{
 		if (self.owner.items == IT_KEY1)
