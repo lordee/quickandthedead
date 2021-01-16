@@ -6,6 +6,11 @@ typedef struct {
     float RoundInProgress;
     float RoundStartTime;
     float NextSpawnTime;
+    
+    // reset round data
+    float MapEntsNum;
+    string *MapEntStrings;
+    entity *MapEnts;
 
     // scores
     float team_one_distance;
@@ -138,6 +143,10 @@ void () RoundPreMatch = {
         }
         if (RoundManager.RoundCountdown == 10)
         {
+            if (RoundManager.RoundNum == 2) // not incremented yet, so this is "start" of round 3
+            {
+                return;
+            }
             p = find(world, classname, "player");
             while (p)
             {
@@ -179,6 +188,26 @@ void () RoundStart = {
     RoundManager.RoundStartTime = time;
     bprint(PRINT_HIGH, strcat("Starting round ", ftos(RoundManager.RoundNum), "\n"));
 
+    // reset entities
+    for (float i = 0; i < RoundManager.MapEntsNum; i++)
+    {
+        entity e = spawn();
+        float suc = parseentitydata(e, RoundManager.MapEntStrings[i]);
+        //eprint(e);
+        entity old = RoundManager.MapEnts[i];
+        //eprint(old);
+        switch(old.classname)
+        {
+            case "":
+            case "player":
+                break;
+            default:
+                remove(old);
+                RoundManager.MapEnts[i] = e;
+                break;
+        }   
+    }
+
     // spawn players
     entity p = find(world, classname, "player");
     while (p)
@@ -187,9 +216,6 @@ void () RoundStart = {
         PutClientInServer();
         p = find(p, classname, "player");
     }
-
-    // FIXME - reset all original entities
-    // generateentitydata/parseentitydata
 };
 
 // end Rounds
@@ -265,8 +291,8 @@ void (float downedCount, float exitCount, float totCount) RoundEnd = {
         bprint(PRINT_HIGH, strcat("\nWinners:", winner, "\n"));
 
         // change map code
-        entity exit = find(world, classname, "trigger_changelevel");
-        NextMap(exit);
+        //entity exit = find(world, classname, "trigger_changelevel");
+        //NextMap(exit);
     }
 };
 
