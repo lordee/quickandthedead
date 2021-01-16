@@ -179,6 +179,7 @@ void MM_TeamMenu_Input(entity player)
             }
             else
             {
+                player.state = player.state | PSTATE_SPAWNALLOWED;
                 SetTeam(player, TEAM_MONSTER);
             }
             player.menu = MENU_NONE;
