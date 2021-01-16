@@ -180,9 +180,34 @@ void() main =
 	precache_file2 ("maps/dm6.bsp");
 };
 
+void () QATD_FirstFrame = {
+	entity e = nextent(world);
 
-void QATD_Setup()
-{
+	while (e)
+	{
+		RoundManager.MapEntsNum = RoundManager.MapEntsNum + 1;
+		e = nextent(e);
+	}
+
+	RoundManager.MapEntStrings = memalloc(sizeof(*RoundManager.MapEntStrings)*RoundManager.MapEntsNum);
+	RoundManager.MapEnts = memalloc(sizeof(*RoundManager.MapEnts)*RoundManager.MapEntsNum);
+
+	e = nextent(world);
+	for (float i = 0; i < RoundManager.MapEntsNum; i++)
+	{
+		RoundManager.MapEnts[i] = e;
+		string s = generateentitydata(e);
+		RoundManager.MapEntStrings[i] = s;
+
+		e = nextent(e);
+		if (!e)
+			break;
+	}
+
+	remove(self);
+};
+
+void () QATD_Setup = {
 	MenuManager.Constructor = MM_Constructor;
 	MenuManager.Constructor();
 
@@ -206,7 +231,13 @@ void QATD_Setup()
 	precache_model("progs/hook.mdl");
 	precache_model("progs/chain.mdl");
 	precache_sound("hook/chain2.wav");
-}
+
+	entity e = spawn();
+	e.classname = "qatd_firstframe";
+	e.think = QATD_FirstFrame;
+	e.nextthink = time + 0.01;
+	
+};
 
 entity  lastspawn;
 
