@@ -187,7 +187,7 @@ void() boss_death9 = [$death9, boss_death10]
 void() boss_death10 = [$death9, boss_death10]
 {
 	killed_monsters = killed_monsters + 1;
-	WriteByte (MSG_ALL, SVC_KILLEDMONSTER);	// FIXME: reliable broadcast
+	WriteByte (MSG_ALL, SVC_KILLEDMONSTER);
 	SUB_UseTargets ();
 	remove (self);
 };

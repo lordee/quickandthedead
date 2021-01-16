@@ -611,7 +611,7 @@ void(float dist) ai_run =
 	if (self.enemy.health <= 0)
 	{
 		self.enemy = world;
-	// FIXME: look all around for other targets
+
 		if (self.oldenemy.health > 0)
 		{
 			self.enemy = self.oldenemy;

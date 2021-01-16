@@ -129,8 +129,6 @@ void() OgreFireGrenade =
 /*
 ================
 chainsaw
-
-FIXME
 ================
 */
 void(float side) chainsaw =
