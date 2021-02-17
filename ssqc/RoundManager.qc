@@ -281,6 +281,8 @@ void (float downedCount, float exitCount, float totCount) RoundEnd = {
             if (p.team_no == TEAM_SURVIVOR)
             {
                 p.team_no = TEAM_MONSTER;
+                p.state = p.state | PSTATE_SPAWNALLOWED;
+
             }
             else if (p.team_no == TEAM_MONSTER)
             {
